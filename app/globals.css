@@ -1,26 +1,95 @@
+@import url("https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&display=swap");
+
 @import "tailwindcss";
 
+/* ─── Google Fonts ────────────────────────────────────────────────────────────
+   Plus Jakarta Sans is the primary typeface for the VN-FI Collaboration app.
+   Imported via layout.tsx via next/font/google — this @import is a CSS fallback.
+*/
+/* ─── Design Token CSS Variables ──────────────────────────────────────────────
+   All raw values come from app/constants/design-tokens.ts.
+   Tailwind @theme wires these variables so utilities like bg-background,
+   text-primary-container, border-outline-variant, etc., work across all components.
+*/
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --color-background: #000000;
+  --color-background-low: #0a0a0a;
+
+  --color-surface-container-lowest: #0a0a0a;
+  --color-surface-container-low: #121212;
+  --color-surface-container: #181818;
+  --color-surface-container-high: #202020;
+  --color-surface-container-highest: #262626;
+
+  --color-primary: #ffffff;
+  --color-primary-container: #00fff1;
+  --color-on-primary-container: #000000;
+  --color-secondary: #00fff1;
+  --color-on-secondary: #000000;
+
+  --color-on-background: #e5e5e5;
+  --color-on-surface: #ededed;
+  --color-on-surface-variant: #a3a3a3;
+  --color-outline: #666666;
+  --color-outline-variant: #2e2e2e;
+
+  --color-error: #ffb4ab;
 }
 
+/* ─── Tailwind v4 Theme Inline Mapping ────────────────────────────────────────
+   Maps CSS variables into Tailwind utility class names.
+   This is the single place where design tokens are wired to Tailwind.
+*/
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-background: var(--color-background);
+  --color-background-low: var(--color-background-low);
+
+  --color-surface-container-lowest: var(--color-surface-container-lowest);
+  --color-surface-container-low: var(--color-surface-container-low);
+  --color-surface-container: var(--color-surface-container);
+  --color-surface-container-high: var(--color-surface-container-high);
+  --color-surface-container-highest: var(--color-surface-container-highest);
+
+  --color-primary: var(--color-primary);
+  --color-primary-container: var(--color-primary-container);
+  --color-on-primary-container: var(--color-on-primary-container);
+  --color-secondary: var(--color-secondary);
+  --color-on-secondary: var(--color-on-secondary);
+
+  --color-on-background: var(--color-on-background);
+  --color-on-surface: var(--color-on-surface);
+  --color-on-surface-variant: var(--color-on-surface-variant);
+  --color-outline: var(--color-outline);
+  --color-outline-variant: var(--color-outline-variant);
+
+  /* Font families */
+  --font-sans: 'Plus Jakarta Sans', var(--font-geist-sans), Arial, sans-serif;
+  --font-mono: var(--font-geist-mono), 'Courier New', monospace;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* ─── Base Reset ──────────────────────────────────────────────────────────────
+   Minimal base styles — everything beyond colors/fonts is handled by Tailwind.
+*/
+html,
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #000000;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--color-background);
+  color: var(--color-on-background);
+  font-family: 'Plus Jakarta Sans', Arial, Helvetica, sans-serif;
+  overscroll-behavior: none;
+}
+
+/* Hide scrollbar globally (matching the reference design) */
+::-webkit-scrollbar {
+  display: none;
+}
+
+* {
+  scrollbar-width: none;
 }
