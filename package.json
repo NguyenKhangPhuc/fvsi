@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "generate:types": "supabase gen types typescript --local > app/types/database.types.ts"
   },
   "dependencies": {
     "@ariakit/react": "^0.4.37",
