@@ -15,10 +15,11 @@
 
 import { UseFormRegister, FieldErrors } from 'react-hook-form';
 import { EventInsert } from '@/app/types/event';
+import { EventForm } from '../CreateEventClient';
 
 interface ScheduleSectionProps {
-  register: UseFormRegister<EventInsert>;
-  errors: FieldErrors<EventInsert>;
+  register: UseFormRegister<EventForm>;
+  errors: FieldErrors<EventForm>;
 }
 
 export default function ScheduleSection({ register, errors }: ScheduleSectionProps) {

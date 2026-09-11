@@ -26,6 +26,19 @@ import BackButton from '@/app/components/BackButton';
 import BasicInfoSection from './components/BasicInfoSection';
 import ScheduleSection from './components/ScheduleSection';
 import ContentSection from './components/ContentSection';
+import { Database } from '@/app/types/database.types';
+
+export interface EventForm {
+  title?: string | null,
+  short_description?: string | null,
+  content?: string | null
+  location?: string | null
+  start_date?: string | null;
+  status?: Database["public"]["Enums"]["EVENT_STATUS"] | null;
+  created_at?: string;
+  end_date?: string | null;
+  id?: string;
+}
 
 export default function CreateEventClient() {
   const router = useRouter();
@@ -37,7 +50,7 @@ export default function CreateEventClient() {
     control,
     handleSubmit,
     formState: { errors },
-  } = useForm<EventInsert>({
+  } = useForm<EventForm>({
     defaultValues: {
       title: '',
       short_description: '',

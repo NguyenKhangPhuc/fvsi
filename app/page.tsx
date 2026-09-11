@@ -72,15 +72,15 @@ export default async function Home() {
     <div className="relative flex flex-col w-full min-h-screen bg-[#f8fafc]">
       {/* ── Page Background Matrix Pattern ── */}
       <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">
-        <svg className="w-full h-full opacity-40 pointer-events-none" xmlns="http://www.w3.org/2000/svg">
+        <svg className="w-full h-full opacity-65 pointer-events-none" xmlns="http://www.w3.org/2000/svg">
           <defs>
             <pattern id="page-grid-matrix" width="48" height="48" patternUnits="userSpaceOnUse">
-              <path d="M 48 0 L 0 0 0 48" fill="none" stroke="#00c2b2" strokeDasharray="3 5" strokeWidth="0.75" />
+              <path d="M 48 0 L 0 0 0 48" fill="none" stroke="#00a89d" strokeDasharray="3 5" strokeWidth="0.9" />
             </pattern>
           </defs>
           <rect width="100%" height="100%" fill="url(#page-grid-matrix)" />
-          <circle cx="18%" cy="25%" r="320" fill="none" stroke="#00c2b2" strokeWidth="0.8" opacity="0.3" />
-          <circle cx="82%" cy="65%" r="420" fill="none" stroke="#00a89d" strokeWidth="0.8" strokeDasharray="4 8" opacity="0.25" />
+          <circle cx="18%" cy="25%" r="320" fill="none" stroke="#00a89d" strokeWidth="1" opacity="0.35" />
+          <circle cx="82%" cy="65%" r="420" fill="none" stroke="#008f85" strokeWidth="1" strokeDasharray="4 8" opacity="0.3" />
         </svg>
       </div>
 

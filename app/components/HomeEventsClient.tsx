@@ -112,18 +112,18 @@ interface EventCardProps {
 function EventCard({ event, onOpen }: EventCardProps) {
   const supabase = createClient()
 
-  const posterUrl = event.poster_path
-    ? handleGetUrl(supabase, event.poster_path)
-    : null
+  // const posterUrl = event.poster_path
+  //   ? handleGetUrl(supabase, event.poster_path)
+  //   : null
 
   return (
     <article className="event-card group rounded-xl bg-white border border-slate-200 shadow-md p-4 lg:p-6 flex flex-col justify-between transition-all duration-300 hover:border-teal-500/50 hover:shadow-[0_8px_30px_rgba(0,194,178,0.2)]">
       <div className="space-y-4">
         {/* Poster Image */}
         <div className="relative w-full aspect-video rounded-lg overflow-hidden bg-slate-100">
-          {posterUrl ? (
+          {event.poster_path ? (
             <Image
-              src={posterUrl}
+              src={event.poster_path}
               alt={event.title ?? 'Event poster'}
               fill
               className="object-cover group-hover:scale-105 transition-transform duration-500"
@@ -392,7 +392,7 @@ export default function HomeEventsClient({ initialEvents }: HomeEventsClientProp
   return (
     <section id="events" className="w-full py-16 px-4 lg:px-6 max-w-[1280px] mx-auto relative z-10">
       {/* ── Section Header with Search Bar & Filters ── */}
-      <div className="sticky top-20 z-40 bg-white/95 backdrop-blur-xl py-4 mb-8 rounded-xl border border-slate-200/80 shadow-sm px-4">
+      <div className="relative z-10 bg-white py-4 mb-8 rounded-xl border border-slate-200/80 shadow-sm px-4">
         <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 mb-3">
           {/* Title */}
           <div className="flex items-center gap-3">
@@ -424,11 +424,10 @@ export default function HomeEventsClient({ initialEvents }: HomeEventsClientProp
             <button
               key={cat.value}
               onClick={() => setActiveCategory(cat.value)}
-              className={`flex-shrink-0 px-4 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer ${
-                activeCategory === cat.value
+              className={`flex-shrink-0 px-4 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer ${activeCategory === cat.value
                   ? 'bg-[#00c2b2] text-white shadow-sm'
                   : 'bg-slate-100 border border-slate-200 text-slate-600 hover:text-slate-950 hover:bg-slate-200/70 font-semibold'
-              }`}
+                }`}
             >
               {cat.label}
             </button>
@@ -446,7 +445,7 @@ export default function HomeEventsClient({ initialEvents }: HomeEventsClientProp
               style={{
                 position: 'sticky',
                 // Each row sticks at a progressively higher top offset so it stacks over the previous
-                top: `${144 + rowIndex * 8}px`,
+                top: `${100 + rowIndex * 8}px`,
                 zIndex: 10 + rowIndex,
               }}
             >

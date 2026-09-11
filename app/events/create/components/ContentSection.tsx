@@ -17,11 +17,12 @@
 import { UseFormRegister, Control, FieldErrors, Controller } from 'react-hook-form';
 import { EventInsert } from '@/app/types/event';
 import RichTextEditor from '@/app/components/RichTextEditor';
+import { EventForm } from '../CreateEventClient';
 
 interface ContentSectionProps {
-  register: UseFormRegister<EventInsert>;
-  control: Control<EventInsert>;
-  errors: FieldErrors<EventInsert>;
+  register: UseFormRegister<EventForm>;
+  control: Control<EventForm>;
+  errors: FieldErrors<EventForm>;
 }
 
 export default function ContentSection({ register, control, errors }: ContentSectionProps) {

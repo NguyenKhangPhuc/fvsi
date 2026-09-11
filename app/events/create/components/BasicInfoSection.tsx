@@ -15,10 +15,11 @@
 
 import { UseFormRegister, FieldErrors } from 'react-hook-form';
 import { EventInsert } from '@/app/types/event';
+import { EventForm } from '../CreateEventClient';
 
 interface BasicInfoSectionProps {
-  register: UseFormRegister<EventInsert>;
-  errors: FieldErrors<EventInsert>;
+  register: UseFormRegister<EventForm>;
+  errors: FieldErrors<EventForm>;
 }
 
 export default function BasicInfoSection({ register, errors }: BasicInfoSectionProps) {
