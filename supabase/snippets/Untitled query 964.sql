@@ -1,0 +1,1 @@
+drop function check_role_update() cascade;

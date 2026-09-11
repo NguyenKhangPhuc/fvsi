@@ -1,1 +1,1 @@
-GRANT SELECT, INSERT, UPDATE, DELETE ON TABLE public.events TO anon, authenticated;
+GRANT SELECT, INSERT, UPDATE, DELETE ON TABLE public.profiles TO anon, authenticated,service_role;

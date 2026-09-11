@@ -122,7 +122,7 @@ export default async function Home() {
               <div className="flex flex-wrap items-center gap-4 pt-2 w-full sm:w-auto">
                 <Link
                   href="#events"
-                  className="inline-flex items-center gap-2 px-6 py-3 bg-[#00c2b2] text-slate-950 text-sm font-bold rounded-lg shadow-md hover:bg-[#00b4a6] transition-all duration-200"
+                  className="inline-flex items-center gap-2 px-6 py-3 bg-[#00c2b2] text-white text-sm font-bold rounded-lg shadow-md hover:bg-[#00b4a6] transition-all duration-200"
                 >
                   <span>Explore Events</span>
                   <ArrowDownwardIcon sx={{ fontSize: 18 }} />
@@ -182,7 +182,7 @@ export default async function Home() {
 
                   {/* Center play button */}
                   <div className="flex items-center justify-center">
-                    <div className="w-14 h-14 rounded-xl bg-[#00c2b2] text-slate-950 flex items-center justify-center shadow-xl hover:scale-110 hover:bg-[#00b4a6] transition-transform cursor-pointer">
+                    <div className="w-14 h-14 rounded-xl bg-[#00c2b2] text-white flex items-center justify-center shadow-xl hover:scale-110 hover:bg-[#00b4a6] transition-transform cursor-pointer">
                       <PlayCircleIcon sx={{ fontSize: 32 }} />
                     </div>
                   </div>
@@ -322,7 +322,7 @@ export default async function Home() {
           <div className="flex flex-wrap items-center gap-4">
             <a
               href="#"
-              className="px-6 py-3 bg-[#00c2b2] text-slate-950 text-sm font-bold rounded-lg hover:bg-[#00b4a6] transition-all shadow-sm"
+              className="px-6 py-3 bg-[#00c2b2] text-white text-sm font-bold rounded-lg hover:bg-[#00b4a6] transition-all shadow-sm"
             >
               Submit Cooperation Proposal
             </a>

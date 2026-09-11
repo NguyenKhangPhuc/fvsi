@@ -27,8 +27,8 @@ export const colors = {
   /** Primary & Accent */
   primary: '#0f172a', // Slate 900
   onPrimary: '#ffffff',
-  primaryContainer: '#00fff1', // Cyan highlight
-  onPrimaryContainer: '#0f172a',
+  primaryContainer: '#00c2b2', // Teal/cyan highlight
+  onPrimaryContainer: '#ffffff',
 
   /** Secondary / Nordic Teal */
   secondary: '#00a89d', // Teal 700 text contrast on white
@@ -88,7 +88,7 @@ export const tw = {
     surfaceContainer: 'bg-[#f8fafc]',
     surfaceContainerHigh: 'bg-[#e2e8f0]',
     surfaceContainerHighest: 'bg-[#e2e8f0]',
-    primaryContainer: 'bg-[#00fff1]',
+    primaryContainer: 'bg-[#00c2b2]',
     secondary: 'bg-[#00a89d]',
   },
   text: {
@@ -99,12 +99,12 @@ export const tw = {
     onSurface: 'text-[#0f172a]',
     onSurfaceVariant: 'text-[#475569]',
     outline: 'text-[#94a3b8]',
-    onPrimaryContainer: 'text-[#0f172a]',
+    onPrimaryContainer: 'text-white',
   },
   border: {
     outlineVariant: 'border-[#e2e8f0]',
     outline: 'border-[#94a3b8]',
-    primaryContainer: 'border-[#00fff1]',
+    primaryContainer: 'border-[#00c2b2]',
     /** Backward-compat alias used by auth pages */
     whiteSubtle: 'border-slate-200',
   },

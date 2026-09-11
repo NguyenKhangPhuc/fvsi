@@ -178,7 +178,7 @@ const Home = () => {
           {/* Primary Submit Button */}
           <button
             type="submit"
-            className="mt-2 w-full bg-[#00c2b2] text-slate-950 font-bold text-sm py-3.5 rounded-lg hover:bg-[#00b4a6] transition-all cursor-pointer shadow-sm"
+            className="mt-2 w-full bg-[#00c2b2] text-white font-bold text-sm py-3.5 rounded-lg hover:bg-[#00b4a6] transition-all cursor-pointer shadow-sm"
           >
             Sign In
           </button>

@@ -26,7 +26,7 @@ import PersonAddIcon from '@mui/icons-material/PersonAdd'
 import LogoutIcon from '@mui/icons-material/Logout'
 import { Database } from '@/app/types/database.types'
 import { createClient } from '@/app/utils/supabase/client'
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useEffect } from 'react'
 
 type Profile = Database['public']['Tables']['profiles']['Row']
 
@@ -37,11 +37,13 @@ interface NavBarProps {
 export default function NavBar({ initialUser }: NavBarProps) {
   const pathname = usePathname()
   const router = useRouter()
-  const [dropdownOpen, setDropdownOpen] = useState(false)
+  const [user, setUser] = useState<Profile | null>(initialUser)
+
 
   const handleSignOut = async () => {
     const supabase = createClient()
     await supabase.auth.signOut()
+    setUser(null)
     router.push('/')
     router.refresh()
   }
@@ -55,7 +57,7 @@ export default function NavBar({ initialUser }: NavBarProps) {
       { label: 'Events', href: '/#events' },
     ]
 
-    if (initialUser?.role === 'admin') {
+    if (user?.role === 'admin') {
       links.push(
         { label: 'Events Management', href: '/events-management' },
         { label: 'Users Management', href: '/users-management' }
@@ -63,7 +65,7 @@ export default function NavBar({ initialUser }: NavBarProps) {
     }
 
     return links
-  }, [initialUser?.role])
+  }, [user?.role])
 
   const isActive = (href: string) => {
     if (href === '/') return pathname === '/'
@@ -96,7 +98,7 @@ export default function NavBar({ initialUser }: NavBarProps) {
               href={link.href}
               className={
                 isActive(link.href)
-                  ? 'bg-[#00c2b2] text-slate-900 font-bold rounded-lg px-3 py-1.5 text-sm transition-all shadow-sm'
+                  ? 'bg-[#00c2b2] text-white font-bold rounded-lg px-3 py-1.5 text-sm transition-all shadow-sm'
                   : 'text-sm text-slate-600 hover:text-slate-950 font-medium transition-colors'
               }
             >
@@ -107,52 +109,31 @@ export default function NavBar({ initialUser }: NavBarProps) {
 
         {/* ── Auth Controls ── */}
         <div className="flex items-center gap-3">
-          {initialUser ? (
-            <div className="relative">
-              <button
-                onClick={() => setDropdownOpen((v) => !v)}
-                className="flex items-center gap-2 px-3 py-1.5 bg-slate-100 border border-slate-200 rounded-lg hover:border-teal-500/50 transition-all cursor-pointer"
-              >
+          {user ? (
+            <div className="flex items-center gap-2.5">
+              <div className="flex items-center gap-2 px-3 py-1.5 bg-slate-100 border border-slate-200 rounded-lg">
                 <div className="w-7 h-7 rounded-full bg-teal-100 border border-teal-200 flex items-center justify-center">
                   <PersonIcon sx={{ fontSize: 16, color: '#00a89d' }} />
                 </div>
                 <div className="flex flex-col text-left">
                   <span className="text-xs text-slate-900 font-semibold max-w-[120px] truncate leading-tight">
-                    {initialUser.full_name ?? initialUser.email ?? 'User'}
+                    {user.full_name ?? user.email ?? 'User'}
                   </span>
-                  {initialUser.role && (
+                  {user.role && (
                     <span className="text-[9px] text-teal-700 uppercase font-bold tracking-wider leading-none">
-                      {initialUser.role}
+                      {user.role}
                     </span>
                   )}
                 </div>
+              </div>
+              <button
+                onClick={handleSignOut}
+                className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold text-slate-700 hover:text-red-600 bg-white border border-slate-200 hover:bg-red-50 hover:border-red-200 rounded-lg transition-all cursor-pointer shadow-2xs"
+                title="Log Out"
+              >
+                <LogoutIcon sx={{ fontSize: 16 }} />
+                <span>Log Out</span>
               </button>
-
-              {dropdownOpen && (
-                <motion.div
-                  initial={{ opacity: 0, y: -8, scale: 0.95 }}
-                  animate={{ opacity: 1, y: 0, scale: 1 }}
-                  exit={{ opacity: 0, y: -8, scale: 0.95 }}
-                  transition={{ duration: 0.15 }}
-                  className="absolute right-0 top-full mt-2 w-48 bg-white border border-slate-200 rounded-xl shadow-[0_8px_32px_rgba(15,23,42,0.12)] overflow-hidden z-50"
-                >
-                  <div className="px-4 py-3 border-b border-slate-100 bg-slate-50/50">
-                    <p className="text-xs font-semibold text-slate-900 truncate">
-                      {initialUser.full_name ?? 'Account'}
-                    </p>
-                    <p className="text-[11px] text-slate-500 truncate">
-                      {initialUser.email}
-                    </p>
-                  </div>
-                  <button
-                    onClick={() => { handleSignOut(); setDropdownOpen(false) }}
-                    className="w-full flex items-center gap-2 px-4 py-2.5 text-sm text-slate-600 hover:text-red-600 hover:bg-slate-50 transition-colors cursor-pointer"
-                  >
-                    <LogoutIcon sx={{ fontSize: 16 }} />
-                    <span>Sign Out</span>
-                  </button>
-                </motion.div>
-              )}
             </div>
           ) : (
             <>
@@ -165,7 +146,7 @@ export default function NavBar({ initialUser }: NavBarProps) {
               </Link>
               <Link
                 href="/sign-up"
-                className="flex items-center gap-1.5 px-4 py-2 text-sm font-bold text-slate-900 bg-[#00c2b2] rounded-lg shadow-[0_0_16px_rgba(0,194,178,0.35)] hover:shadow-[0_0_24px_rgba(0,194,178,0.5)] hover:bg-[#00b4a6] transition-all"
+                className="flex items-center gap-1.5 px-4 py-2 text-sm font-bold text-white bg-[#00c2b2] rounded-lg shadow-[0_0_16px_rgba(0,194,178,0.35)] hover:shadow-[0_0_24px_rgba(0,194,178,0.5)] hover:bg-[#00b4a6] transition-all"
               >
                 <PersonAddIcon sx={{ fontSize: 16 }} />
                 <span>Sign Up</span>
