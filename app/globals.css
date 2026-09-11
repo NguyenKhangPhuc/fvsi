@@ -21,28 +21,28 @@
    text-primary-container, border-outline-variant, etc., work across all components.
 */
 :root {
-  --color-background: #000000;
-  --color-background-low: #0a0a0a;
+  --color-background: #ffffff;
+  --color-background-low: #f8fafc;
 
-  --color-surface-container-lowest: #0a0a0a;
-  --color-surface-container-low: #121212;
-  --color-surface-container: #181818;
-  --color-surface-container-high: #202020;
-  --color-surface-container-highest: #262626;
+  --color-surface-container-lowest: #ffffff;
+  --color-surface-container-low: #f8fafc;
+  --color-surface-container: #f8fafc;
+  --color-surface-container-high: #e2e8f0;
+  --color-surface-container-highest: #e2e8f0;
 
-  --color-primary: #ffffff;
+  --color-primary: #0f172a;
   --color-primary-container: #00fff1;
-  --color-on-primary-container: #000000;
-  --color-secondary: #00fff1;
-  --color-on-secondary: #000000;
+  --color-on-primary-container: #0f172a;
+  --color-secondary: #00a89d;
+  --color-on-secondary: #ffffff;
 
-  --color-on-background: #e5e5e5;
-  --color-on-surface: #ededed;
-  --color-on-surface-variant: #a3a3a3;
-  --color-outline: #666666;
-  --color-outline-variant: #2e2e2e;
+  --color-on-background: #0f172a;
+  --color-on-surface: #0f172a;
+  --color-on-surface-variant: #475569;
+  --color-outline: #94a3b8;
+  --color-outline-variant: #e2e8f0;
 
-  --color-error: #ffb4ab;
+  --color-error: #ba1a1a;
 
   --card: oklch(1 0 0);
 
@@ -189,7 +189,7 @@ html,
 body {
   margin: 0;
   padding: 0;
-  background-color: #000000;
+  background-color: #ffffff;
 }
 
 body {

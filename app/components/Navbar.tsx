@@ -3,8 +3,12 @@
 /**
  * PURPOSE:
  * Desktop navigation bar client component (xl and above).
- * Renders a floating dark glassmorphic pill with branding, navigation links,
+ * Renders a floating light glassmorphic pill with branding, navigation links,
  * and authentication controls (Sign In / Sign Up or signed-in user avatar).
+ *
+ * RBAC:
+ * Displays Home, People, Events by default.
+ * If initialUser?.role === 'admin', additionally shows Events Management and Users Management.
  *
  * CONTEXT/PARENT FILE:
  * Imported by NavbarServer.tsx, rendered inside a hidden div visible only at xl+.
@@ -22,7 +26,7 @@ import PersonAddIcon from '@mui/icons-material/PersonAdd'
 import LogoutIcon from '@mui/icons-material/Logout'
 import { Database } from '@/app/types/database.types'
 import { createClient } from '@/app/utils/supabase/client'
-import { useState } from 'react'
+import { useState, useMemo } from 'react'
 
 type Profile = Database['public']['Tables']['profiles']['Row']
 
@@ -30,18 +34,10 @@ interface NavBarProps {
   initialUser: Profile | null
 }
 
-const navLinks = [
-  { label: 'Home', href: '/', anchor: null },
-  { label: 'People', href: '/#people', anchor: 'people' },
-  { label: 'Events', href: '/#events', anchor: 'events' },
-]
-
 export default function NavBar({ initialUser }: NavBarProps) {
   const pathname = usePathname()
   const router = useRouter()
   const [dropdownOpen, setDropdownOpen] = useState(false)
-
-  const isHome = pathname === '/'
 
   const handleSignOut = async () => {
     const supabase = createClient()
@@ -50,9 +46,29 @@ export default function NavBar({ initialUser }: NavBarProps) {
     router.refresh()
   }
 
+  // Navigation items: Home, People, Events always visible.
+  // Admin role unlocks Events Management and Users Management.
+  const navLinks = useMemo(() => {
+    const links = [
+      { label: 'Home', href: '/' },
+      { label: 'People', href: '/#people' },
+      { label: 'Events', href: '/#events' },
+    ]
+
+    if (initialUser?.role === 'admin') {
+      links.push(
+        { label: 'Events Management', href: '/events-management' },
+        { label: 'Users Management', href: '/users-management' }
+      )
+    }
+
+    return links
+  }, [initialUser?.role])
+
   const isActive = (href: string) => {
     if (href === '/') return pathname === '/'
-    return false
+    if (href.startsWith('/#')) return false
+    return pathname.startsWith(href)
   }
 
   return (
@@ -60,15 +76,15 @@ export default function NavBar({ initialUser }: NavBarProps) {
       initial={{ opacity: 0, y: -20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.4, ease: 'easeOut' }}
-      className="fixed top-6 left-1/2 -translate-x-1/2 z-50 w-[calc(100%-3rem)] max-w-[1280px]"
+      className="fixed top-6 left-0 right-0 z-50 px-4 lg:px-6 max-w-[1280px] mx-auto w-full"
     >
-      <div className="bg-[#121212]/90 backdrop-blur-xl border border-[#2e2e2e] shadow-[0_4px_24px_rgba(0,0,0,0.8)] rounded-xl px-6 h-16 flex items-center justify-between">
+      <div className="bg-white/90 backdrop-blur-xl border border-slate-200/90 shadow-[0_4px_24px_rgba(15,23,42,0.06)] rounded-xl px-6 h-16 flex items-center justify-between transition-all">
         {/* ── Brand ── */}
-        <Link href="/" className="flex items-center gap-2">
-          <div className="w-2.5 h-2.5 rounded-full bg-[#00fff1] shadow-[0_0_8px_#00fff1]" />
+        <Link href="/" className="flex items-center gap-2.5">
+          <div className="w-2.5 h-2.5 rounded-full bg-[#00c2b2] shadow-[0_0_8px_#00c2b2]" />
           <div className="flex flex-col">
-            <span className="text-[18px] font-bold text-white tracking-tight leading-none">VN · FI</span>
-            <span className="text-[10px] font-bold text-[#00fff1] uppercase tracking-wider leading-none mt-0.5">ITEE Faculty</span>
+            <span className="text-[18px] font-bold text-slate-900 tracking-tight leading-none">VN · FI</span>
+            <span className="text-[10px] font-bold text-teal-700 uppercase tracking-wider leading-none mt-1">ITEE Faculty</span>
           </div>
         </Link>
 
@@ -80,8 +96,8 @@ export default function NavBar({ initialUser }: NavBarProps) {
               href={link.href}
               className={
                 isActive(link.href)
-                  ? 'bg-[#00fff1] text-black font-bold rounded-lg px-3 py-1.5 text-sm transition-all'
-                  : 'text-sm text-[#a3a3a3] hover:text-white transition-colors'
+                  ? 'bg-[#00c2b2] text-slate-900 font-bold rounded-lg px-3 py-1.5 text-sm transition-all shadow-sm'
+                  : 'text-sm text-slate-600 hover:text-slate-950 font-medium transition-colors'
               }
             >
               {link.label}
@@ -95,14 +111,21 @@ export default function NavBar({ initialUser }: NavBarProps) {
             <div className="relative">
               <button
                 onClick={() => setDropdownOpen((v) => !v)}
-                className="flex items-center gap-2 px-3 py-1.5 bg-[#202020] border border-[#2e2e2e] rounded-lg hover:border-[#00fff1]/50 transition-all"
+                className="flex items-center gap-2 px-3 py-1.5 bg-slate-100 border border-slate-200 rounded-lg hover:border-teal-500/50 transition-all cursor-pointer"
               >
-                <div className="w-7 h-7 rounded-full bg-[#00fff1]/20 border border-[#00fff1]/40 flex items-center justify-center">
-                  <PersonIcon sx={{ fontSize: 16, color: '#00fff1' }} />
+                <div className="w-7 h-7 rounded-full bg-teal-100 border border-teal-200 flex items-center justify-center">
+                  <PersonIcon sx={{ fontSize: 16, color: '#00a89d' }} />
                 </div>
-                <span className="text-sm text-white font-medium max-w-[120px] truncate">
-                  {initialUser.full_name ?? initialUser.email ?? 'User'}
-                </span>
+                <div className="flex flex-col text-left">
+                  <span className="text-xs text-slate-900 font-semibold max-w-[120px] truncate leading-tight">
+                    {initialUser.full_name ?? initialUser.email ?? 'User'}
+                  </span>
+                  {initialUser.role && (
+                    <span className="text-[9px] text-teal-700 uppercase font-bold tracking-wider leading-none">
+                      {initialUser.role}
+                    </span>
+                  )}
+                </div>
               </button>
 
               {dropdownOpen && (
@@ -111,11 +134,19 @@ export default function NavBar({ initialUser }: NavBarProps) {
                   animate={{ opacity: 1, y: 0, scale: 1 }}
                   exit={{ opacity: 0, y: -8, scale: 0.95 }}
                   transition={{ duration: 0.15 }}
-                  className="absolute right-0 top-full mt-2 w-44 bg-[#181818] border border-[#2e2e2e] rounded-xl shadow-[0_8px_32px_rgba(0,0,0,0.8)] overflow-hidden"
+                  className="absolute right-0 top-full mt-2 w-48 bg-white border border-slate-200 rounded-xl shadow-[0_8px_32px_rgba(15,23,42,0.12)] overflow-hidden z-50"
                 >
+                  <div className="px-4 py-3 border-b border-slate-100 bg-slate-50/50">
+                    <p className="text-xs font-semibold text-slate-900 truncate">
+                      {initialUser.full_name ?? 'Account'}
+                    </p>
+                    <p className="text-[11px] text-slate-500 truncate">
+                      {initialUser.email}
+                    </p>
+                  </div>
                   <button
                     onClick={() => { handleSignOut(); setDropdownOpen(false) }}
-                    className="w-full flex items-center gap-2 px-4 py-3 text-sm text-[#a3a3a3] hover:text-white hover:bg-[#202020] transition-colors"
+                    className="w-full flex items-center gap-2 px-4 py-2.5 text-sm text-slate-600 hover:text-red-600 hover:bg-slate-50 transition-colors cursor-pointer"
                   >
                     <LogoutIcon sx={{ fontSize: 16 }} />
                     <span>Sign Out</span>
@@ -127,14 +158,14 @@ export default function NavBar({ initialUser }: NavBarProps) {
             <>
               <Link
                 href="/login"
-                className="flex items-center gap-1.5 px-4 py-2 text-sm text-[#a3a3a3] hover:text-white border border-[#2e2e2e] hover:border-[#00fff1]/50 rounded-lg transition-all"
+                className="flex items-center gap-1.5 px-4 py-2 text-sm text-slate-700 hover:text-slate-950 border border-slate-200 hover:bg-slate-50 rounded-lg transition-all font-medium"
               >
                 <LoginIcon sx={{ fontSize: 16 }} />
                 <span>Sign In</span>
               </Link>
               <Link
                 href="/sign-up"
-                className="flex items-center gap-1.5 px-4 py-2 text-sm font-bold text-black bg-[#00fff1] rounded-lg shadow-[0_0_16px_rgba(0,255,241,0.3)] hover:shadow-[0_0_24px_rgba(0,255,241,0.5)] transition-all"
+                className="flex items-center gap-1.5 px-4 py-2 text-sm font-bold text-slate-900 bg-[#00c2b2] rounded-lg shadow-[0_0_16px_rgba(0,194,178,0.35)] hover:shadow-[0_0_24px_rgba(0,194,178,0.5)] hover:bg-[#00b4a6] transition-all"
               >
                 <PersonAddIcon sx={{ fontSize: 16 }} />
                 <span>Sign Up</span>

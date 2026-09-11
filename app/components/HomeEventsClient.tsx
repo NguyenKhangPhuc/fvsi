@@ -2,7 +2,7 @@
 
 /**
  * PURPOSE:
- * Interactive events list section for the home page.
+ * Interactive events list section for the home page (Light Theme).
  * Displays events in a 2-per-row grid with a sticky scroll-stacking effect:
  * as the user scrolls down, lower rows of cards slide up and overlay upper rows,
  * creating a depth-stacking visual.
@@ -18,7 +18,7 @@
  * Imported in app/page.tsx, receives server-fetched events as props.
  *
  * INPUTS / PARAMETERS:
- * - initialEvents (Event[]): Array of events fetched from Supabase server-side.
+ * - initialEvents (EventRecord[]): Array of events fetched from Supabase server-side.
  */
 
 import { useState, useMemo, useCallback } from 'react'
@@ -43,7 +43,7 @@ interface HomeEventsClientProps {
 }
 
 const CATEGORY_FILTERS = [
-  { label: 'All Events', value: 'all' },
+  { label: 'All Tracks', value: 'all' },
   { label: 'AI & Robotics', value: 'ai' },
   { label: 'Software Engineering', value: 'software' },
   { label: 'Education & Culture', value: 'education' },
@@ -81,7 +81,7 @@ function formatTime(dateStr: string | null): string {
 function StatusBadge({ status }: { status: string | null }) {
   if (status === 'ongoing') {
     return (
-      <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-[#00fff1]/10 border border-[#00fff1]/30 text-[#00fff1] text-[10px] font-bold uppercase tracking-wider">
+      <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded bg-slate-950/90 border border-white/20 text-[#00c2b2] text-[10px] font-bold uppercase tracking-wider">
         <PlayCircleIcon sx={{ fontSize: 12 }} />
         Ongoing
       </span>
@@ -89,14 +89,14 @@ function StatusBadge({ status }: { status: string | null }) {
   }
   if (status === 'finished') {
     return (
-      <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-[#262626] border border-[#2e2e2e] text-[#a3a3a3] text-[10px] font-bold uppercase tracking-wider">
+      <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded bg-slate-200 border border-slate-300 text-slate-700 text-[10px] font-bold uppercase tracking-wider">
         <CheckCircleIcon sx={{ fontSize: 12 }} />
         Finished
       </span>
     )
   }
   return (
-    <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-[#181818] border border-[#2e2e2e] text-[#666666] text-[10px] font-bold uppercase tracking-wider">
+    <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded bg-slate-950/90 border border-white/20 text-teal-300 text-[10px] font-bold uppercase tracking-wider">
       Upcoming
     </span>
   )
@@ -117,10 +117,10 @@ function EventCard({ event, onOpen }: EventCardProps) {
     : null
 
   return (
-    <article className="group rounded-xl bg-[#121212] border border-[#262626] backdrop-blur-xl p-4 lg:p-6 flex flex-col justify-between shadow-2xl transition-all duration-300 hover:border-[#00fff1]/50 hover:shadow-[0_0_30px_rgba(0,255,241,0.15)]">
+    <article className="event-card group rounded-xl bg-white border border-slate-200 shadow-md p-4 lg:p-6 flex flex-col justify-between transition-all duration-300 hover:border-teal-500/50 hover:shadow-[0_8px_30px_rgba(0,194,178,0.2)]">
       <div className="space-y-4">
         {/* Poster Image */}
-        <div className="relative w-full aspect-video rounded-lg overflow-hidden bg-[#1a1a1a]">
+        <div className="relative w-full aspect-video rounded-lg overflow-hidden bg-slate-100">
           {posterUrl ? (
             <Image
               src={posterUrl}
@@ -130,21 +130,21 @@ function EventCard({ event, onOpen }: EventCardProps) {
               sizes="(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 640px"
             />
           ) : (
-            /* High-tech placeholder when no poster */
-            <div className="w-full h-full bg-[#0d0d0d] flex items-center justify-center relative overflow-hidden">
-              <svg className="absolute inset-0 w-full h-full opacity-10 pointer-events-none">
+            /* Modern light placeholder when no poster */
+            <div className="w-full h-full bg-slate-100 flex items-center justify-center relative overflow-hidden">
+              <svg className="absolute inset-0 w-full h-full opacity-20 pointer-events-none">
                 <defs>
                   <pattern id={`grid-${event.id}`} width="32" height="32" patternUnits="userSpaceOnUse">
-                    <path d="M 32 0 L 0 0 0 32" fill="none" stroke="#00fff1" strokeDasharray="2 4" strokeWidth="0.5" />
+                    <path d="M 32 0 L 0 0 0 32" fill="none" stroke="#00a89d" strokeDasharray="2 4" strokeWidth="0.5" />
                   </pattern>
                 </defs>
                 <rect width="100%" height="100%" fill={`url(#grid-${event.id})`} />
               </svg>
-              <div className="relative z-10 flex flex-col items-center gap-2 text-[#2e2e2e]">
-                <div className="w-10 h-10 rounded-lg border border-[#2e2e2e] flex items-center justify-center">
-                  <CalendarTodayIcon sx={{ fontSize: 20, color: '#2e2e2e' }} />
+              <div className="relative z-10 flex flex-col items-center gap-2 text-slate-400">
+                <div className="w-10 h-10 rounded-lg border border-slate-200 flex items-center justify-center bg-white shadow-xs">
+                  <CalendarTodayIcon sx={{ fontSize: 20, color: '#94a3b8' }} />
                 </div>
-                <span className="text-[10px] font-mono text-[#2e2e2e] uppercase tracking-widest">Poster Coming Soon</span>
+                <span className="text-[10px] font-mono text-slate-500 uppercase tracking-widest font-semibold">Poster Coming Soon</span>
               </div>
             </div>
           )}
@@ -152,24 +152,24 @@ function EventCard({ event, onOpen }: EventCardProps) {
           <div className="absolute top-2 left-2">
             <StatusBadge status={event.status} />
           </div>
-          {/* Location chip */}
+          {/* Location chip on image */}
           {event.location && (
-            <div className="absolute bottom-2 right-2 px-2 py-1 rounded bg-[#0a0a0a]/90 border border-[#2e2e2e] text-white text-[10px] font-mono uppercase tracking-wider flex items-center gap-1">
-              <LocationOnIcon sx={{ fontSize: 10 }} />
-              <span className="max-w-[120px] truncate">{event.location}</span>
+            <div className="absolute bottom-2 right-2 px-2.5 py-1 rounded bg-slate-950/90 border border-white/20 text-white text-[10px] font-mono uppercase tracking-wider flex items-center gap-1 shadow-sm">
+              <LocationOnIcon sx={{ fontSize: 10, color: '#00c2b2' }} />
+              <span className="max-w-[140px] truncate">{event.location}</span>
             </div>
           )}
         </div>
 
         {/* Date & Time */}
-        <div className="flex flex-wrap items-center gap-2 text-[#00fff1] text-xs">
+        <div className="flex flex-wrap items-center gap-2 text-teal-700 text-xs font-semibold">
           <span className="flex items-center gap-1">
             <CalendarTodayIcon sx={{ fontSize: 14 }} />
             <span>{formatDate(event.start_date)}</span>
           </span>
           {event.start_date && (
             <>
-              <span className="text-[#666666]">•</span>
+              <span className="text-slate-300">•</span>
               <span className="flex items-center gap-1">
                 <ScheduleIcon sx={{ fontSize: 14 }} />
                 <span>{formatTime(event.start_date)}</span>
@@ -178,42 +178,44 @@ function EventCard({ event, onOpen }: EventCardProps) {
           )}
           {event.end_date && (
             <>
-              <span className="text-[#666666]">—</span>
+              <span className="text-slate-300">•</span>
               <span className="flex items-center gap-1">
-                <span>{formatDate(event.end_date)}</span>
-                <span className="text-[#666666]">{formatTime(event.end_date)}</span>
+                <ScheduleIcon sx={{ fontSize: 14 }} />
+                <span>{formatTime(event.end_date)}</span>
               </span>
             </>
           )}
         </div>
 
         {/* Title */}
-        <h3 className="text-[18px] font-semibold text-white leading-snug group-hover:text-[#00fff1] transition-colors line-clamp-2">
+        <h3 className="text-[18px] font-semibold text-slate-950 leading-snug group-hover:text-teal-700 transition-colors line-clamp-2">
           {event.title ?? 'Untitled Event'}
         </h3>
 
         {/* Short description (no content) */}
         {event.short_description && (
-          <p className="text-sm text-[#a3a3a3] line-clamp-2 leading-relaxed">
+          <p className="text-sm text-slate-600 line-clamp-2 leading-relaxed">
             {event.short_description}
           </p>
         )}
 
         {/* Location detail */}
         {event.location && (
-          <div className="flex items-center gap-1.5 text-xs text-[#a3a3a3] bg-[#181818] border border-[#262626] px-3 py-2 rounded-lg">
-            <LocationOnIcon sx={{ fontSize: 14, color: '#00fff1' }} />
-            <span>{event.location}</span>
+          <div className="flex items-center gap-1.5 text-xs text-slate-600 bg-slate-50 border border-slate-200/80 px-3 py-2 rounded-lg">
+            <LocationOnIcon sx={{ fontSize: 14, color: '#00a89d' }} />
+            <span className="truncate">{event.location}</span>
           </div>
         )}
       </div>
 
       {/* Card Footer */}
-      <div className="pt-4 mt-4 flex items-center justify-between border-t border-[#222222]">
-        <div />
+      <div className="pt-4 mt-4 flex items-center justify-between border-t border-slate-100">
+        <span className="text-[10px] font-semibold uppercase tracking-wider text-teal-800">
+          Venue: {event.location ?? 'Online / Campus'}
+        </span>
         <button
           onClick={() => onOpen(event)}
-          className="flex items-center gap-1.5 px-4 py-1.5 rounded-lg bg-[#202020] border border-[#2e2e2e] text-white text-xs font-bold hover:bg-[#00fff1] hover:text-black hover:border-[#00fff1] transition-all duration-200"
+          className="flex items-center gap-1.5 px-4 py-1.5 rounded-lg bg-slate-100 border border-slate-200 text-slate-800 text-xs font-bold hover:bg-[#00c2b2] hover:text-slate-950 hover:border-transparent transition-all duration-200 cursor-pointer"
         >
           <span>View Details</span>
           <ArrowForwardIcon sx={{ fontSize: 14 }} />
@@ -245,7 +247,7 @@ function EventModal({ event, onClose }: EventModalProps) {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
-            className="fixed inset-0 z-[100] bg-black/80 backdrop-blur-md"
+            className="fixed inset-0 z-[100] bg-slate-950/60 backdrop-blur-md"
             onClick={onClose}
           />
 
@@ -259,19 +261,19 @@ function EventModal({ event, onClose }: EventModalProps) {
             className="fixed inset-0 z-[101] flex items-center justify-center p-4 pointer-events-none"
           >
             <div
-              className="relative w-full max-w-2xl max-h-[90vh] overflow-y-auto rounded-xl bg-[#121212] border border-[#2e2e2e] shadow-[0_16px_64px_rgba(0,0,0,0.9),0_0_24px_rgba(0,255,241,0.15)] pointer-events-auto"
+              className="relative w-full max-w-2xl max-h-[90vh] overflow-y-auto rounded-xl bg-white border border-slate-200 shadow-2xl pointer-events-auto"
               onClick={(e) => e.stopPropagation()}
             >
               {/* Close button */}
               <button
                 onClick={onClose}
-                className="absolute top-4 right-4 w-9 h-9 rounded-lg bg-[#202020] border border-[#2e2e2e] flex items-center justify-center hover:text-[#00fff1] hover:border-[#00fff1]/50 transition-all z-10"
+                className="absolute top-4 right-4 w-9 h-9 rounded-lg bg-slate-100 border border-slate-200 flex items-center justify-center text-slate-600 hover:text-slate-950 hover:border-slate-300 transition-all z-10 cursor-pointer"
               >
                 <CloseIcon sx={{ fontSize: 18 }} />
               </button>
 
               {/* Poster */}
-              <div className="relative w-full aspect-video bg-[#0d0d0d]">
+              <div className="relative w-full aspect-video bg-slate-100">
                 {posterUrl ? (
                   <Image
                     src={posterUrl}
@@ -282,10 +284,10 @@ function EventModal({ event, onClose }: EventModalProps) {
                   />
                 ) : (
                   <div className="w-full h-full flex items-center justify-center">
-                    <CalendarTodayIcon sx={{ fontSize: 40, color: '#2e2e2e' }} />
+                    <CalendarTodayIcon sx={{ fontSize: 40, color: '#94a3b8' }} />
                   </div>
                 )}
-                <div className="absolute inset-0 bg-gradient-to-t from-[#121212] via-transparent to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent" />
                 {/* Status on poster */}
                 <div className="absolute bottom-4 left-4">
                   <StatusBadge status={event.status} />
@@ -295,28 +297,28 @@ function EventModal({ event, onClose }: EventModalProps) {
               {/* Content */}
               <div className="p-6 space-y-5">
                 {/* Title */}
-                <h2 className="text-2xl font-bold text-white leading-tight pr-10">
+                <h2 className="text-2xl font-bold text-slate-950 leading-tight pr-10">
                   {event.title ?? 'Untitled Event'}
                 </h2>
 
                 {/* Date/Time row */}
                 <div className="space-y-2">
-                  <div className="flex items-center gap-2 text-sm text-[#00fff1]">
+                  <div className="flex items-center gap-2 text-sm text-teal-700 font-semibold">
                     <CalendarTodayIcon sx={{ fontSize: 16 }} />
-                    <span className="font-medium">
+                    <span>
                       {formatDate(event.start_date)}
                       {event.start_date && ` • ${formatTime(event.start_date)}`}
                     </span>
                   </div>
                   {event.end_date && (
-                    <div className="flex items-center gap-2 text-sm text-[#a3a3a3]">
+                    <div className="flex items-center gap-2 text-sm text-slate-600">
                       <ScheduleIcon sx={{ fontSize: 16 }} />
                       <span>Ends: {formatDate(event.end_date)} • {formatTime(event.end_date)}</span>
                     </div>
                   )}
                   {event.location && (
-                    <div className="flex items-center gap-2 text-sm text-[#a3a3a3]">
-                      <LocationOnIcon sx={{ fontSize: 16, color: '#00fff1' }} />
+                    <div className="flex items-center gap-2 text-sm text-slate-600">
+                      <LocationOnIcon sx={{ fontSize: 16, color: '#00a89d' }} />
                       <span>{event.location}</span>
                     </div>
                   )}
@@ -325,22 +327,22 @@ function EventModal({ event, onClose }: EventModalProps) {
                 {/* Short description */}
                 {event.short_description && (
                   <div className="space-y-1.5">
-                    <h4 className="text-sm font-bold text-white uppercase tracking-wider">About</h4>
-                    <p className="text-sm text-[#a3a3a3] leading-relaxed">{event.short_description}</p>
+                    <h4 className="text-sm font-bold text-slate-950 uppercase tracking-wider">About the Session</h4>
+                    <p className="text-sm text-slate-600 leading-relaxed">{event.short_description}</p>
                   </div>
                 )}
 
                 {/* Footer CTA */}
-                <div className="pt-4 flex items-center justify-end gap-3 border-t border-[#2e2e2e]">
+                <div className="pt-4 flex items-center justify-end gap-3 border-t border-slate-200">
                   <button
                     onClick={onClose}
-                    className="px-4 py-2 rounded-lg bg-[#202020] border border-[#2e2e2e] text-sm text-white hover:bg-[#262626] transition-all"
+                    className="px-4 py-2 rounded-lg bg-slate-100 border border-slate-200 text-sm font-medium text-slate-800 hover:bg-slate-200 transition-all cursor-pointer"
                   >
                     Close
                   </button>
                   <Link
                     href={`/events/${event.id}`}
-                    className="px-5 py-2 rounded-lg bg-[#00fff1] text-black text-sm font-bold shadow-[0_0_16px_rgba(0,255,241,0.4)] hover:shadow-[0_0_24px_rgba(0,255,241,0.7)] transition-all"
+                    className="px-5 py-2 rounded-lg bg-[#00c2b2] text-slate-950 text-sm font-bold shadow-md hover:bg-[#00b4a6] transition-all"
                   >
                     View Full Event
                   </Link>
@@ -364,7 +366,7 @@ export default function HomeEventsClient({ initialEvents }: HomeEventsClientProp
   const filtered = useMemo(() => {
     return initialEvents.filter((e) => {
       const matchesQuery = !query || (e.title ?? '').toLowerCase().includes(query.toLowerCase())
-      // Simple category matching — can be extended via event tags field
+      // Category filter matching logic (fallback matches all)
       const matchesCategory = activeCategory === 'all' || true
       return matchesQuery && matchesCategory
     })
@@ -388,30 +390,30 @@ export default function HomeEventsClient({ initialEvents }: HomeEventsClientProp
   }, [])
 
   return (
-    <section id="events" className="w-full py-16 px-4 lg:px-6 max-w-[1280px] mx-auto relative bg-black">
-      {/* ── Section Header ── */}
-      <div className="sticky top-20 z-40 bg-black/95 backdrop-blur-xl py-4 mb-8 rounded-xl">
-        <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 mb-4">
+    <section id="events" className="w-full py-16 px-4 lg:px-6 max-w-[1280px] mx-auto relative z-10">
+      {/* ── Section Header with Search Bar & Filters ── */}
+      <div className="sticky top-20 z-40 bg-white/95 backdrop-blur-xl py-4 mb-8 rounded-xl border border-slate-200/80 shadow-sm px-4">
+        <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 mb-3">
           {/* Title */}
           <div className="flex items-center gap-3">
-            <div className="w-3 h-3 rounded bg-[#00fff1] shadow-[0_0_12px_#00fff1]" />
-            <h2 className="text-3xl lg:text-4xl font-bold text-white tracking-tight">
+            <div className="w-3 h-3 rounded bg-[#00c2b2] shadow-[0_0_12px_#00c2b2]" />
+            <h2 className="text-3xl lg:text-4xl font-bold text-slate-950 tracking-tight">
               Upcoming Events{' '}
-              <span className="text-[#00fff1] text-xl font-semibold">(October 2025)</span>
+              <span className="text-teal-700 text-xl font-semibold">(October 2025)</span>
             </h2>
           </div>
 
           {/* Search */}
-          <div className="relative w-full lg:w-72">
-            <span className="absolute left-3 top-1/2 -translate-y-1/2 text-[#666666]">
+          <div className="relative w-full lg:w-80">
+            <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">
               <SearchIcon sx={{ fontSize: 18 }} />
             </span>
             <input
               type="text"
               value={query}
               onChange={(e) => setQuery(e.target.value)}
-              placeholder="Search events..."
-              className="w-full pl-9 pr-4 py-2 bg-[#181818] border border-[#2e2e2e] text-white placeholder-[#666666] text-sm rounded-lg focus:outline-none focus:ring-1 focus:ring-[#00fff1]/50 transition-all"
+              placeholder="Search events by keyword..."
+              className="w-full pl-9 pr-4 py-2 bg-slate-50 border border-slate-200 text-slate-900 placeholder-slate-400 text-sm font-medium rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-400 transition-all shadow-inner"
             />
           </div>
         </div>
@@ -422,10 +424,10 @@ export default function HomeEventsClient({ initialEvents }: HomeEventsClientProp
             <button
               key={cat.value}
               onClick={() => setActiveCategory(cat.value)}
-              className={`flex-shrink-0 px-4 py-1.5 rounded-lg text-xs font-bold transition-all ${
+              className={`flex-shrink-0 px-4 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer ${
                 activeCategory === cat.value
-                  ? 'bg-[#00fff1] text-black'
-                  : 'bg-[#181818] border border-[#2e2e2e] text-[#a3a3a3] hover:text-white'
+                  ? 'bg-[#00c2b2] text-slate-950 shadow-sm'
+                  : 'bg-slate-100 border border-slate-200 text-slate-600 hover:text-slate-950 hover:bg-slate-200/70 font-semibold'
               }`}
             >
               {cat.label}
@@ -467,16 +469,16 @@ export default function HomeEventsClient({ initialEvents }: HomeEventsClientProp
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          className="text-center py-24 space-y-4 bg-[#121212] border border-[#262626] rounded-xl"
+          className="text-center py-20 space-y-4 bg-white border border-slate-200 rounded-xl shadow-sm"
         >
-          <EventBusyIcon sx={{ fontSize: 48, color: '#666666' }} />
-          <h4 className="text-xl font-semibold text-white">No Matching Events Found</h4>
-          <p className="text-sm text-[#a3a3a3] max-w-sm mx-auto">
+          <EventBusyIcon sx={{ fontSize: 48, color: '#94a3b8' }} />
+          <h4 className="text-xl font-semibold text-slate-950">No Matching Events Found</h4>
+          <p className="text-sm text-slate-600 max-w-sm mx-auto">
             We couldn&apos;t find any events matching your search. Try a different keyword or reset the filter.
           </p>
           <button
             onClick={() => { setQuery(''); setActiveCategory('all') }}
-            className="px-6 py-2 bg-[#00fff1] text-black text-sm font-bold rounded-lg shadow-[0_0_12px_rgba(0,255,241,0.3)] hover:shadow-[0_0_20px_rgba(0,255,241,0.5)] transition-all"
+            className="px-6 py-2 bg-[#00c2b2] text-slate-950 text-sm font-bold rounded-lg shadow-sm hover:bg-[#00b4a6] transition-all cursor-pointer"
           >
             Reset Filter
           </button>

@@ -12,8 +12,10 @@ import './globals.css'
 import NavbarServer from './components/NavbarServer'
 import Footer from './components/Footer'
 import { cn } from "@/lib/utils";
+import { LoaderProvider } from './context/LoaderContext'
+import { NotificationProvider } from './context/NotificationContext'
 
-const geist = Geist({subsets:['latin'],variable:'--font-sans'});
+const geist = Geist({ subsets: ['latin'], variable: '--font-sans' });
 
 const plusJakartaSans = Plus_Jakarta_Sans({
   subsets: ['latin'],
@@ -34,18 +36,22 @@ export default function RootLayout({ children }: LayoutProps<'/'>) {
       lang="en"
       className={cn("h-full", plusJakartaSans.variable, "font-sans", geist.variable)}
     >
-      <body className="min-h-full flex flex-col bg-black text-[#e5e5e5] antialiased">
-        {/* Global Navigation */}
-        <NavbarServer />
+      <LoaderProvider>
+        <NotificationProvider>
+          <body className="min-h-full flex flex-col bg-[#f8fafc] text-slate-900 antialiased">
+            {/* Global Navigation */}
+            <NavbarServer />
 
-        {/* Page Content */}
-        <main className="w-full flex-1 pt-20 bg-black">
-          {children}
-        </main>
+            {/* Page Content */}
+            <main className="w-full flex-1 pt-20 bg-transparent">
+              {children}
+            </main>
 
-        {/* Global Footer */}
-        <Footer />
-      </body>
+            {/* Global Footer */}
+            <Footer />
+          </body>
+        </NotificationProvider>
+      </LoaderProvider>
     </html>
   )
 }

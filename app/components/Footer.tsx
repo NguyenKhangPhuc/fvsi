@@ -1,6 +1,6 @@
 /**
  * PURPOSE:
- * Site-wide Footer component for the VN-FI Collaboration app.
+ * Site-wide Footer component for the VN-FI Collaboration app (Light Theme).
  * Shows the academic nexus summary, People and Events navigation links,
  * and legal links (Terms & Conditions, Privacy Policy).
  *
@@ -17,23 +17,23 @@ import PrivacyTipIcon from '@mui/icons-material/PrivacyTip'
 
 export default function Footer() {
   return (
-    <footer className="w-full bg-[#0a0a0a] border-t border-[#262626] py-16 mt-16">
+    <footer className="w-full bg-[#f8fafc] border-t border-slate-200 py-16 mt-16 transition-colors">
       <div className="max-w-[1280px] mx-auto px-6">
         {/* ── Grid ── */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-10 pb-10 border-b border-[#222222]">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-10 pb-10 border-b border-slate-200">
 
           {/* Brand & Description */}
           <div className="md:col-span-1 space-y-4">
             <div className="flex items-center gap-2">
-              <div className="w-3 h-3 rounded-full bg-[#00fff1] shadow-[0_0_10px_#00fff1]" />
-              <span className="text-[18px] font-bold text-white">Việt Nam - Finland Academic Nexus</span>
+              <div className="w-3 h-3 rounded-full bg-[#00c2b2] shadow-[0_0_10px_#00c2b2]" />
+              <span className="text-[18px] font-bold text-slate-950">Việt Nam - Finland Academic Nexus</span>
             </div>
-            <p className="text-sm text-[#a3a3a3] max-w-sm leading-relaxed">
+            <p className="text-sm text-slate-600 max-w-sm leading-relaxed">
               Empowering transformative bilateral research, engineering symposiums, and doctoral exchanges between the ITEE Faculty at University of Oulu and premier academic institutes across Việt Nam.
             </p>
-            <div className="flex items-start gap-2 text-[#00fff1]">
-              <LocationOnIcon sx={{ fontSize: 18, marginTop: '2px', flexShrink: 0 }} />
-              <span className="text-xs text-[#a3a3a3]">
+            <div className="flex items-start gap-2 text-teal-700">
+              <LocationOnIcon sx={{ fontSize: 18, marginTop: '2px', flexShrink: 0, color: '#00a89d' }} />
+              <span className="text-xs text-slate-600">
                 University of Oulu, Pentti Kaiteran katu 1, 90570 Oulu, Finland
               </span>
             </div>
@@ -41,23 +41,23 @@ export default function Footer() {
 
           {/* Navigation */}
           <div className="space-y-4">
-            <span className="text-xs font-bold text-[#00fff1] uppercase tracking-widest">Navigate</span>
+            <span className="text-xs font-bold text-teal-700 uppercase tracking-widest">Navigate</span>
             <ul className="space-y-2">
               <li>
                 <Link
                   href="/#people"
-                  className="flex items-center gap-2 text-sm text-[#a3a3a3] hover:text-white transition-colors"
+                  className="flex items-center gap-2 text-sm text-slate-600 hover:text-teal-700 transition-colors"
                 >
-                  <GroupsIcon sx={{ fontSize: 16, color: '#00fff1' }} />
+                  <GroupsIcon sx={{ fontSize: 16, color: '#00a89d' }} />
                   <span>People</span>
                 </Link>
               </li>
               <li>
                 <Link
                   href="/#events"
-                  className="flex items-center gap-2 text-sm text-[#a3a3a3] hover:text-white transition-colors"
+                  className="flex items-center gap-2 text-sm text-slate-600 hover:text-teal-700 transition-colors"
                 >
-                  <EventIcon sx={{ fontSize: 16, color: '#00fff1' }} />
+                  <EventIcon sx={{ fontSize: 16, color: '#00a89d' }} />
                   <span>Events</span>
                 </Link>
               </li>
@@ -66,23 +66,23 @@ export default function Footer() {
 
           {/* Legal */}
           <div className="space-y-4">
-            <span className="text-xs font-bold text-[#00fff1] uppercase tracking-widest">Legal</span>
+            <span className="text-xs font-bold text-teal-700 uppercase tracking-widest">Legal</span>
             <ul className="space-y-2">
               <li>
                 <Link
                   href="/terms-and-conditions"
-                  className="flex items-center gap-2 text-sm text-[#a3a3a3] hover:text-white transition-colors"
+                  className="flex items-center gap-2 text-sm text-slate-600 hover:text-teal-700 transition-colors"
                 >
-                  <GavelIcon sx={{ fontSize: 16, color: '#00fff1' }} />
+                  <GavelIcon sx={{ fontSize: 16, color: '#00a89d' }} />
                   <span>Terms &amp; Conditions</span>
                 </Link>
               </li>
               <li>
                 <Link
                   href="/privacy-policy"
-                  className="flex items-center gap-2 text-sm text-[#a3a3a3] hover:text-white transition-colors"
+                  className="flex items-center gap-2 text-sm text-slate-600 hover:text-teal-700 transition-colors"
                 >
-                  <PrivacyTipIcon sx={{ fontSize: 16, color: '#00fff1' }} />
+                  <PrivacyTipIcon sx={{ fontSize: 16, color: '#00a89d' }} />
                   <span>Privacy Policy</span>
                 </Link>
               </li>
@@ -91,13 +91,15 @@ export default function Footer() {
         </div>
 
         {/* ── Bottom Bar ── */}
-        <div className="pt-6 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-[#a3a3a3]">
+        <div className="pt-6 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-slate-500">
           <span>
             © 2025 ITEE Faculty, University of Oulu &amp; Vietnam Academic Consortia. All rights reserved.
           </span>
-          <div className="flex items-center gap-1">
+          <div className="flex items-center gap-1.5 font-medium">
             <div className="w-1.5 h-1.5 rounded-full bg-[#00fff1] animate-pulse" />
-            <span className="text-[#00fff1] font-mono">VN · FI ACADEMIC BRIDGE</span>
+            <span className="text-teal-700 font-mono text-[11px] tracking-wider uppercase font-semibold">
+              VN · FI ACADEMIC BRIDGE
+            </span>
           </div>
         </div>
       </div>

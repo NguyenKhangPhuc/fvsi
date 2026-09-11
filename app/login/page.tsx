@@ -2,7 +2,7 @@
  * PURPOSE:
  * Client Component representing the Sign In portal.
  * Authenticates users via email/password or Github OAuth, manages verification triggers,
- * and renders a dark terminal themed login container.
+ * and renders a light themed login container.
  *
  * CONTEXT/PARENT FILE:
  * Mounted at 'app/login/page.tsx'.
@@ -17,19 +17,18 @@ import GitHubIconMui from "@mui/icons-material/GitHub"
 import GoogleIcon from "@mui/icons-material/Google"
 // import MicrosoftIcon from "@mui/icons-material/Microsoft"
 import { useForm } from "react-hook-form"
-import { LoginForm } from "../types/form_data"
 import Link from "next/link"
 import { createClient } from "../utils/supabase/client"
 import { login } from "../actions/authentication/post/login"
 import { resendVerificationCode } from "../actions/authentication/post/resendVerificationCode"
 import { useNotification } from "../context/NotificationContext"
-import { AUTH_ERROR_CODE } from "../types/enum"
 import { useLoader } from "../context/LoaderContext"
 import { useRouter } from "next/navigation"
 import LoginSubInfoSection from "./LoginSubInfoSection"
 import LoginMainInfoSection from "./LoginMainInfoSection"
-import { tw } from "../constants/design-tokens"
 import BackButton from "../components/BackButton"
+import { AUTH_ERROR_CODE } from "../types/enum"
+import { LoginForm } from "../types/form_data"
 
 const Home = () => {
   const { showNotification } = useNotification()
@@ -148,26 +147,28 @@ const Home = () => {
   }
 
   return (
-    <div className="w-full min-h-screen bg-[#151312] text-[#e8e1df] font-mono flex items-center justify-center p-6 py-12 select-none">
+    <div className="w-full min-h-screen bg-[#f8fafc] flex items-center justify-center p-6 py-12 select-none">
       <div className="w-full max-w-md flex flex-col gap-6">
         {/* Top Navigation */}
+        <BackButton />
 
         {/* Auth Form Container Card */}
         <form
           onSubmit={handleSubmit(onSubmit)}
-          className={`${tw.bg.surfaceContainerLow} ${tw.border.whiteSubtle} border rounded-sm p-8 shadow-2xl flex flex-col gap-5`}
+          className="bg-white border border-slate-200 rounded-xl p-8 shadow-lg flex flex-col gap-5"
         >
           {/* Header Title & Badge */}
-          <div className="flex flex-col gap-2 border-b border-white/5 pb-5">
+          <div className="flex flex-col gap-2 border-b border-slate-100 pb-5">
             <div className="flex items-center gap-2">
-              <div className="w-[3px] h-3 bg-[#00e0b3]" />
-              <span className="text-[8px] font-mono text-[#83958d] uppercase tracking-widest font-bold">
-                AUTHENTICATION_PORTAL // AUTH_NODE
+              <div className="w-[3px] h-3 bg-teal-500 rounded-full" />
+              <span className="text-[10px] text-slate-400 uppercase tracking-widest font-semibold">
+                Sign In
               </span>
             </div>
-            <h1 className="text-2xl font-extrabold text-[#e8e1df] tracking-tight uppercase leading-tight font-mono">
-              SIGN_IN
+            <h1 className="text-2xl font-extrabold text-slate-900 tracking-tight leading-tight">
+              Welcome back
             </h1>
+            <p className="text-sm text-slate-500">Enter your credentials to access your account.</p>
           </div>
 
           {/* Form Inputs */}
@@ -177,17 +178,17 @@ const Home = () => {
           {/* Primary Submit Button */}
           <button
             type="submit"
-            className="mt-2 w-full bg-[#00e0b3] text-[#00382b] font-mono font-bold text-xs uppercase tracking-widest py-3.5 rounded-sm hover:brightness-110 transition-all cursor-pointer shadow-lg shadow-[#00e0b3]/10"
+            className="mt-2 w-full bg-[#00c2b2] text-slate-950 font-bold text-sm py-3.5 rounded-lg hover:bg-[#00b4a6] transition-all cursor-pointer shadow-sm"
           >
             Sign In
           </button>
 
           {/* Switch to Sign Up */}
-          <p className="text-center text-xs font-mono text-[#83958d] mt-1">
+          <p className="text-center text-sm text-slate-500 mt-1">
             Don&apos;t have an account?{" "}
             <Link
               href="/sign-up"
-              className="text-[#00e0b3] font-bold hover:underline transition-colors"
+              className="text-teal-700 font-semibold hover:underline transition-colors"
             >
               Sign Up
             </Link>
@@ -195,40 +196,40 @@ const Home = () => {
 
           {/* Divider */}
           <div className="flex items-center gap-4 my-1">
-            <div className="flex-1 h-px bg-white/5" />
-            <span className="text-[9px] font-mono text-[#83958d] uppercase tracking-widest">
-              OR
+            <div className="flex-1 h-px bg-slate-200" />
+            <span className="text-[11px] text-slate-400 uppercase tracking-widest">
+              or
             </span>
-            <div className="flex-1 h-px bg-white/5" />
+            <div className="flex-1 h-px bg-slate-200" />
           </div>
 
           {/* OAuth Buttons */}
           <div className="flex flex-col gap-2.5">
             <div
               onClick={handleGoogleOauthLogin}
-              className="w-full flex items-center justify-between px-4 bg-[#151312] border border-[#00e0b3]/30 text-[#e8e1df] hover:border-[#00e0b3] font-mono font-bold text-xs uppercase tracking-wider py-3 rounded-sm transition-all cursor-pointer shadow-sm shadow-[#00e0b3]/5"
+              className="w-full flex items-center justify-between px-4 bg-white border border-slate-200 text-slate-800 hover:border-teal-400 hover:bg-slate-50 font-semibold text-sm py-3 rounded-lg transition-all cursor-pointer shadow-sm"
             >
               <div className="flex items-center gap-3">
-                <GoogleIcon fontSize="small" className="text-[#00e0b3]" />
+                <GoogleIcon fontSize="small" className="text-teal-600" />
                 <span>Sign In with Google</span>
               </div>
-              <span className="text-[8px] font-mono text-[#00e0b3] bg-[#00e0b3]/10 border border-[#00e0b3]/30 px-2 py-0.5 rounded-xs uppercase tracking-widest font-bold">
+              <span className="text-[10px] text-teal-700 bg-teal-50 border border-teal-200 px-2 py-0.5 rounded-full uppercase tracking-widest font-bold">
                 Recommended
               </span>
             </div>
 
             <div
               onClick={handleLoginWithGithub}
-              className="w-full flex items-center justify-center gap-3 bg-[#151312] border border-white/10 text-[#e8e1df] hover:border-[#00e0b3]/50 font-mono font-bold text-xs uppercase tracking-wider py-3 rounded-sm transition-all cursor-pointer"
+              className="w-full flex items-center justify-center gap-3 bg-white border border-slate-200 text-slate-800 hover:border-slate-400 hover:bg-slate-50 font-semibold text-sm py-3 rounded-lg transition-all cursor-pointer"
             >
-              <GitHubIconMui fontSize="small" />
+              <GitHubIconMui fontSize="small" className="text-slate-700" />
               <span>Sign In with Github</span>
             </div>
 
             {/*
             <div
               onClick={handleLoginWithMicrosoft}
-              className="w-full flex items-center justify-center gap-3 bg-[#151312] border border-white/10 text-[#e8e1df] hover:border-[#00e0b3]/50 font-mono font-bold text-xs uppercase tracking-wider py-3 rounded-sm transition-all cursor-pointer"
+              className="w-full flex items-center justify-center gap-3 bg-white border border-slate-200 text-slate-800 hover:border-slate-400 hover:bg-slate-50 font-semibold text-sm py-3 rounded-lg transition-all cursor-pointer"
             >
               <MicrosoftIcon fontSize="small" />
               <span>Sign In with Microsoft</span>

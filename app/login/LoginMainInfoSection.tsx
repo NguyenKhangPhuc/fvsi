@@ -1,7 +1,7 @@
 /**
  * PURPOSE:
  * Renders the primary form input fields (Email and Password) for the Login portal,
- * styled using dark terminal design tokens with focus glow transitions and error handling.
+ * styled using the light theme design system with focus ring transitions and error handling.
  *
  * CONTEXT/PARENT FILE:
  * Mounted inside 'app/login/page.tsx'.
@@ -31,18 +31,18 @@ const LoginMainInfoSection = ({ register, errors }: LoginMainInfoSectionProps) =
     <>
       {/* Email Input Field */}
       <div className="flex flex-col">
-        <label className="text-[9px] font-mono text-[#83958d] uppercase tracking-widest font-bold mb-1.5 flex items-center justify-between">
+        <label className="text-xs font-semibold text-slate-700 mb-1.5 flex items-center justify-between">
           <span>Email Address</span>
-          <span className="text-[#00e0b3]">*</span>
+          <span className="text-teal-600">*</span>
         </label>
-        <div className="relative flex items-center w-full bg-[#151312] border border-white/5 rounded-sm focus-within:border-[#00e0b3]/50 transition-all text-[#e8e1df]">
-          <span className="pl-3 text-[#83958d] flex items-center shrink-0">
+        <div className="relative flex items-center w-full bg-slate-50 border border-slate-200 rounded-lg focus-within:border-teal-500 focus-within:ring-2 focus-within:ring-teal-100 transition-all text-slate-900">
+          <span className="pl-3 text-slate-400 flex items-center shrink-0">
             <AlternateEmailIcon fontSize="small" />
           </span>
           <input
             type="text"
             placeholder="Enter your email address"
-            className="w-full bg-transparent text-[#e8e1df] placeholder-[#83958d]/40 font-mono text-xs p-3 outline-none border-none"
+            className="w-full bg-transparent text-slate-900 placeholder-slate-400 text-sm p-3 outline-none border-none"
             {...register("email", {
               required: "Email is required",
               pattern: {
@@ -53,7 +53,7 @@ const LoginMainInfoSection = ({ register, errors }: LoginMainInfoSectionProps) =
           />
         </div>
         {errors.email && (
-          <p className="text-red-400 font-mono text-[9px] mt-1 uppercase tracking-wider">
+          <p className="text-red-500 text-xs mt-1">
             {errors.email.message}
           </p>
         )}
@@ -61,18 +61,18 @@ const LoginMainInfoSection = ({ register, errors }: LoginMainInfoSectionProps) =
 
       {/* Password Input Field */}
       <div className="flex flex-col mt-4">
-        <label className="text-[9px] font-mono text-[#83958d] uppercase tracking-widest font-bold mb-1.5 flex items-center justify-between">
+        <label className="text-xs font-semibold text-slate-700 mb-1.5 flex items-center justify-between">
           <span>Password</span>
-          <span className="text-[#00e0b3]">*</span>
+          <span className="text-teal-600">*</span>
         </label>
-        <div className="relative flex items-center w-full bg-[#151312] border border-white/5 rounded-sm focus-within:border-[#00e0b3]/50 transition-all text-[#e8e1df]">
-          <span className="pl-3 text-[#83958d] flex items-center shrink-0">
+        <div className="relative flex items-center w-full bg-slate-50 border border-slate-200 rounded-lg focus-within:border-teal-500 focus-within:ring-2 focus-within:ring-teal-100 transition-all text-slate-900">
+          <span className="pl-3 text-slate-400 flex items-center shrink-0">
             <HttpsIcon fontSize="small" />
           </span>
           <input
             type={showPassword ? "text" : "password"}
             placeholder="Enter your password"
-            className="w-full bg-transparent text-[#e8e1df] placeholder-[#83958d]/40 font-mono text-xs p-3 outline-none border-none"
+            className="w-full bg-transparent text-slate-900 placeholder-slate-400 text-sm p-3 outline-none border-none"
             {...register("password", {
               required: "Password is required",
               minLength: {
@@ -84,7 +84,7 @@ const LoginMainInfoSection = ({ register, errors }: LoginMainInfoSectionProps) =
           <button
             type="button"
             onClick={() => setShowPassword((prev) => !prev)}
-            className="pr-3 text-[#83958d] hover:text-[#e8e1df] transition-colors focus:outline-none flex items-center shrink-0 cursor-pointer"
+            className="pr-3 text-slate-400 hover:text-slate-600 transition-colors focus:outline-none flex items-center shrink-0 cursor-pointer"
             aria-label={showPassword ? "Hide password" : "Show password"}
           >
             {showPassword ? (
@@ -95,7 +95,7 @@ const LoginMainInfoSection = ({ register, errors }: LoginMainInfoSectionProps) =
           </button>
         </div>
         {errors.password && (
-          <p className="text-red-400 font-mono text-[9px] mt-1 uppercase tracking-wider">
+          <p className="text-red-500 text-xs mt-1">
             {errors.password.message}
           </p>
         )}

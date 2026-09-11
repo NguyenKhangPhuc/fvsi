@@ -8,42 +8,51 @@
  * The `tw` export maintains backward compatibility for existing auth pages.
  */
 
-// ─── Raw Design Token Values ──────────────────────────────────────────────────
+// ─── Raw Design Token Values (Light Theme) ────────────────────────────────────
 export const colors = {
   /** Core backgrounds */
-  background: '#000000',
-  backgroundLow: '#0a0a0a',
+  background: '#ffffff',
+  backgroundLow: '#f8fafc',
 
   /** Surface containers (cards, panels) */
-  surfaceContainerLowest: '#0a0a0a',
-  surfaceContainerLow: '#121212',
-  surfaceContainer: '#181818',
-  surfaceContainerHigh: '#202020',
-  surfaceContainerHighest: '#262626',
-  surfaceBright: '#262626',
-  surfaceVariant: '#202020',
+  surfaceContainerLowest: '#ffffff',
+  surfaceContainerLow: '#f8fafc',
+  surfaceContainer: '#f8fafc',
+  surfaceContainerHigh: '#e2e8f0',
+  surfaceContainerHighest: '#e2e8f0',
+  surfaceBright: '#ffffff',
+  surfaceVariant: '#f1f5f9',
+  surfaceDim: '#f1f5f9',
 
   /** Primary & Accent */
-  primary: '#ffffff',
-  primaryContainer: '#00fff1', // Cyan accent
-  onPrimaryContainer: '#000000',
-  secondary: '#00fff1', // Same cyan for secondary text
-  onSecondary: '#000000',
+  primary: '#0f172a', // Slate 900
+  onPrimary: '#ffffff',
+  primaryContainer: '#00fff1', // Cyan highlight
+  onPrimaryContainer: '#0f172a',
+
+  /** Secondary / Nordic Teal */
+  secondary: '#00a89d', // Teal 700 text contrast on white
+  secondaryFixed: '#00fff1',
+  secondaryContainer: '#e0fbf9',
+  onSecondaryContainer: '#006f68',
+  onSecondary: '#ffffff',
 
   /** Text / On-surface */
-  onBackground: '#e5e5e5',
-  onSurface: '#ededed',
-  onSurfaceVariant: '#a3a3a3',
-  outline: '#666666',
-  outlineVariant: '#2e2e2e',
+  onBackground: '#0f172a',
+  onSurface: '#0f172a',
+  onSurfaceVariant: '#475569', // Slate 600
+  outline: '#94a3b8', // Slate 400
+  outlineVariant: '#e2e8f0', // Slate 200
 
   /** Status */
-  error: '#ffb4ab',
-  errorContainer: '#93000a',
+  error: '#ba1a1a',
+  errorContainer: '#ffdad6',
+  onError: '#ffffff',
+  onErrorContainer: '#93000a',
 
   /** Special */
-  inverseSurface: '#f5f5f5',
-  inverseOnSurface: '#171717',
+  inverseSurface: '#1e293b',
+  inverseOnSurface: '#f8fafc',
 } as const
 
 export const spacing = {
@@ -72,36 +81,36 @@ export const radii = {
 // The `tw` export is used by existing login/sign-up pages — do NOT remove.
 export const tw = {
   bg: {
-    background: 'bg-black',
-    backgroundLow: 'bg-[#0a0a0a]',
-    surfaceContainerLowest: 'bg-[#0a0a0a]',
-    surfaceContainerLow: 'bg-[#121212]',
-    surfaceContainer: 'bg-[#181818]',
-    surfaceContainerHigh: 'bg-[#202020]',
-    surfaceContainerHighest: 'bg-[#262626]',
+    background: 'bg-white',
+    backgroundLow: 'bg-[#f8fafc]',
+    surfaceContainerLowest: 'bg-white',
+    surfaceContainerLow: 'bg-[#f8fafc]',
+    surfaceContainer: 'bg-[#f8fafc]',
+    surfaceContainerHigh: 'bg-[#e2e8f0]',
+    surfaceContainerHighest: 'bg-[#e2e8f0]',
     primaryContainer: 'bg-[#00fff1]',
-    secondary: 'bg-[#00fff1]',
+    secondary: 'bg-[#00a89d]',
   },
   text: {
-    primary: 'text-white',
-    primaryContainer: 'text-[#00fff1]',
-    secondary: 'text-[#00fff1]',
-    onBackground: 'text-[#e5e5e5]',
-    onSurface: 'text-[#ededed]',
-    onSurfaceVariant: 'text-[#a3a3a3]',
-    outline: 'text-[#666666]',
-    onPrimaryContainer: 'text-black',
+    primary: 'text-slate-900',
+    primaryContainer: 'text-[#0f172a]',
+    secondary: 'text-[#00a89d]',
+    onBackground: 'text-[#0f172a]',
+    onSurface: 'text-[#0f172a]',
+    onSurfaceVariant: 'text-[#475569]',
+    outline: 'text-[#94a3b8]',
+    onPrimaryContainer: 'text-[#0f172a]',
   },
   border: {
-    outlineVariant: 'border-[#2e2e2e]',
-    outline: 'border-[#666666]',
+    outlineVariant: 'border-[#e2e8f0]',
+    outline: 'border-[#94a3b8]',
     primaryContainer: 'border-[#00fff1]',
     /** Backward-compat alias used by auth pages */
-    whiteSubtle: 'border-white/10',
+    whiteSubtle: 'border-slate-200',
   },
   shadow: {
-    primaryContainer: 'shadow-[0_0_16px_rgba(0,255,241,0.3)]',
-    primaryContainerHover: 'hover:shadow-[0_0_24px_rgba(0,255,241,0.5)]',
-    card: 'shadow-2xl',
+    primaryContainer: 'shadow-[0_0_16px_rgba(0,255,241,0.4)]',
+    primaryContainerHover: 'hover:shadow-[0_0_24px_rgba(0,255,241,0.6)]',
+    card: 'shadow-md',
   },
 } as const
