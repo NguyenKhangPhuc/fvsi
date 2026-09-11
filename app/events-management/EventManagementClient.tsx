@@ -23,7 +23,9 @@ import BackButton from '@/app/components/BackButton'
 import Pagination from '@/components/Pagination'
 import EventFilters from './components/EventFilters'
 import EventTable from './components/EventTable'
+import Link from 'next/link'
 import EventNoteIcon from '@mui/icons-material/EventNote'
+import AddIcon from '@mui/icons-material/Add'
 
 interface EventManagementClientProps {
   events: Array<Event>
@@ -152,8 +154,16 @@ export default function EventManagementClient({ events: initialEvents }: EventMa
           </div>
         </div>
 
-        {/* Header Metric Badges */}
+        {/* Header Actions & Metric Badges */}
         <div className="flex flex-wrap items-center gap-3">
+          <Link
+            href="/events/create"
+            className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg bg-[#00c2b2] hover:bg-[#00a89d] text-white text-xs font-bold uppercase tracking-wider transition-all duration-200 shadow-sm hover:shadow-md cursor-pointer shrink-0"
+          >
+            <AddIcon sx={{ fontSize: 18 }} />
+            <span>Create Event</span>
+          </Link>
+
           <div className="px-4 py-2 rounded-lg bg-teal-50 border border-teal-200 text-teal-800 text-xs font-bold">
             <span>Total Events: {events.length}</span>
           </div>

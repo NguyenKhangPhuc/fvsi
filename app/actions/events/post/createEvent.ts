@@ -39,13 +39,10 @@ export async function createEvent({ event }: { event: EventInsert }) {
             short_description: event.short_description,
             content: event.content,
             location: event.location,
-            max_group_members: event.max_group_members,
             start_date: event.start_date,
             end_date: event.end_date,
-            organized_date: event.organized_date,
             status: EVENT_STATUS.ONGOING,
             owner_id: user.user?.id,
-            registration_status: EVENT_STATUS.ONGOING,
         },
     ).select().single()
 

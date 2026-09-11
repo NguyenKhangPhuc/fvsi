@@ -36,13 +36,11 @@ export type Database = {
     Tables: {
       events: {
         Row: {
-          content: string | null
+          content: Json | null
           created_at: string
           end_date: string | null
           id: string
           location: string | null
-          max_group_members: number | null
-          organized_date: string | null
           owner_id: string | null
           poster_path: string | null
           short_description: string | null
@@ -51,13 +49,11 @@ export type Database = {
           title: string | null
         }
         Insert: {
-          content?: string | null
+          content?: Json | null
           created_at?: string
           end_date?: string | null
           id?: string
           location?: string | null
-          max_group_members?: number | null
-          organized_date?: string | null
           owner_id?: string | null
           poster_path?: string | null
           short_description?: string | null
@@ -66,13 +62,11 @@ export type Database = {
           title?: string | null
         }
         Update: {
-          content?: string | null
+          content?: Json | null
           created_at?: string
           end_date?: string | null
           id?: string
           location?: string | null
-          max_group_members?: number | null
-          organized_date?: string | null
           owner_id?: string | null
           poster_path?: string | null
           short_description?: string | null
