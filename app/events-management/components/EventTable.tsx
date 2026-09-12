@@ -19,6 +19,7 @@
 import Link from 'next/link'
 import { motion } from 'framer-motion'
 import EditIcon from '@mui/icons-material/Edit'
+import ClearIcon from '@mui/icons-material/Clear';
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday'
 import ScheduleIcon from '@mui/icons-material/Schedule'
 import { Event } from '@/app/types/event'
@@ -28,6 +29,7 @@ interface EventTableProps {
   paginatedEvents: Array<Event>
   startIndex: number
   handleStatusChange: (eventId: string, newStatus: EVENT_STATUS) => Promise<void>
+  handleDeleteEvent: (eventId: string) => void
   updatingEventId?: string | null
 }
 
@@ -60,6 +62,7 @@ export default function EventTable({
   paginatedEvents,
   startIndex,
   handleStatusChange,
+  handleDeleteEvent,
   updatingEventId,
 }: EventTableProps) {
   return (
@@ -172,11 +175,10 @@ export default function EventTable({
                           onChange={(e) =>
                             handleStatusChange(event.id, e.target.value as EVENT_STATUS)
                           }
-                          className={`text-xs font-semibold py-1.5 px-2.5 rounded-lg border focus:outline-none focus:ring-2 focus:ring-teal-400 cursor-pointer transition-all ${
-                            isOngoing
-                              ? 'bg-teal-50/80 text-teal-700 border-teal-200 hover:bg-teal-100/70'
-                              : 'bg-slate-100 text-slate-700 border-slate-200 hover:bg-slate-200/60'
-                          } ${isUpdating ? 'opacity-50 pointer-events-none' : ''}`}
+                          className={`text-xs font-semibold py-1.5 px-2.5 rounded-lg border focus:outline-none focus:ring-2 focus:ring-teal-400 cursor-pointer transition-all ${isOngoing
+                            ? 'bg-teal-50/80 text-teal-700 border-teal-200 hover:bg-teal-100/70'
+                            : 'bg-slate-100 text-slate-700 border-slate-200 hover:bg-slate-200/60'
+                            } ${isUpdating ? 'opacity-50 pointer-events-none' : ''}`}
                         >
                           <option value={EVENT_STATUS.ONGOING}>Ongoing</option>
                           <option value={EVENT_STATUS.FINISHED}>Finished</option>
@@ -191,13 +193,24 @@ export default function EventTable({
 
                     {/* 7. Tools */}
                     <td className="py-4 px-4 text-right whitespace-nowrap">
-                      <Link
-                        href={`/events/${event.id}`}
-                        className="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-50 border border-slate-200 text-slate-700 hover:bg-[#4bbca9] hover:text-white hover:border-[#4bbca9] transition-all duration-200 shadow-2xs"
-                      >
-                        <EditIcon sx={{ fontSize: 14 }} />
-                        <span>Edit</span>
-                      </Link>
+                      <div className="flex items-center justify-end gap-2">
+                        <Link
+                          href={`/events/${event.id}`}
+                          className="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-50 border border-slate-200 text-slate-700 hover:bg-[#4bbca9] hover:text-white hover:border-[#4bbca9] transition-all duration-200 shadow-2xs"
+                        >
+                          <EditIcon sx={{ fontSize: 14 }} />
+                          <span>Edit</span>
+                        </Link>
+                        <button
+                          type="button"
+                          onClick={() => handleDeleteEvent(event.id)}
+                          className="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs font-semibold bg-red-50 border border-red-200 text-red-600 hover:bg-red-600 hover:text-white hover:border-red-600 transition-all duration-200 shadow-2xs cursor-pointer"
+                          title="Delete event"
+                        >
+                          <ClearIcon sx={{ fontSize: 14 }} />
+                          <span>Delete</span>
+                        </button>
+                      </div>
                     </td>
                   </motion.tr>
                 )

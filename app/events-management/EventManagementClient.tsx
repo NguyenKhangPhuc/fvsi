@@ -17,6 +17,7 @@ import { useState, useMemo } from 'react'
 import { Event } from '@/app/types/event'
 import { EVENT_STATUS } from '@/app/types/enum'
 import { updateEventStatus } from '@/app/actions/events/put/updateEventStatus'
+import { deleteEventById } from '@/app/actions/events/delete/deleteEvent'
 import { useLoader } from '@/app/context/LoaderContext'
 import { useNotification } from '@/app/context/NotificationContext'
 import BackButton from '@/app/components/BackButton'
@@ -80,6 +81,34 @@ export default function EventManagementClient({ events: initialEvents }: EventMa
     } finally {
       setIsOpenLoader(false)
       setUpdatingEventId(null)
+    }
+  }
+
+  /**
+   * Deletes an event by ID via deleteEventById and updates local state optimistically.
+   */
+  const handleDeleteEvent = async (eventId: string): Promise<void> => {
+    if (!window.confirm('Are you sure you want to delete this event? This action cannot be undone.')) {
+      return
+    }
+
+    setIsOpenLoader(true)
+    try {
+      const { error } = await deleteEventById({ eventId })
+      if (error) {
+        throw new Error(typeof error === 'string' ? error : 'Failed to delete event.')
+      }
+
+      setEvents((prev) => prev.filter((event) => event.id !== eventId))
+      showNotification('Event deleted successfully.')
+    } catch (error) {
+      if (error instanceof Error) {
+        showNotification(error.message)
+      } else {
+        showNotification('Failed to delete event.')
+      }
+    } finally {
+      setIsOpenLoader(false)
     }
   }
 
@@ -191,6 +220,7 @@ export default function EventManagementClient({ events: initialEvents }: EventMa
         paginatedEvents={paginatedEvents}
         startIndex={startIndex}
         handleStatusChange={handleStatusChange}
+        handleDeleteEvent={handleDeleteEvent}
         updatingEventId={updatingEventId}
       />
 

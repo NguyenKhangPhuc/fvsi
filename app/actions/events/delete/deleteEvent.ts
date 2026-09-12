@@ -27,7 +27,7 @@ import { PostgrestError } from '@supabase/supabase-js'
  * RETURN VALUE:
  * - Promise<{ data: Event | null, error: string | null }>: Object containing created event payload or error string.
  */
-export async function deleteEventById({ eventId }: { eventId: String }) {
+export async function deleteEventById({ eventId }: { eventId: string }) {
     const supabase = createClient();
 
 

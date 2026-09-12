@@ -24,6 +24,7 @@ import {
 import { MarkToolbarButton } from './mark-toolbar-button';
 import { ToolbarGroup } from './toolbar';
 import { TurnIntoToolbarButton } from './turn-into-toolbar-button';
+import { FontSizeToolbarButton } from './font-size-toolbar-button';
 
 export function FixedToolbarButtons() {
   const readOnly = useEditorReadOnly();
@@ -39,6 +40,7 @@ export function FixedToolbarButtons() {
 
       <ToolbarGroup>
         <TurnIntoToolbarButton />
+        <FontSizeToolbarButton />
       </ToolbarGroup>
 
       <ToolbarGroup>
