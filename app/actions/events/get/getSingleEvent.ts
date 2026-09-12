@@ -27,7 +27,7 @@ import { createClient } from '@/app/utils/supabase/server'
 export async function getSingleEvent(id: string) {
     const supabase = await createClient();
 
-    const { data, error } = await supabase.from("events").select("*, event_challenges (*), event_grading_criteria (*)").eq("id", id).single();
-
+    const { data, error } = await supabase.from("events").select("*").eq("id", id).single();
+    console.log()
     return { data, error }
 }

@@ -30,6 +30,7 @@ import CalendarTodayIcon from '@mui/icons-material/CalendarToday'
 import ScheduleIcon from '@mui/icons-material/Schedule'
 import LocationOnIcon from '@mui/icons-material/LocationOn'
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
+import EditOutlinedIcon from '@mui/icons-material/EditOutlined'
 import CloseIcon from '@mui/icons-material/Close'
 import EventBusyIcon from '@mui/icons-material/EventBusy'
 import CheckCircleIcon from '@mui/icons-material/CheckCircle'
@@ -209,17 +210,26 @@ function EventCard({ event, onOpen }: EventCardProps) {
       </div>
 
       {/* Card Footer */}
-      <div className="pt-4 mt-4 flex items-center justify-between border-t border-slate-100">
-        <span className="text-[10px] font-semibold uppercase tracking-wider text-teal-800">
+      <div className="pt-4 mt-4 flex items-center justify-between border-t border-slate-100 gap-2">
+        <span className="text-[10px] font-semibold uppercase tracking-wider text-teal-800 truncate">
           Venue: {event.location ?? 'Online / Campus'}
         </span>
-        <button
-          onClick={() => onOpen(event)}
-          className="flex items-center gap-1.5 px-4 py-1.5 rounded-lg bg-slate-100 border border-slate-200 text-slate-800 text-xs font-bold hover:bg-[#4bbca9] hover:text-white hover:border-transparent transition-all duration-200 cursor-pointer"
-        >
-          <span>View Details</span>
-          <ArrowForwardIcon sx={{ fontSize: 14 }} />
-        </button>
+        <div className="flex items-center gap-2 shrink-0">
+          <Link
+            href={`/events/${event.id}/edit`}
+            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-50 border border-slate-200 text-slate-700 text-xs font-semibold hover:bg-teal-50 hover:text-teal-800 hover:border-teal-200 transition-all duration-200"
+          >
+            <EditOutlinedIcon sx={{ fontSize: 14 }} />
+            <span>Edit</span>
+          </Link>
+          <Link
+            href={`/events/${event.id}`}
+            className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg bg-slate-100 border border-slate-200 text-slate-800 text-xs font-bold hover:bg-[#4bbca9] hover:text-white hover:border-[#4bbca9] transition-all duration-200"
+          >
+            <span>View Details</span>
+            <ArrowForwardIcon sx={{ fontSize: 14 }} />
+          </Link>
+        </div>
       </div>
     </article>
   )
@@ -340,6 +350,13 @@ function EventModal({ event, onClose }: EventModalProps) {
                   >
                     Close
                   </button>
+                  <Link
+                    href={`/events/${event.id}/edit`}
+                    className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg bg-slate-50 border border-slate-200 text-slate-700 text-sm font-semibold hover:bg-teal-50 hover:text-teal-800 hover:border-teal-200 transition-all"
+                  >
+                    <EditOutlinedIcon sx={{ fontSize: 16 }} />
+                    <span>Edit</span>
+                  </Link>
                   <Link
                     href={`/events/${event.id}`}
                     className="px-5 py-2 rounded-lg bg-[#4bbca9] text-white text-sm font-bold shadow-md hover:bg-[#3ea694] transition-all"

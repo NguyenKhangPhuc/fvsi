@@ -221,7 +221,7 @@ export function RichTextEditor({
       className={cn(
         'flex flex-col overflow-hidden transition-all duration-200',
         readOnly
-          ? 'bg-slate-50 border border-slate-200 rounded-lg p-4 md:p-6 text-slate-800'
+          ? 'bg-transparent text-slate-800'
           : 'border border-slate-200 rounded-lg bg-white text-slate-900 focus-within:border-[#4bbca9] focus-within:ring-2 focus-within:ring-[#4bbca9]/20 cursor-text shadow-2xs',
         className
       )}
@@ -231,23 +231,24 @@ export function RichTextEditor({
           <EditorContainer
             className={cn(
               'flex-1 flex flex-col min-h-0',
-              readOnly ? 'overflow-visible' : 'cursor-text caret-[#00a89d]'
+              readOnly ? 'overflow-visible p-0' : 'cursor-text caret-[#00a89d] p-3'
             )}
           >
             {!readOnly && (
-              <FixedToolbar className="border-b border-slate-200 bg-slate-50/80 px-2 py-1.5">
+              <FixedToolbar className="border-b border-slate-200 bg-slate-50/80 px-2 py-1.5 -mx-3 -mt-3 mb-2">
                 <FixedToolbarButtons />
               </FixedToolbar>
             )}
 
             <Editor
+              variant="none"
               placeholder={readOnly ? '' : placeholder}
               readOnly={readOnly}
               className={cn(
-                'flex-1 w-full text-sm leading-relaxed transition-colors focus-visible:outline-none',
+                'flex-1 w-full text-sm leading-relaxed transition-colors focus-visible:outline-none px-0',
                 readOnly
-                  ? 'p-0 min-h-0 cursor-default select-text focus:ring-0 focus:outline-none'
-                  : 'p-4 min-h-[220px] text-slate-900 cursor-text caret-[#00a89d]',
+                  ? 'py-0 min-h-0 cursor-default select-text focus:ring-0 focus:outline-none'
+                  : 'py-1 min-h-[220px] text-slate-900 cursor-text caret-[#00a89d]',
                 richtextThemeClasses
               )}
             />

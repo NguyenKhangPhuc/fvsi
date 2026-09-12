@@ -195,7 +195,7 @@ export default function EventTable({
                     <td className="py-4 px-4 text-right whitespace-nowrap">
                       <div className="flex items-center justify-end gap-2">
                         <Link
-                          href={`/events/${event.id}`}
+                          href={`/events/${event.id}/edit`}
                           className="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-50 border border-slate-200 text-slate-700 hover:bg-[#4bbca9] hover:text-white hover:border-[#4bbca9] transition-all duration-200 shadow-2xs"
                         >
                           <EditIcon sx={{ fontSize: 14 }} />
