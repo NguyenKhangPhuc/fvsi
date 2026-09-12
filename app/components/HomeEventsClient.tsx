@@ -112,19 +112,28 @@ interface EventCardProps {
 
 function EventCard({ event, onOpen }: EventCardProps) {
   const supabase = createClient()
+  const getPosterUrl = (posterPath: string | null | undefined): string | null => {
+    if (!posterPath) return null
+    if (
+      posterPath.startsWith('http://') ||
+      posterPath.startsWith('https://') ||
+      posterPath.startsWith('/')
+    ) {
+      return posterPath
+    }
+    return handleGetUrl(supabase, posterPath)
+  }
 
-  // const posterUrl = event.poster_path
-  //   ? handleGetUrl(supabase, event.poster_path)
-  //   : null
-
+  const posterUrl = getPosterUrl(event.poster_path)
+  console.log("THis is", posterUrl)
   return (
     <article className="event-card group rounded-xl bg-white border border-slate-200 shadow-md p-4 lg:p-6 flex flex-col justify-between transition-all duration-300 hover:border-teal-500/50 hover:shadow-[0_8px_30px_rgba(0,194,178,0.2)]">
       <div className="space-y-4">
         {/* Poster Image */}
         <div className="relative w-full aspect-video rounded-lg overflow-hidden bg-slate-100">
-          {event.poster_path ? (
+          {posterUrl ? (
             <Image
-              src={event.poster_path}
+              src={posterUrl}
               alt={event.title ?? 'Event poster'}
               fill
               className="object-cover group-hover:scale-105 transition-transform duration-500"
@@ -442,8 +451,8 @@ export default function HomeEventsClient({ initialEvents }: HomeEventsClientProp
               key={cat.value}
               onClick={() => setActiveCategory(cat.value)}
               className={`flex-shrink-0 px-4 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer ${activeCategory === cat.value
-                  ? 'bg-[#4bbca9] text-white shadow-sm'
-                  : 'bg-slate-100 border border-slate-200 text-slate-600 hover:text-slate-950 hover:bg-slate-200/70 font-semibold'
+                ? 'bg-[#4bbca9] text-white shadow-sm'
+                : 'bg-slate-100 border border-slate-200 text-slate-600 hover:text-slate-950 hover:bg-slate-200/70 font-semibold'
                 }`}
             >
               {cat.label}

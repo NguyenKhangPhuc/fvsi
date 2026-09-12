@@ -73,8 +73,26 @@ export default function EventHero({ event, posterUrl }: EventHeroProps) {
           </div>
         </div>
       ) : (
-        <div className="relative w-full py-10 bg-gradient-to-br from-teal-50/60 via-white to-slate-50 flex items-center justify-center border-b border-slate-100">
-          <ConfirmationNumberIcon sx={{ fontSize: 48, color: '#4bbca9', opacity: 0.35 }} />
+        <div className="relative w-full h-[200px] sm:h-[260px] md:h-[300px] bg-gradient-to-br from-teal-50/50 via-white to-slate-50 flex flex-col items-center justify-center border-b border-slate-100 overflow-hidden">
+          <svg className="absolute inset-0 w-full h-full opacity-20 pointer-events-none">
+            <defs>
+              <pattern id={`hero-grid-${event.id}`} width="32" height="32" patternUnits="userSpaceOnUse">
+                <path d="M 32 0 L 0 0 0 32" fill="none" stroke="#00a89d" strokeDasharray="2 4" strokeWidth="0.5" />
+              </pattern>
+            </defs>
+            <rect width="100%" height="100%" fill={`url(#hero-grid-${event.id})`} />
+          </svg>
+          <div className="relative z-10 flex flex-col items-center gap-2 text-slate-400">
+            <div className="w-12 h-12 rounded-xl border border-teal-200/80 bg-white/90 shadow-2xs flex items-center justify-center text-[#3ea694]">
+              <ConfirmationNumberIcon sx={{ fontSize: 24 }} />
+            </div>
+            <span className="text-xs font-bold text-slate-700 uppercase tracking-wider">
+              No Poster Banner Available
+            </span>
+            <span className="text-[11px] text-slate-400 font-medium">
+              Event organizers can upload a poster in Edit mode
+            </span>
+          </div>
         </div>
       )}
 
@@ -83,16 +101,14 @@ export default function EventHero({ event, posterUrl }: EventHeroProps) {
         {/* Status & Meta Badges */}
         <div className="flex flex-wrap items-center gap-2.5">
           <div
-            className={`inline-flex items-center gap-2 text-xs px-3 py-1 font-bold rounded-lg border ${
-              isOngoing
-                ? 'bg-teal-50 border-teal-200 text-[#00a89d]'
-                : 'bg-slate-100 border-slate-200 text-slate-600'
-            }`}
+            className={`inline-flex items-center gap-2 text-xs px-3 py-1 font-bold rounded-lg border ${isOngoing
+              ? 'bg-teal-50 border-teal-200 text-[#00a89d]'
+              : 'bg-slate-100 border-slate-200 text-slate-600'
+              }`}
           >
             <span
-              className={`w-2 h-2 rounded-full ${
-                isOngoing ? 'bg-[#4bbca9] animate-pulse' : 'bg-slate-400'
-              }`}
+              className={`w-2 h-2 rounded-full ${isOngoing ? 'bg-[#4bbca9] animate-pulse' : 'bg-slate-400'
+                }`}
             />
             <span>{isOngoing ? 'ONGOING' : 'FINISHED'}</span>
           </div>

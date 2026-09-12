@@ -44,7 +44,7 @@ export default function SingleEventPage({ event }: SingleEventPageProps) {
   }
 
   const posterUrl = getPosterUrl(event.poster_path)
-
+  console.log(posterUrl)
   return (
     <div className="w-full flex flex-col gap-6">
       {/* Top Navigation */}

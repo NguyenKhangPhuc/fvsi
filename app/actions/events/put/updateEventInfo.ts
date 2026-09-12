@@ -34,8 +34,6 @@ export async function updateEventInfo({ event }: { event: EventInsert }) {
         end_date: event.end_date,
         short_description: event.short_description,
         content: event.content,
-        max_group_members: event.max_group_members,
-        organized_date: event.organized_date,
         location: event.location
     }).eq('id', event.id!)
 

@@ -45,7 +45,7 @@ export async function updateEventPoster({ eventId, posterFile, originalPath }: {
         if (error) {
             return { error: "Failed to update image, please contact staff" }
         }
-        return { error: null }
+        return { error: null, posterPath }
     }
 
     if (originalPath) {
@@ -55,5 +55,5 @@ export async function updateEventPoster({ eventId, posterFile, originalPath }: {
     if (error) {
         return { error: "Failed to update image, please contact staff" }
     }
-    return { error }
+    return { error: null, posterPath: null }
 }

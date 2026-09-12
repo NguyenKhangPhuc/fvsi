@@ -14,19 +14,24 @@
  * - event (Event, Required): The event database record being edited.
  */
 
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
 import SaveIcon from '@mui/icons-material/Save';
 import { updateEventInfo } from '@/app/actions/events/put/updateEventInfo';
+import { updateEventPoster } from '@/app/actions/events/put/updateEventPoster';
 import { useNotification } from '@/app/context/NotificationContext';
 import { useLoader } from '@/app/context/LoaderContext';
+import { createClient } from '@/app/utils/supabase/client';
+import { handleGetUrl } from '@/app/helpers/FileUrl';
 import { Event, EventInsert } from '@/app/types/event';
 import { convertLocalToUTC, convertUTCToLocalInput } from '@/app/helpers/dateTime';
 import BackButton from '@/app/components/BackButton';
 import BasicInfoSection from '@/app/events/create/components/BasicInfoSection';
 import ScheduleSection from '@/app/events/create/components/ScheduleSection';
 import ContentSection from '@/app/events/create/components/ContentSection';
+import PosterUploadSection from './components/PosterUploadSection';
 import { EventForm } from '@/app/events/create/CreateEventClient';
 
 interface EditEventClientProps {
@@ -35,8 +40,85 @@ interface EditEventClientProps {
 
 export default function EditEventClient({ event }: EditEventClientProps) {
   const router = useRouter();
+  const supabase = createClient();
   const { showNotification } = useNotification();
   const { setIsOpenLoader } = useLoader();
+
+  const [currentPosterPath, setCurrentPosterPath] = useState<string | null>(
+    event.poster_path ?? null
+  );
+
+  const getPosterPublicUrl = (path: string | null | undefined): string | null => {
+    if (!path) return null;
+    if (path.startsWith('http://') || path.startsWith('https://') || path.startsWith('/')) {
+      return path;
+    }
+    return handleGetUrl(supabase, path);
+  };
+
+  const [previewUrl, setPreviewUrl] = useState<string | null>(
+    getPosterPublicUrl(event.poster_path)
+  );
+
+  const handleFileChange = async (file: File): Promise<void> => {
+    if (!file) return;
+    const localUrl = URL.createObjectURL(file);
+    setPreviewUrl(localUrl);
+
+    setIsOpenLoader(true);
+    try {
+      const { error, posterPath } = await updateEventPoster({
+        eventId: event.id,
+        posterFile: file,
+        originalPath: currentPosterPath,
+      });
+
+      if (error) {
+        throw new Error(typeof error === 'string' ? error : 'Failed to update poster image.');
+      }
+
+      if (posterPath !== undefined) {
+        setCurrentPosterPath(posterPath);
+      }
+      showNotification('Update image successfully');
+    } catch (error) {
+      if (error instanceof Error) {
+        showNotification(error.message);
+      } else {
+        showNotification('Failed to update poster image.');
+      }
+      setPreviewUrl(getPosterPublicUrl(currentPosterPath));
+    } finally {
+      setIsOpenLoader(false);
+    }
+  };
+
+  const handleRemovePoster = async (): Promise<void> => {
+    setIsOpenLoader(true);
+    try {
+      const { error } = await updateEventPoster({
+        eventId: event.id,
+        posterFile: null,
+        originalPath: currentPosterPath,
+      });
+
+      if (error) {
+        throw new Error(typeof error === 'string' ? error : 'Failed to remove poster image.');
+      }
+
+      setPreviewUrl(null);
+      setCurrentPosterPath(null);
+      showNotification('Remove image successfully');
+    } catch (error) {
+      if (error instanceof Error) {
+        showNotification(error.message);
+      } else {
+        showNotification('Failed to remove poster image.');
+      }
+    } finally {
+      setIsOpenLoader(false);
+    }
+  };
 
   const {
     register,
@@ -47,7 +129,12 @@ export default function EditEventClient({ event }: EditEventClientProps) {
     defaultValues: {
       title: event.title || '',
       short_description: event.short_description || '',
-      content: event.content || '',
+      content:
+        typeof event.content === 'string'
+          ? event.content
+          : event.content
+            ? JSON.stringify(event.content)
+            : '',
       location: event.location || '',
       start_date: convertUTCToLocalInput(event.start_date),
       end_date: convertUTCToLocalInput(event.end_date),
@@ -120,6 +207,13 @@ export default function EditEventClient({ event }: EditEventClientProps) {
           </div>
         </div>
       </div>
+
+      {/* Hero-Scale Poster Upload & Preview */}
+      <PosterUploadSection
+        previewUrl={previewUrl}
+        onFileChange={handleFileChange}
+        onRemovePoster={handleRemovePoster}
+      />
 
       {/* Forms Content */}
       <form onSubmit={handleSubmit(handleUpdateEvent)} className="w-full flex flex-col gap-8 select-text">

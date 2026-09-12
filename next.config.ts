@@ -1,37 +1,53 @@
+
+
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   images: {
+    // Cho phép Next.js tải ảnh từ IP nội bộ
     remotePatterns: [
-      // Supabase Storage — for event poster images loaded via handleGetUrl
       {
-        protocol: "https",
-        hostname: "*.supabase.co",
-        port: "",
-        pathname: "/storage/v1/object/public/**",
+        protocol: 'http',
+        hostname: '127.0.0.1', // Thay vì localhost, hãy dùng IP cụ thể
+        port: '54321',
+        pathname: '/storage/v1/object/public/**',
       },
-      // Supabase local dev
       {
-        protocol: "http",
-        hostname: "127.0.0.1",
-        port: "54321",
-        pathname: "/storage/v1/object/public/**",
+        protocol: 'http',
+        hostname: 'localhost',
+        port: '54321',
+        pathname: '/storage/v1/object/public/**',
       },
-      // Google Cloud Storage (AIDA public images used in reference design)
       {
-        protocol: "https",
-        hostname: "lh3.googleusercontent.com",
-        port: "",
-        pathname: "/**",
+        protocol: 'https',
+        hostname: 'vppatwwxdwxfkmoensot.supabase.co',
+        port: '',
+        pathname: '/storage/v1/object/public/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'supabase.ikapo.fi',
+        port: '',
+        pathname: '/storage/v1/object/public/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'lh3.googleusercontent.com',
+        port: '',
+        pathname: '/aida-public/**',
       },
       {
         protocol: 'https',
         hostname: 'imgs.search.brave.com',
       },
     ],
-
+    dangerouslyAllowLocalIP: true,
   },
-  allowedDevOrigins: ['127.0.0.1'],
+  experimental: {
+    serverActions: {
+      bodySizeLimit: '10mb',
+    },
+  },
 };
 
 export default nextConfig;
