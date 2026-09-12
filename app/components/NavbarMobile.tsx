@@ -89,7 +89,7 @@ export default function NavbarMobile({ initialUser }: NavbarMobileProps) {
         <div className="bg-white/90 backdrop-blur-xl border border-slate-200/90 shadow-[0_4px_24px_rgba(15,23,42,0.06)] rounded-xl px-4 h-14 flex items-center justify-between transition-all">
           {/* Brand */}
           <Link href="/" onClick={closeMenu} className="flex items-center gap-2">
-            <div className="w-2 h-2 rounded-full bg-[#00c2b2] shadow-[0_0_6px_#00c2b2]" />
+            <div className="w-2 h-2 rounded-full bg-[#4bbca9] shadow-[0_0_6px_#4bbca9]" />
             <div className="flex flex-col">
               <span className="text-[16px] font-bold text-slate-900 tracking-tight leading-none">VN · FI</span>
               <span className="text-[9px] font-bold text-teal-700 uppercase tracking-wider leading-none mt-0.5">ITEE Faculty</span>
@@ -110,7 +110,7 @@ export default function NavbarMobile({ initialUser }: NavbarMobileProps) {
             ) : (
               <Link
                 href="/sign-up"
-                className="flex items-center gap-1 px-2.5 py-1 text-xs font-bold text-white bg-[#00c2b2] rounded-lg shadow-2xs hover:bg-[#00b4a6] transition-all"
+                className="flex items-center gap-1 px-2.5 py-1 text-xs font-bold text-white bg-[#4bbca9] rounded-lg shadow-2xs hover:bg-[#3ea694] transition-all"
               >
                 <PersonAddIcon sx={{ fontSize: 14 }} />
                 <span>Sign Up</span>
@@ -241,7 +241,7 @@ export default function NavbarMobile({ initialUser }: NavbarMobileProps) {
                     <Link
                       href="/sign-up"
                       onClick={closeMenu}
-                      className="flex items-center justify-center gap-2 w-full px-4 py-2.5 text-sm font-bold text-white bg-[#00c2b2] rounded-lg shadow-[0_0_12px_rgba(0,194,178,0.35)] hover:shadow-[0_0_20px_rgba(0,194,178,0.5)] hover:bg-[#00b4a6] transition-all"
+                      className="flex items-center justify-center gap-2 w-full px-4 py-2.5 text-sm font-bold text-white bg-[#4bbca9] rounded-lg shadow-[0_0_12px_rgba(75,188,169,0.35)] hover:shadow-[0_0_20px_rgba(75,188,169,0.5)] hover:bg-[#3ea694] transition-all"
                     >
                       <PersonAddIcon sx={{ fontSize: 16 }} />
                       <span>Sign Up</span>

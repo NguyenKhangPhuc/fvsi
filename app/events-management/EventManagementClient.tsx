@@ -137,7 +137,7 @@ export default function EventManagementClient({ events: initialEvents }: EventMa
       {/* Page Header */}
       <div className="bg-white border border-slate-200 rounded-xl p-6 lg:p-8 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-6">
         <div className="flex items-start gap-4">
-          <div className="w-1.5 h-14 bg-[#00c2b2] rounded-full shrink-0" />
+          <div className="w-1.5 h-14 bg-[#4bbca9] rounded-full shrink-0" />
           <div className="space-y-1">
             <div className="flex items-center gap-2">
               <EventNoteIcon sx={{ fontSize: 18, color: '#00a89d' }} />
@@ -158,7 +158,7 @@ export default function EventManagementClient({ events: initialEvents }: EventMa
         <div className="flex flex-wrap items-center gap-3">
           <Link
             href="/events/create"
-            className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg bg-[#00c2b2] hover:bg-[#00a89d] text-white text-xs font-bold uppercase tracking-wider transition-all duration-200 shadow-sm hover:shadow-md cursor-pointer shrink-0"
+            className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg bg-[#4bbca9] hover:bg-[#3ea694] text-white text-xs font-bold uppercase tracking-wider transition-all duration-200 shadow-sm hover:shadow-md cursor-pointer shrink-0"
           >
             <AddIcon sx={{ fontSize: 18 }} />
             <span>Create Event</span>

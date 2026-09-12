@@ -116,7 +116,7 @@ export default function CreateEventClient() {
       {/* Page Header */}
       <div className="bg-white border border-slate-200 rounded-xl p-6 lg:p-8 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-6">
         <div className="flex items-start gap-4">
-          <div className="w-1.5 h-14 bg-[#00c2b2] rounded-full shrink-0" />
+          <div className="w-1.5 h-14 bg-[#4bbca9] rounded-full shrink-0" />
           <div className="space-y-1">
             <h1 className="text-2xl lg:text-3xl font-extrabold text-slate-900 tracking-tight font-sans">
               Create New Event
@@ -149,7 +149,7 @@ export default function CreateEventClient() {
         >
           <button
             type="submit"
-            className="px-6 py-3 bg-[#00c2b2] hover:bg-[#00a89d] text-white text-xs uppercase font-bold tracking-widest rounded-lg cursor-pointer flex items-center gap-2 shadow-sm hover:shadow-md transition-all duration-200"
+            className="px-6 py-3 bg-[#4bbca9] hover:bg-[#3ea694] text-white text-xs uppercase font-bold tracking-widest rounded-lg cursor-pointer flex items-center gap-2 shadow-sm hover:shadow-md transition-all duration-200"
           >
             <AddIcon sx={{ fontSize: 18 }} />
             <span>Create Event</span>

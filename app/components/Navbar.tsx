@@ -83,7 +83,7 @@ export default function NavBar({ initialUser }: NavBarProps) {
       <div className="bg-white/90 backdrop-blur-xl border border-slate-200/90 shadow-[0_4px_24px_rgba(15,23,42,0.06)] rounded-xl px-6 h-16 flex items-center justify-between transition-all">
         {/* ── Brand ── */}
         <Link href="/" className="flex items-center gap-2.5">
-          <div className="w-2.5 h-2.5 rounded-full bg-[#00c2b2] shadow-[0_0_8px_#00c2b2]" />
+          <div className="w-2.5 h-2.5 rounded-full bg-[#4bbca9] shadow-[0_0_8px_#4bbca9]" />
           <div className="flex flex-col">
             <span className="text-[18px] font-bold text-slate-900 tracking-tight leading-none">VN · FI</span>
             <span className="text-[10px] font-bold text-teal-700 uppercase tracking-wider leading-none mt-1">ITEE Faculty</span>
@@ -98,7 +98,7 @@ export default function NavBar({ initialUser }: NavBarProps) {
               href={link.href}
               className={
                 isActive(link.href)
-                  ? 'bg-[#00c2b2] text-white font-bold rounded-lg px-3 py-1.5 text-sm transition-all shadow-sm'
+                  ? 'bg-[#4bbca9] text-white font-bold rounded-lg px-3 py-1.5 text-sm transition-all shadow-sm'
                   : 'text-sm text-slate-600 hover:text-slate-950 font-medium transition-colors'
               }
             >
@@ -146,7 +146,7 @@ export default function NavBar({ initialUser }: NavBarProps) {
               </Link>
               <Link
                 href="/sign-up"
-                className="flex items-center gap-1.5 px-4 py-2 text-sm font-bold text-white bg-[#00c2b2] rounded-lg shadow-[0_0_16px_rgba(0,194,178,0.35)] hover:shadow-[0_0_24px_rgba(0,194,178,0.5)] hover:bg-[#00b4a6] transition-all"
+                className="flex items-center gap-1.5 px-4 py-2 text-sm font-bold text-white bg-[#4bbca9] rounded-lg shadow-[0_0_16px_rgba(75,188,169,0.35)] hover:shadow-[0_0_24px_rgba(75,188,169,0.5)] hover:bg-[#3ea694] transition-all"
               >
                 <PersonAddIcon sx={{ fontSize: 16 }} />
                 <span>Sign Up</span>

@@ -27,7 +27,7 @@ export const colors = {
   /** Primary & Accent */
   primary: '#0f172a', // Slate 900
   onPrimary: '#ffffff',
-  primaryContainer: '#00c2b2', // Teal/cyan highlight
+  primaryContainer: '#4bbca9', // Mint-teal highlight
   onPrimaryContainer: '#ffffff',
 
   /** Secondary / Nordic Teal */
@@ -88,7 +88,7 @@ export const tw = {
     surfaceContainer: 'bg-[#f8fafc]',
     surfaceContainerHigh: 'bg-[#e2e8f0]',
     surfaceContainerHighest: 'bg-[#e2e8f0]',
-    primaryContainer: 'bg-[#00c2b2]',
+    primaryContainer: 'bg-[#4bbca9]',
     secondary: 'bg-[#00a89d]',
   },
   text: {
@@ -104,13 +104,13 @@ export const tw = {
   border: {
     outlineVariant: 'border-[#e2e8f0]',
     outline: 'border-[#94a3b8]',
-    primaryContainer: 'border-[#00c2b2]',
+    primaryContainer: 'border-[#4bbca9]',
     /** Backward-compat alias used by auth pages */
     whiteSubtle: 'border-slate-200',
   },
   shadow: {
-    primaryContainer: 'shadow-[0_0_16px_rgba(0,255,241,0.4)]',
-    primaryContainerHover: 'hover:shadow-[0_0_24px_rgba(0,255,241,0.6)]',
+    primaryContainer: 'shadow-[0_0_16px_rgba(75,188,169,0.35)]',
+    primaryContainerHover: 'hover:shadow-[0_0_24px_rgba(75,188,169,0.55)]',
     card: 'shadow-md',
   },
 } as const

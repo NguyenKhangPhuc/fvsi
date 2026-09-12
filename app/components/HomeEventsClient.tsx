@@ -81,7 +81,7 @@ function formatTime(dateStr: string | null): string {
 function StatusBadge({ status }: { status: string | null }) {
   if (status === 'ongoing') {
     return (
-      <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded bg-slate-950/90 border border-white/20 text-[#00c2b2] text-[10px] font-bold uppercase tracking-wider">
+      <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded bg-slate-950/90 border border-white/20 text-[#4bbca9] text-[10px] font-bold uppercase tracking-wider">
         <PlayCircleIcon sx={{ fontSize: 12 }} />
         Ongoing
       </span>
@@ -155,7 +155,7 @@ function EventCard({ event, onOpen }: EventCardProps) {
           {/* Location chip on image */}
           {event.location && (
             <div className="absolute bottom-2 right-2 px-2.5 py-1 rounded bg-slate-950/90 border border-white/20 text-white text-[10px] font-mono uppercase tracking-wider flex items-center gap-1 shadow-sm">
-              <LocationOnIcon sx={{ fontSize: 10, color: '#00c2b2' }} />
+              <LocationOnIcon sx={{ fontSize: 10, color: '#4bbca9' }} />
               <span className="max-w-[140px] truncate">{event.location}</span>
             </div>
           )}
@@ -215,7 +215,7 @@ function EventCard({ event, onOpen }: EventCardProps) {
         </span>
         <button
           onClick={() => onOpen(event)}
-          className="flex items-center gap-1.5 px-4 py-1.5 rounded-lg bg-slate-100 border border-slate-200 text-slate-800 text-xs font-bold hover:bg-[#00c2b2] hover:text-white hover:border-transparent transition-all duration-200 cursor-pointer"
+          className="flex items-center gap-1.5 px-4 py-1.5 rounded-lg bg-slate-100 border border-slate-200 text-slate-800 text-xs font-bold hover:bg-[#4bbca9] hover:text-white hover:border-transparent transition-all duration-200 cursor-pointer"
         >
           <span>View Details</span>
           <ArrowForwardIcon sx={{ fontSize: 14 }} />
@@ -342,7 +342,7 @@ function EventModal({ event, onClose }: EventModalProps) {
                   </button>
                   <Link
                     href={`/events/${event.id}`}
-                    className="px-5 py-2 rounded-lg bg-[#00c2b2] text-white text-sm font-bold shadow-md hover:bg-[#00b4a6] transition-all"
+                    className="px-5 py-2 rounded-lg bg-[#4bbca9] text-white text-sm font-bold shadow-md hover:bg-[#3ea694] transition-all"
                   >
                     View Full Event
                   </Link>
@@ -396,7 +396,7 @@ export default function HomeEventsClient({ initialEvents }: HomeEventsClientProp
         <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 mb-3">
           {/* Title */}
           <div className="flex items-center gap-3">
-            <div className="w-3 h-3 rounded bg-[#00c2b2] shadow-[0_0_12px_#00c2b2]" />
+            <div className="w-3 h-3 rounded bg-[#4bbca9] shadow-[0_0_12px_#4bbca9]" />
             <h2 className="text-3xl lg:text-4xl font-bold text-slate-950 tracking-tight">
               Upcoming Events{' '}
               <span className="text-teal-700 text-xl font-semibold">(October 2025)</span>
@@ -425,7 +425,7 @@ export default function HomeEventsClient({ initialEvents }: HomeEventsClientProp
               key={cat.value}
               onClick={() => setActiveCategory(cat.value)}
               className={`flex-shrink-0 px-4 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer ${activeCategory === cat.value
-                  ? 'bg-[#00c2b2] text-white shadow-sm'
+                  ? 'bg-[#4bbca9] text-white shadow-sm'
                   : 'bg-slate-100 border border-slate-200 text-slate-600 hover:text-slate-950 hover:bg-slate-200/70 font-semibold'
                 }`}
             >
@@ -477,7 +477,7 @@ export default function HomeEventsClient({ initialEvents }: HomeEventsClientProp
           </p>
           <button
             onClick={() => { setQuery(''); setActiveCategory('all') }}
-            className="px-6 py-2 bg-[#00c2b2] text-white text-sm font-bold rounded-lg shadow-sm hover:bg-[#00b4a6] transition-all cursor-pointer"
+            className="px-6 py-2 bg-[#4bbca9] text-white text-sm font-bold rounded-lg shadow-sm hover:bg-[#3ea694] transition-all cursor-pointer"
           >
             Reset Filter
           </button>

@@ -27,7 +27,7 @@ export default function BasicInfoSection({ register, errors }: BasicInfoSectionP
     <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start pb-8 border-b border-slate-200">
       {/* Section description side */}
       <div className="lg:col-span-4 flex gap-3 select-none">
-        <div className="w-1 h-5 bg-[#00c2b2] rounded-full shrink-0 mt-0.5" />
+        <div className="w-1 h-5 bg-[#4bbca9] rounded-full shrink-0 mt-0.5" />
         <div className="flex flex-col gap-1">
           <h2 className="text-sm font-bold text-slate-900 uppercase tracking-wider">
             Basic Information
@@ -48,7 +48,7 @@ export default function BasicInfoSection({ register, errors }: BasicInfoSectionP
           <input
             type="text"
             placeholder="e.g. Bilateral AI & Edge Computing Symposium 2026"
-            className="bg-slate-50 text-slate-900 border border-slate-200 text-sm p-3 rounded-lg outline-none focus:border-[#00c2b2] focus:ring-2 focus:ring-[#00c2b2]/20 focus:bg-white transition-all w-full shadow-inner"
+            className="bg-slate-50 text-slate-900 border border-slate-200 text-sm p-3 rounded-lg outline-none focus:border-[#4bbca9] focus:ring-2 focus:ring-[#4bbca9]/20 focus:bg-white transition-all w-full shadow-inner"
             {...register('title', { required: 'Event title is required' })}
           />
           {errors.title && (
@@ -66,7 +66,7 @@ export default function BasicInfoSection({ register, errors }: BasicInfoSectionP
           <input
             type="text"
             placeholder="e.g. University of Oulu / Online Hub"
-            className="bg-slate-50 text-slate-900 border border-slate-200 text-sm p-3 rounded-lg outline-none focus:border-[#00c2b2] focus:ring-2 focus:ring-[#00c2b2]/20 focus:bg-white transition-all w-full shadow-inner"
+            className="bg-slate-50 text-slate-900 border border-slate-200 text-sm p-3 rounded-lg outline-none focus:border-[#4bbca9] focus:ring-2 focus:ring-[#4bbca9]/20 focus:bg-white transition-all w-full shadow-inner"
             {...register('location', { required: 'Event location is required' })}
           />
           {errors.location && (

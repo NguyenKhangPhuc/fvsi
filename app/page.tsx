@@ -13,6 +13,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { getAllEvents } from './actions/events/get/getAllEvents'
 import HomeEventsClient from './components/HomeEventsClient'
+import MerchandiseMarquee from './components/MerchandiseMarquee'
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward'
 import PlayCircleIcon from '@mui/icons-material/PlayCircle'
 import GroupsIcon from '@mui/icons-material/Groups'
@@ -21,7 +22,7 @@ import SchoolIcon from '@mui/icons-material/School'
 import EmailIcon from '@mui/icons-material/Email'
 import TerminalIcon from '@mui/icons-material/Terminal'
 import ForumIcon from '@mui/icons-material/Forum'
-import VerifiedUserIcon from '@mui/icons-material/VerifiedUser'
+import CardGiftcardIcon from '@mui/icons-material/CardGiftcard'
 
 // ─── People data ──────────────────────────────────────────────────────────────
 const PEOPLE = [
@@ -98,7 +99,7 @@ export default async function Home() {
 
               {/* Institutional badge */}
               <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-[#f8fafc] border border-slate-200 text-teal-800 shadow-sm">
-                <span className="w-2 h-2 rounded-full bg-[#00c2b2] shadow-[0_0_6px_#00c2b2] animate-pulse" />
+                <span className="w-2 h-2 rounded-full bg-[#4bbca9] shadow-[0_0_6px_#4bbca9] animate-pulse" />
                 <span className="text-[10px] font-bold uppercase tracking-wider text-slate-800">ITEE Faculty</span>
                 <span className="text-slate-300 text-xs">•</span>
                 <span className="text-[10px] text-teal-700 font-semibold">Oulu × TP. Hồ Chí Minh × Hà Nội</span>
@@ -108,7 +109,7 @@ export default async function Home() {
               <h1 className="text-4xl md:text-5xl xl:text-6xl font-extrabold text-slate-950 leading-none tracking-tight">
                 Việt Nam —{' '}
                 <br />
-                <span className="bg-gradient-to-r from-slate-950 via-teal-600 to-[#00c2b2] bg-clip-text text-transparent">
+                <span className="bg-gradient-to-r from-slate-950 via-teal-600 to-[#4bbca9] bg-clip-text text-transparent">
                   Finland Collaboration
                 </span>
               </h1>
@@ -122,15 +123,20 @@ export default async function Home() {
               <div className="flex flex-wrap items-center gap-4 pt-2 w-full sm:w-auto">
                 <Link
                   href="#events"
-                  className="inline-flex items-center gap-2 px-6 py-3 bg-[#00c2b2] text-white text-sm font-bold rounded-lg shadow-md hover:bg-[#00b4a6] transition-all duration-200"
+                  className="inline-flex items-center gap-2 px-6 py-3 bg-[#4bbca9] text-white text-sm font-bold rounded-lg shadow-md hover:bg-[#3ea694] transition-all duration-200"
                 >
                   <span>Explore Events</span>
                   <ArrowDownwardIcon sx={{ fontSize: 18 }} />
                 </Link>
-                <button className="inline-flex items-center gap-2 px-5 py-3 bg-white border border-slate-200 text-slate-800 text-sm font-semibold rounded-lg hover:bg-slate-50 transition-all duration-200 shadow-sm cursor-pointer">
-                  <PlayCircleIcon sx={{ fontSize: 18, color: '#00a89d' }} />
-                  <span>Watch Teaser</span>
-                </button>
+                <a
+                  href="https://youtu.be/G-JScjKkdVg?si=HI14lmzdlzN88Chm"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 px-5 py-3 bg-white border border-slate-200 text-slate-800 text-sm font-semibold rounded-lg hover:bg-slate-50 transition-all duration-200 shadow-sm cursor-pointer"
+                >
+                  <PlayCircleIcon sx={{ fontSize: 18, color: '#4bbca9' }} />
+                  <span>Watch on YouTube</span>
+                </a>
               </div>
 
               {/* Live Stats — 2-column */}
@@ -147,57 +153,17 @@ export default async function Home() {
               </div>
             </div>
 
-            {/* ── Right: Video Placeholder ── */}
+            {/* ── Right: YouTube Video Embed ── */}
             <div className="lg:col-span-6 relative w-full">
-              <div className="relative w-full aspect-[4/3] rounded-xl overflow-hidden bg-slate-900 border border-slate-200 shadow-xl">
-                {/* Placeholder bg with grid */}
-                <div className="w-full h-full bg-slate-900 flex items-center justify-center relative">
-                  <svg className="absolute inset-0 w-full h-full opacity-10 pointer-events-none">
-                    <defs>
-                      <pattern id="grid-video" width="32" height="32" patternUnits="userSpaceOnUse">
-                        <path d="M 32 0 L 0 0 0 32" fill="none" stroke="#00c2b2" strokeDasharray="2 4" strokeWidth="0.5" />
-                      </pattern>
-                    </defs>
-                    <rect width="100%" height="100%" fill="url(#grid-video)" />
-                  </svg>
-                  <div className="relative z-10 flex flex-col items-center gap-3 text-slate-500">
-                    <PlayCircleIcon sx={{ fontSize: 64, color: '#475569' }} />
-                    <span className="text-xs font-mono text-slate-400 uppercase tracking-widest">Video Coming Soon</span>
-                  </div>
-                </div>
-
-                {/* Dark gradient overlay */}
-                <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/40 to-transparent" />
-
-                {/* HUD overlay */}
-                <div className="absolute inset-0 p-3 flex flex-col justify-between">
-                  {/* Top HUD bar */}
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-1.5 px-2 py-1 rounded bg-black/70 border border-white/20 text-[10px] font-mono text-[#00c2b2]">
-                      <span className="w-1.5 h-1.5 rounded-full bg-red-500 animate-ping" />
-                      <span className="font-bold">LIVE FEED • OULU CAMPUS HUB</span>
-                    </div>
-                    <span className="text-[10px] font-mono text-slate-300">60 FPS // 4K STREAM</span>
-                  </div>
-
-                  {/* Center play button */}
-                  <div className="flex items-center justify-center">
-                    <div className="w-14 h-14 rounded-xl bg-[#00c2b2] text-white flex items-center justify-center shadow-xl hover:scale-110 hover:bg-[#00b4a6] transition-transform cursor-pointer">
-                      <PlayCircleIcon sx={{ fontSize: 32 }} />
-                    </div>
-                  </div>
-
-                  {/* Bottom latency bar */}
-                  <div className="space-y-1 bg-slate-950/80 border border-white/10 backdrop-blur-md p-2 rounded-lg">
-                    <div className="flex items-center justify-between text-[10px] text-[#00c2b2] font-mono">
-                      <span>Oulu–Hanoi Trans-Eurasian Optical Link</span>
-                      <span>34ms LATENCY</span>
-                    </div>
-                    <div className="w-full h-0.5 bg-slate-800 rounded-full overflow-hidden">
-                      <div className="h-full bg-[#00c2b2] w-2/3" />
-                    </div>
-                  </div>
-                </div>
+              <div className="relative w-full aspect-video rounded-xl overflow-hidden bg-slate-950 border border-slate-200 shadow-xl">
+                <iframe
+                  className="w-full h-full border-0"
+                  src="https://www.youtube.com/embed/G-JScjKkdVg?rel=0"
+                  title="VN-FI Collaboration Event Video"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  referrerPolicy="strict-origin-when-cross-origin"
+                  allowFullScreen
+                />
               </div>
             </div>
           </div>
@@ -244,7 +210,7 @@ export default async function Home() {
                       sizes="(max-width: 768px) 100vw, (max-width: 1280px) 33vw, 400px"
                     />
                     {/* Role badge */}
-                    <div className="absolute bottom-2 left-2 px-2.5 py-1 rounded bg-slate-950/90 border border-white/20 text-[#00c2b2] text-[10px] font-bold uppercase tracking-wider">
+                    <div className="absolute bottom-2 left-2 px-2.5 py-1 rounded bg-slate-950/90 border border-white/20 text-[#4bbca9] text-[10px] font-bold uppercase tracking-wider">
                       {person.role}
                     </div>
                   </div>
@@ -303,37 +269,26 @@ export default async function Home() {
       <HomeEventsClient initialEvents={events ?? []} />
 
       {/* ══════════════════════════════════════════════════════════════════════
-          4. INSTITUTIONAL COLLABORATION STRIP
+          4. MERCHANDISE SECTION
       ══════════════════════════════════════════════════════════════════════ */}
-      <section className="relative z-10 w-full px-4 lg:px-6 max-w-[1280px] mx-auto py-12">
-        <div className="rounded-xl bg-white border border-slate-200 shadow-md p-8 lg:p-10 flex flex-col md:flex-row items-center justify-between gap-8">
-          <div className="space-y-3 max-w-xl">
-            <div className="flex items-center gap-2 text-teal-700 text-xs font-bold uppercase tracking-widest">
-              <VerifiedUserIcon sx={{ fontSize: 18, color: '#00a89d' }} />
-              <span>Accredited Academic Exchange</span>
+      <section id="merchandise" className="relative z-10 w-full px-4 lg:px-6 max-w-[1280px] mx-auto py-16">
+        <div className="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-4">
+          <div>
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-lg bg-teal-50 border border-teal-200/80 text-teal-800 text-xs font-bold uppercase tracking-wider mb-3">
+              <CardGiftcardIcon sx={{ fontSize: 16, color: '#4bbca9' }} />
+              <span>Official Event Goods</span>
             </div>
-            <h3 className="text-xl font-bold text-slate-950">
-              Have Research Inquiries or Propose a Track?
-            </h3>
-            <p className="text-sm text-slate-600 leading-relaxed">
-              The ITEE Faculty Liaison Board reviews collaborative curriculum propositions, researcher exchange proposals, and dual PhD scholarships on a rolling basis.
-            </p>
+            <h2 className="text-3xl lg:text-4xl font-bold text-slate-950 tracking-tight">
+              Merchandise
+            </h2>
           </div>
-          <div className="flex flex-wrap items-center gap-4">
-            <a
-              href="#"
-              className="px-6 py-3 bg-[#00c2b2] text-white text-sm font-bold rounded-lg hover:bg-[#00b4a6] transition-all shadow-sm"
-            >
-              Submit Cooperation Proposal
-            </a>
-            <a
-              href="#"
-              className="px-5 py-3 bg-white border border-slate-200 text-slate-800 text-sm font-semibold rounded-lg hover:bg-slate-50 transition-all shadow-sm"
-            >
-              Download Prospectus (.PDF)
-            </a>
-          </div>
+          <p className="text-base text-slate-600 max-w-md leading-relaxed font-medium">
+            Visit our event and possibly grab your merchandise!
+          </p>
         </div>
+
+        {/* Infinite Horizontal Carousel */}
+        <MerchandiseMarquee />
       </section>
 
     </div>

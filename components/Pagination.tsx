@@ -78,7 +78,7 @@ export default function Pagination({
         type="button"
         onClick={() => onPageChange(Math.max(1, currentPage - 1))}
         disabled={currentPage === 1}
-        className="w-8 h-8 flex items-center justify-center bg-white border border-slate-200 text-slate-600 disabled:opacity-30 disabled:pointer-events-none hover:text-[#00c2b2] hover:border-[#00c2b2]/50 hover:bg-slate-50 rounded-lg text-xs font-semibold transition-all duration-200 cursor-pointer shadow-2xs"
+        className="w-8 h-8 flex items-center justify-center bg-white border border-slate-200 text-slate-600 disabled:opacity-30 disabled:pointer-events-none hover:text-[#4bbca9] hover:border-[#4bbca9]/50 hover:bg-slate-50 rounded-lg text-xs font-semibold transition-all duration-200 cursor-pointer shadow-2xs"
         aria-label="Previous page"
       >
         &lt;
@@ -105,8 +105,8 @@ export default function Pagination({
             onClick={() => onPageChange(page as number)}
             className={`w-8 h-8 flex items-center justify-center text-xs font-semibold rounded-lg transition-all duration-200 cursor-pointer ${
               isCurrent
-                ? 'bg-[#00c2b2] text-white font-bold border border-teal-500 shadow-sm'
-                : 'bg-white border border-slate-200 text-slate-700 hover:text-[#00c2b2] hover:border-[#00c2b2]/50 hover:bg-slate-50 shadow-2xs'
+                ? 'bg-[#4bbca9] text-white font-bold border border-[#3ea694] shadow-sm'
+                : 'bg-white border border-slate-200 text-slate-700 hover:text-[#4bbca9] hover:border-[#4bbca9]/50 hover:bg-slate-50 shadow-2xs'
             }`}
           >
             {formatPageNumber(page as number)}
@@ -119,7 +119,7 @@ export default function Pagination({
         type="button"
         onClick={() => onPageChange(Math.min(totalPages, currentPage + 1))}
         disabled={currentPage === totalPages}
-        className="w-8 h-8 flex items-center justify-center bg-white border border-slate-200 text-slate-600 disabled:opacity-30 disabled:pointer-events-none hover:text-[#00c2b2] hover:border-[#00c2b2]/50 hover:bg-slate-50 rounded-lg text-xs font-semibold transition-all duration-200 cursor-pointer shadow-2xs"
+        className="w-8 h-8 flex items-center justify-center bg-white border border-slate-200 text-slate-600 disabled:opacity-30 disabled:pointer-events-none hover:text-[#4bbca9] hover:border-[#4bbca9]/50 hover:bg-slate-50 rounded-lg text-xs font-semibold transition-all duration-200 cursor-pointer shadow-2xs"
         aria-label="Next page"
       >
         &gt;

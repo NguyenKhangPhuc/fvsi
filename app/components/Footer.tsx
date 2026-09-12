@@ -25,7 +25,7 @@ export default function Footer() {
           {/* Brand & Description */}
           <div className="md:col-span-1 space-y-4">
             <div className="flex items-center gap-2">
-              <div className="w-3 h-3 rounded-full bg-[#00c2b2] shadow-[0_0_10px_#00c2b2]" />
+              <div className="w-3 h-3 rounded-full bg-[#4bbca9] shadow-[0_0_10px_#4bbca9]" />
               <span className="text-[18px] font-bold text-slate-950">Việt Nam - Finland Academic Nexus</span>
             </div>
             <p className="text-sm text-slate-600 max-w-sm leading-relaxed">

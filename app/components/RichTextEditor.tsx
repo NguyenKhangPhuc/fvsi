@@ -175,7 +175,7 @@ const richtextThemeClasses = cn(
   '[&_pre]:bg-slate-900 [&_pre]:border [&_pre]:border-slate-800 [&_pre]:p-4 [&_pre]:rounded-lg [&_pre]:overflow-x-auto [&_pre]:my-4 [&_pre]:text-xs [&_pre]:font-mono [&_pre]:text-teal-300',
   '[&_pre_code]:bg-transparent [&_pre_code]:border-0 [&_pre_code]:p-0 [&_pre_code]:text-teal-300',
   // Blockquotes
-  '[&_blockquote]:border-l-4 [&_blockquote]:border-[#00c2b2] [&_blockquote]:bg-teal-50/50 [&_blockquote]:text-slate-700 [&_blockquote]:italic [&_blockquote]:pl-4 [&_blockquote]:pr-3 [&_blockquote]:py-2.5 [&_blockquote]:my-3.5 [&_blockquote]:rounded-r-lg',
+  '[&_blockquote]:border-l-4 [&_blockquote]:border-[#4bbca9] [&_blockquote]:bg-teal-50/50 [&_blockquote]:text-slate-700 [&_blockquote]:italic [&_blockquote]:pl-4 [&_blockquote]:pr-3 [&_blockquote]:py-2.5 [&_blockquote]:my-3.5 [&_blockquote]:rounded-r-lg',
   // Lists
   '[&_ul]:list-disc [&_ul]:pl-5 [&_ul]:space-y-1.5 [&_ul]:my-3 [&_ul]:text-slate-700 [&_ul]:marker:text-teal-600',
   '[&_ol]:list-decimal [&_ol]:pl-5 [&_ol]:space-y-1.5 [&_ol]:my-3 [&_ol]:text-slate-700 [&_ol]:marker:text-teal-600 [&_ol]:marker:font-semibold',
@@ -222,7 +222,7 @@ export function RichTextEditor({
         'flex flex-col overflow-hidden transition-all duration-200',
         readOnly
           ? 'bg-slate-50 border border-slate-200 rounded-lg p-4 md:p-6 text-slate-800'
-          : 'border border-slate-200 rounded-lg bg-white text-slate-900 focus-within:border-[#00c2b2] focus-within:ring-2 focus-within:ring-[#00c2b2]/20 cursor-text shadow-2xs',
+          : 'border border-slate-200 rounded-lg bg-white text-slate-900 focus-within:border-[#4bbca9] focus-within:ring-2 focus-within:ring-[#4bbca9]/20 cursor-text shadow-2xs',
         className
       )}
     >
