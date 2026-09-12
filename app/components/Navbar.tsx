@@ -4,7 +4,7 @@
  * PURPOSE:
  * Desktop navigation bar client component (xl and above).
  * Renders a floating light glassmorphic pill with branding, navigation links,
- * and authentication controls (Sign In / Sign Up or signed-in user avatar).
+ * and authentication controls (Sign In / Sign Up or signed-in initialUser avatar).
  *
  * RBAC:
  * Displays Home, People, Events by default.
@@ -14,7 +14,7 @@
  * Imported by NavbarServer.tsx, rendered inside a hidden div visible only at xl+.
  *
  * INPUTS / PARAMETERS:
- * - initialUser (Profile | null): The authenticated user's profile fetched server-side.
+ * - initialUser (Profile | null): The authenticated initialUser's profile fetched server-side.
  */
 
 import Link from 'next/link'
@@ -27,6 +27,7 @@ import LogoutIcon from '@mui/icons-material/Logout'
 import { Database } from '@/app/types/database.types'
 import { createClient } from '@/app/utils/supabase/client'
 import { useState, useMemo, useEffect } from 'react'
+import { signout } from '../actions/authentication/post/signout'
 
 type Profile = Database['public']['Tables']['profiles']['Row']
 
@@ -37,15 +38,16 @@ interface NavBarProps {
 export default function NavBar({ initialUser }: NavBarProps) {
   const pathname = usePathname()
   const router = useRouter()
-  const [user, setUser] = useState<Profile | null>(initialUser)
 
 
-  const handleSignOut = async () => {
-    const supabase = createClient()
-    await supabase.auth.signOut()
-    setUser(null)
-    router.push('/')
-    router.refresh()
+  const handleLogout = async () => {
+    try {
+      await signout()
+    } catch (error) {
+      if (error instanceof Error && error.message !== 'NEXT_REDIRECT') {
+        // showNotification(error.message)
+      }
+    }
   }
 
   // Navigation items: Home, People, Events always visible.
@@ -57,7 +59,7 @@ export default function NavBar({ initialUser }: NavBarProps) {
       { label: 'Events', href: '/#events' },
     ]
 
-    if (user?.role === 'admin') {
+    if (initialUser?.role === 'admin') {
       links.push(
         { label: 'Events Management', href: '/events-management' },
         { label: 'Users Management', href: '/users-management' }
@@ -65,7 +67,7 @@ export default function NavBar({ initialUser }: NavBarProps) {
     }
 
     return links
-  }, [user?.role])
+  }, [initialUser?.role])
 
   const isActive = (href: string) => {
     if (href === '/') return pathname === '/'
@@ -98,7 +100,7 @@ export default function NavBar({ initialUser }: NavBarProps) {
               href={link.href}
               className={
                 isActive(link.href)
-                  ? 'bg-[#4bbca9] text-white font-bold rounded-lg px-3 py-1.5 text-sm transition-all shadow-sm'
+                  ? '!bg-[#4bbca9] !text-white font-bold rounded-lg px-3 py-1.5 text-sm transition-all shadow-sm'
                   : 'text-sm text-slate-600 hover:text-slate-950 font-medium transition-colors'
               }
             >
@@ -109,7 +111,7 @@ export default function NavBar({ initialUser }: NavBarProps) {
 
         {/* ── Auth Controls ── */}
         <div className="flex items-center gap-3">
-          {user ? (
+          {initialUser ? (
             <div className="flex items-center gap-2.5">
               <div className="flex items-center gap-2 px-3 py-1.5 bg-slate-100 border border-slate-200 rounded-lg">
                 <div className="w-7 h-7 rounded-full bg-teal-100 border border-teal-200 flex items-center justify-center">
@@ -117,17 +119,17 @@ export default function NavBar({ initialUser }: NavBarProps) {
                 </div>
                 <div className="flex flex-col text-left">
                   <span className="text-xs text-slate-900 font-semibold max-w-[120px] truncate leading-tight">
-                    {user.full_name ?? user.email ?? 'User'}
+                    {initialUser.full_name ?? initialUser.email ?? 'initialUser'}
                   </span>
-                  {user.role && (
+                  {initialUser.role && (
                     <span className="text-[9px] text-teal-700 uppercase font-bold tracking-wider leading-none">
-                      {user.role}
+                      {initialUser.role}
                     </span>
                   )}
                 </div>
               </div>
               <button
-                onClick={handleSignOut}
+                onClick={handleLogout}
                 className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold text-slate-700 hover:text-red-600 bg-white border border-slate-200 hover:bg-red-50 hover:border-red-200 rounded-lg transition-all cursor-pointer shadow-2xs"
                 title="Log Out"
               >

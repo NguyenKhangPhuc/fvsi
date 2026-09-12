@@ -14,7 +14,7 @@
  * Imported by NavbarServer.tsx, rendered inside a block div visible only below xl.
  *
  * INPUTS / PARAMETERS:
- * - initialUser (Profile | null): The authenticated user's profile fetched server-side.
+ * - initialUser (Profile | null): The authenticated initialUser's profile fetched server-side.
  */
 
 import Link from 'next/link'
@@ -35,6 +35,7 @@ import { Database } from '@/app/types/database.types'
 import { createClient } from '@/app/utils/supabase/client'
 
 import { useState, useMemo, useEffect } from 'react'
+import { signout } from '../actions/authentication/post/signout'
 
 type Profile = Database['public']['Tables']['profiles']['Row']
 
@@ -45,15 +46,15 @@ interface NavbarMobileProps {
 export default function NavbarMobile({ initialUser }: NavbarMobileProps) {
   const [isOpen, setIsOpen] = useState(false)
   const router = useRouter()
-  const [user, setUser] = useState<Profile | null>(initialUser)
 
-  const handleSignOut = async () => {
-    const supabase = createClient()
-    await supabase.auth.signOut()
-    setUser(null)
-    setIsOpen(false)
-    router.push('/')
-    router.refresh()
+  const handleLogout = async () => {
+    try {
+      await signout()
+    } catch (error) {
+      if (error instanceof Error && error.message !== 'NEXT_REDIRECT') {
+        // showNotification(error.message)
+      }
+    }
   }
 
   const closeMenu = () => setIsOpen(false)
@@ -67,7 +68,7 @@ export default function NavbarMobile({ initialUser }: NavbarMobileProps) {
       { label: 'Events', href: '/#events', Icon: EventIcon },
     ]
 
-    if (user?.role === 'admin') {
+    if (initialUser?.role === 'admin') {
       links.push(
         { label: 'Events Management', href: '/events-management', Icon: EventNoteIcon },
         { label: 'Users Management', href: '/users-management', Icon: ManageAccountsIcon }
@@ -75,7 +76,7 @@ export default function NavbarMobile({ initialUser }: NavbarMobileProps) {
     }
 
     return links
-  }, [user?.role])
+  }, [initialUser?.role])
 
   return (
     <>
@@ -98,9 +99,9 @@ export default function NavbarMobile({ initialUser }: NavbarMobileProps) {
 
           {/* Quick auth + Hamburger toggle */}
           <div className="flex items-center gap-2">
-            {user ? (
+            {initialUser ? (
               <button
-                onClick={handleSignOut}
+                onClick={handleLogout}
                 className="flex items-center gap-1 px-2.5 py-1 text-xs font-bold text-slate-700 hover:text-red-600 bg-slate-100 border border-slate-200 rounded-lg transition-all cursor-pointer"
                 title="Log Out"
               >
@@ -175,22 +176,22 @@ export default function NavbarMobile({ initialUser }: NavbarMobileProps) {
               transition={{ duration: 0.25, ease: 'easeOut' }}
               className="fixed top-20 left-1/2 -translate-x-1/2 z-50 w-[calc(100%-2rem)] max-w-sm bg-white/95 backdrop-blur-xl border border-slate-200 rounded-xl shadow-[0_8px_40px_rgba(15,23,42,0.15)] overflow-hidden"
             >
-              {/* User info (when signed in) */}
-              {user && (
+              {/* initialUser info (when signed in) */}
+              {initialUser && (
                 <div className="px-4 py-4 border-b border-slate-100 bg-slate-50/70 flex items-center gap-3">
                   <div className="w-9 h-9 rounded-full bg-teal-100 border border-teal-200 flex items-center justify-center">
                     <PersonIcon sx={{ fontSize: 18, color: '#00a89d' }} />
                   </div>
                   <div>
                     <p className="text-sm font-semibold text-slate-900 truncate max-w-[180px]">
-                      {user.full_name ?? 'User'}
+                      {initialUser.full_name ?? 'initialUser'}
                     </p>
                     <p className="text-xs text-slate-500 truncate max-w-[180px]">
-                      {user.email}
+                      {initialUser.email}
                     </p>
-                    {user.role && (
+                    {initialUser.role && (
                       <span className="inline-block mt-0.5 text-[9px] font-bold text-teal-700 uppercase tracking-widest bg-teal-50 border border-teal-200 px-1.5 py-0.2 rounded">
-                        {user.role}
+                        {initialUser.role}
                       </span>
                     )}
                   </div>
@@ -220,9 +221,9 @@ export default function NavbarMobile({ initialUser }: NavbarMobileProps) {
 
               {/* Auth section */}
               <div className="border-t border-slate-100 py-2 px-2 bg-slate-50/50">
-                {user ? (
+                {initialUser ? (
                   <button
-                    onClick={handleSignOut}
+                    onClick={handleLogout}
                     className="w-full flex items-center justify-center gap-2 px-4 py-2.5 text-sm font-bold text-red-600 bg-red-50 hover:bg-red-100 border border-red-200 rounded-lg transition-colors cursor-pointer"
                   >
                     <LogoutIcon sx={{ fontSize: 18 }} />
