@@ -25,7 +25,7 @@ const plusJakartaSans = Plus_Jakarta_Sans({
 })
 
 export const metadata: Metadata = {
-  title: 'VN–FI Collaboration | ITEE Faculty',
+  title: 'Finland–Vietnam Strategic Impact Initiative (FVSI) | ITEE Faculty',
   description:
     'Bilateral academic and research collaboration between the ITEE Faculty at University of Oulu, Finland, and premier academic institutes across Việt Nam.',
 }

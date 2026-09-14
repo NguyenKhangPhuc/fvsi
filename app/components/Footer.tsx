@@ -1,6 +1,6 @@
 /**
  * PURPOSE:
- * Site-wide Footer component for the VN-FI Collaboration app (Light Theme).
+ * Site-wide Footer component for the Finland–Vietnam Strategic Impact Initiative (FVSI) app (Light Theme).
  * Shows the academic nexus summary, People and Events navigation links,
  * and legal links (Terms & Conditions, Privacy Policy).
  *
@@ -25,8 +25,7 @@ export default function Footer() {
           {/* Brand & Description */}
           <div className="md:col-span-1 space-y-4">
             <div className="flex items-center gap-2">
-              <div className="w-3 h-3 rounded-full bg-[#4bbca9] shadow-[0_0_10px_#4bbca9]" />
-              <span className="text-[18px] font-bold text-slate-950">Việt Nam - Finland Academic Nexus</span>
+              <span className="text-[18px] font-bold text-slate-950">Finland–Vietnam Strategic Impact Initiative (FVSI)</span>
             </div>
             <p className="text-sm text-slate-600 max-w-sm leading-relaxed">
               Empowering transformative bilateral research, engineering symposiums, and doctoral exchanges between the ITEE Faculty at University of Oulu and premier academic institutes across Việt Nam.
@@ -96,9 +95,8 @@ export default function Footer() {
             © 2025 ITEE Faculty, University of Oulu &amp; Vietnam Academic Consortia. All rights reserved.
           </span>
           <div className="flex items-center gap-1.5 font-medium">
-            <div className="w-1.5 h-1.5 rounded-full bg-[#00fff1] animate-pulse" />
             <span className="text-teal-700 font-mono text-[11px] tracking-wider uppercase font-semibold">
-              VN · FI ACADEMIC BRIDGE
+              FVSI ACADEMIC BRIDGE
             </span>
           </div>
         </div>

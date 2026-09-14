@@ -19,7 +19,7 @@ const NavbarServer = async () => {
   const userId = data?.user?.id
 
   let profile = userId ? (await getUserProfile(userId)).data : null
-  console.log(profile)
+  // console.log(profile)
 
   return (
     <>

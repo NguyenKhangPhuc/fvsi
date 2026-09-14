@@ -13,7 +13,7 @@
 import CreateEventClient from './CreateEventClient';
 
 export const metadata = {
-  title: 'Create Event | VN-FI Collaboration',
+  title: 'Create Event | FVSI',
   description: 'Create a new collaboration or academic event.',
 };
 

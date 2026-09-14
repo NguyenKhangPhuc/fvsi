@@ -30,7 +30,6 @@ import CalendarTodayIcon from '@mui/icons-material/CalendarToday'
 import ScheduleIcon from '@mui/icons-material/Schedule'
 import LocationOnIcon from '@mui/icons-material/LocationOn'
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
-import EditOutlinedIcon from '@mui/icons-material/EditOutlined'
 import CloseIcon from '@mui/icons-material/Close'
 import EventBusyIcon from '@mui/icons-material/EventBusy'
 import CheckCircleIcon from '@mui/icons-material/CheckCircle'
@@ -43,13 +42,6 @@ interface HomeEventsClientProps {
   initialEvents: EventRecord[]
 }
 
-const CATEGORY_FILTERS = [
-  { label: 'All Tracks', value: 'all' },
-  { label: 'AI & Robotics', value: 'ai' },
-  { label: 'Software Engineering', value: 'software' },
-  { label: 'Education & Culture', value: 'education' },
-  { label: 'Career & Networking', value: 'career' },
-]
 
 // ── Helpers ──────────────────────────────────────────────────────────────────
 
@@ -124,7 +116,7 @@ function EventCard({ event }: EventCardProps) {
   }
 
   const posterUrl = getPosterUrl(event.poster_path)
-  console.log("THis is", posterUrl)
+  // console.log("THis is", posterUrl)
   return (
     <article className="event-card group rounded-xl bg-white border border-slate-200 shadow-md p-4 lg:p-6 flex flex-col justify-between transition-all duration-300 hover:border-teal-500/50 hover:shadow-[0_8px_30px_rgba(0,194,178,0.2)]">
       <div className="space-y-4">
@@ -224,13 +216,6 @@ function EventCard({ event }: EventCardProps) {
         </span>
         <div className="flex items-center gap-2 shrink-0">
           <Link
-            href={`/events/${event.id}/edit`}
-            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-50 border border-slate-200 text-slate-700 text-xs font-semibold hover:bg-teal-50 hover:text-teal-800 hover:border-teal-200 transition-all duration-200"
-          >
-            <EditOutlinedIcon sx={{ fontSize: 14 }} />
-            <span>Edit</span>
-          </Link>
-          <Link
             href={`/events/${event.id}`}
             className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg bg-slate-100 border border-slate-200 text-slate-800 text-xs font-bold hover:bg-[#4bbca9] hover:text-white hover:border-[#4bbca9] transition-all duration-200"
           >
@@ -250,17 +235,13 @@ function EventCard({ event }: EventCardProps) {
 
 export default function HomeEventsClient({ initialEvents }: HomeEventsClientProps) {
   const [query, setQuery] = useState('')
-  const [activeCategory, setActiveCategory] = useState('all')
   const [selectedEvent, setSelectedEvent] = useState<EventRecord | null>(null)
 
   const filtered = useMemo(() => {
     return initialEvents.filter((e) => {
-      const matchesQuery = !query || (e.title ?? '').toLowerCase().includes(query.toLowerCase())
-      // Category filter matching logic (fallback matches all)
-      const matchesCategory = activeCategory === 'all' || true
-      return matchesQuery && matchesCategory
+      return !query || (e.title ?? '').toLowerCase().includes(query.toLowerCase())
     })
-  }, [initialEvents, query, activeCategory])
+  }, [initialEvents, query])
 
   // Group events into pairs for 2-per-row stacking
   const rows = useMemo(() => {
@@ -281,12 +262,11 @@ export default function HomeEventsClient({ initialEvents }: HomeEventsClientProp
 
   return (
     <section id="events" className="w-full py-16 px-4 lg:px-6 max-w-[1280px] mx-auto relative z-10">
-      {/* ── Section Header with Search Bar & Filters ── */}
+      {/* ── Section Header with Search Bar ── */}
       <div className="relative z-10 bg-white py-4 mb-8 rounded-xl border border-slate-200/80 shadow-sm px-4">
-        <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 mb-3">
+        <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
           {/* Title */}
           <div className="flex items-center gap-3">
-            <div className="w-3 h-3 rounded bg-[#4bbca9] shadow-[0_0_12px_#4bbca9]" />
             <h2 className="text-3xl lg:text-4xl font-bold text-slate-950 tracking-tight">
               Upcoming Events{' '}
               <span className="text-teal-700 text-xl font-semibold">(October 2025)</span>
@@ -306,22 +286,6 @@ export default function HomeEventsClient({ initialEvents }: HomeEventsClientProp
               className="w-full pl-9 pr-4 py-2 bg-slate-50 border border-slate-200 text-slate-900 placeholder-slate-400 text-sm font-medium rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-400 transition-all shadow-inner"
             />
           </div>
-        </div>
-
-        {/* Category Filter Pills */}
-        <div className="flex items-center gap-2 overflow-x-auto pb-1 no-scrollbar">
-          {CATEGORY_FILTERS.map((cat) => (
-            <button
-              key={cat.value}
-              onClick={() => setActiveCategory(cat.value)}
-              className={`flex-shrink-0 px-4 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer ${activeCategory === cat.value
-                ? 'bg-[#4bbca9] text-white shadow-sm'
-                : 'bg-slate-100 border border-slate-200 text-slate-600 hover:text-slate-950 hover:bg-slate-200/70 font-semibold'
-                }`}
-            >
-              {cat.label}
-            </button>
-          ))}
         </div>
       </div>
 
@@ -363,13 +327,13 @@ export default function HomeEventsClient({ initialEvents }: HomeEventsClientProp
           <EventBusyIcon sx={{ fontSize: 48, color: '#94a3b8' }} />
           <h4 className="text-xl font-semibold text-slate-950">No Matching Events Found</h4>
           <p className="text-sm text-slate-600 max-w-sm mx-auto">
-            We couldn&apos;t find any events matching your search. Try a different keyword or reset the filter.
+            We couldn&apos;t find any events matching your search. Try a different keyword.
           </p>
           <button
-            onClick={() => { setQuery(''); setActiveCategory('all') }}
+            onClick={() => setQuery('')}
             className="px-6 py-2 bg-[#4bbca9] text-white text-sm font-bold rounded-lg shadow-sm hover:bg-[#3ea694] transition-all cursor-pointer"
           >
-            Reset Filter
+            Clear Search
           </button>
         </motion.div>
       )}

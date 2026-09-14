@@ -21,7 +21,7 @@ interface EditEventPageProps {
 }
 
 export const metadata = {
-  title: 'Edit Event | VN-FI Collaboration',
+  title: 'Edit Event | FVSI',
   description: 'Edit event details, schedule timeline, and specifications.',
 }
 

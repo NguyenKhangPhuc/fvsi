@@ -1,6 +1,6 @@
 /**
  * PURPOSE:
- * Home page (route "/") for the VN-FI Collaboration application (Light Theme).
+ * Home page (route "/") for the Finland–Vietnam Strategic Impact Initiative (FVSI) application (Light Theme).
  * Server component — fetches all events then passes them to HomeEventsClient.
  * Renders:
  *   1. Hero section with video placeholder HUD
@@ -99,20 +99,22 @@ export default async function Home() {
 
               {/* Institutional badge */}
               <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-[#f8fafc] border border-slate-200 text-teal-800 shadow-sm">
-                <span className="w-2 h-2 rounded-full bg-[#4bbca9] shadow-[0_0_6px_#4bbca9] animate-pulse" />
                 <span className="text-[10px] font-bold uppercase tracking-wider text-slate-800">ITEE Faculty</span>
                 <span className="text-slate-300 text-xs">•</span>
                 <span className="text-[10px] text-teal-700 font-semibold">Oulu × TP. Hồ Chí Minh × Hà Nội</span>
               </div>
 
               {/* Headline */}
-              <h1 className="text-4xl md:text-5xl xl:text-6xl font-extrabold text-slate-950 leading-none tracking-tight">
-                Việt Nam —{' '}
-                <br />
-                <span className="bg-gradient-to-r from-slate-950 via-teal-600 to-[#4bbca9] bg-clip-text text-transparent">
-                  Finland Collaboration
-                </span>
-              </h1>
+              <div className="space-y-3">
+                <h1 className="text-5xl md:text-6xl xl:text-7xl font-extrabold text-slate-950 leading-none tracking-tight">
+                  <span className="bg-gradient-to-r from-slate-950 via-teal-700 to-[#4bbca9] bg-clip-text text-transparent">
+                    FVSI
+                  </span>
+                </h1>
+                <p className="text-xl md:text-2xl xl:text-3xl font-bold text-slate-800 tracking-tight leading-snug">
+                  Finland–Vietnam Strategic Impact Initiative
+                </p>
+              </div>
 
               {/* Description */}
               <p className="text-base text-slate-600 max-w-xl leading-relaxed">
@@ -159,7 +161,7 @@ export default async function Home() {
                 <iframe
                   className="w-full h-full border-0"
                   src="https://www.youtube.com/embed/G-JScjKkdVg?rel=0"
-                  title="VN-FI Collaboration Event Video"
+                  title="FVSI - Finland–Vietnam Strategic Impact Initiative Video"
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                   referrerPolicy="strict-origin-when-cross-origin"
                   allowFullScreen
@@ -279,7 +281,7 @@ export default async function Home() {
               <span>Official Event Goods</span>
             </div>
             <h2 className="text-3xl lg:text-4xl font-bold text-slate-950 tracking-tight">
-              Merchandise
+              University of Oulu Merchandise
             </h2>
           </div>
           <p className="text-base text-slate-600 max-w-md leading-relaxed font-medium">

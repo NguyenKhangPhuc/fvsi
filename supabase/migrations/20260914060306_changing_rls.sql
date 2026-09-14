@@ -21,7 +21,7 @@ ALTER TABLE public.events
 
 DROP TRIGGER on_profile_role_update ON public.profiles;
 
-DROP FUNCTION public.check_role_update();
+DROP FUNCTION public.check_role_update() CASCADE;
 
 CREATE FUNCTION public.check_role_change()
   RETURNS TRIGGER

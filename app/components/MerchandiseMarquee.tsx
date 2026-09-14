@@ -24,27 +24,27 @@ interface MerchandiseItem {
 const MERCHANDISE_ITEMS: MerchandiseItem[] = [
   {
     id: 'merch-1',
-    title: 'VN-FI Collaboration Hoodie',
+    title: 'University of Oulu Merchandise',
     src: '/merchandise/merch_1_img.webp',
-    alt: 'VN-FI Collaboration Official Merchandise 1',
+    alt: 'University of Oulu Merchandise 1',
   },
   {
     id: 'merch-2',
-    title: 'ITEE Faculty Thermal Tumbler',
+    title: 'University of Oulu Merchandise',
     src: '/merchandise/merch_2_img.webp',
-    alt: 'VN-FI Collaboration Official Merchandise 2',
+    alt: 'University of Oulu Merchandise 2',
   },
   {
     id: 'merch-3',
-    title: 'Oulu Academic Canvas Tote',
+    title: 'University of Oulu Merchandise',
     src: '/merchandise/merch_3_img.webp',
-    alt: 'VN-FI Collaboration Official Merchandise 3',
+    alt: 'University of Oulu Merchandise 3',
   },
   {
     id: 'merch-4',
-    title: 'Nordic Tech Enamel Pin & Lanyard',
+    title: 'University of Oulu Merchandise',
     src: '/merchandise/merch_4_img.webp',
-    alt: 'VN-FI Collaboration Official Merchandise 4',
+    alt: 'University of Oulu Merchandise 4',
   },
 ]
 

@@ -28,6 +28,6 @@ export async function getSingleEvent(id: string) {
     const supabase = await createClient();
 
     const { data, error } = await supabase.from("events").select("*").eq("id", id).single();
-    console.log()
+    // console.log()
     return { data, error }
 }
