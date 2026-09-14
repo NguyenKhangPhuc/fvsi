@@ -1,5 +1,8 @@
 import { NextResponse, type NextRequest } from "next/server"
 import { updateSession } from "./app/utils/supabase/proxy"
+import { adminRouteProxy } from "./app/middleware/admin-route"
+import { createEventRoute } from "./app/middleware/create-event"
+import { editEventRoute } from "./app/middleware/edit-event"
 
 
 
@@ -20,61 +23,22 @@ export async function proxy(request: NextRequest) {
     //    eliminating the prior sequential await-waterfall across all 13 handlers.
     const pathname = request.nextUrl.pathname
 
-    // if (pathname.startsWith('/register/')) {
-    //     const result = await registerRoute({ request, user, supabase })
-    //     if (result.status !== 200) return result
+    if (pathname.startsWith('/events/')) {
+        // All /events/:id/* sub-routes and /events/create live here.
+        const createResult = await createEventRoute({ request, user, supabase })
+        if (createResult.status !== 200) return createResult
 
-    // } else if (pathname.startsWith('/submission/')) {
-    //     // Order matters: most-specific patterns checked first.
-    //     const gradingResult = await submissionGradingRoute({ request, user, supabase })
-    //     if (gradingResult.status !== 200) return gradingResult
+        const editResult = await editEventRoute({ request, user, supabase })
+        if (editResult.status !== 200) return editResult
 
-    //     const readOnlyResult = await submissionReadOnlyRoute({ request, user, supabase })
-    //     if (readOnlyResult.status !== 200) return readOnlyResult
-
-    //     const submissionResult = await submissionRoute({ request, user, supabase })
-    //     if (submissionResult.status !== 200) return submissionResult
-
-    //     const submissionFeedBackResult = await submissionFeedBack({ request, user, supabase })
-    //     if (submissionFeedBackResult.status !== 200) return submissionFeedBackResult
-
-    // } else if (pathname.startsWith('/events/')) {
-    //     // All /events/:id/* sub-routes and /events/create live here.
-    //     const createResult = await createEventRoute({ request, user, supabase })
-    //     if (createResult.status !== 200) return createResult
-
-    //     const groupsResult = await viewAllGroups({ request, user, supabase })
-    //     if (groupsResult.status !== 200) return groupsResult
-
-    //     const editResult = await editEventRoute({ request, user, supabase })
-    //     if (editResult.status !== 200) return editResult
-
-    //     const gradeResult = await eventSubmissionGradingRoute({ request, user, supabase })
-    //     if (gradeResult.status !== 200) return gradeResult
-
-    // } else if (pathname.startsWith('/groups/')) {
-    //     const result = await userGroupRoute({ request, user, supabase })
-    //     if (result.status !== 200) return result
-
-    // } else if (pathname.startsWith('/projects')) {
-    //     const manageResult = await projectsManageRoute({ request, user, supabase })
-    //     if (manageResult.status !== 200) return manageResult
-
-    //     const pendingResult = await projectDetailsPendingRoute({ request, user, supabase })
-    //     if (pendingResult.status !== 200) return pendingResult
-
-    // } else if (pathname.startsWith('/student/')) {
-    //     const result = await studentRoute({ request, user, supabase })
-    //     if (result.status !== 200) return result
-
-    // } else if (
-    //     pathname.startsWith('/user-management') ||
-    //     pathname.startsWith('/group-management') ||
-    //     pathname.startsWith('/events-management')
-    // ) {
-    //     const result = await adminRouteProxy({ request, user, supabase })
-    //     if (result.status !== 200) return result
-    // }
+    } else if (
+        pathname.startsWith('/user-management') ||
+        pathname.startsWith('/group-management') ||
+        pathname.startsWith('/events-management')
+    ) {
+        const result = await adminRouteProxy({ request, user, supabase })
+        if (result.status !== 200) return result
+    }
 }
 
 export const config = {

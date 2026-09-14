@@ -107,10 +107,9 @@ function StatusBadge({ status }: { status: string | null }) {
 
 interface EventCardProps {
   event: EventRecord
-  onOpen: (event: EventRecord) => void
 }
 
-function EventCard({ event, onOpen }: EventCardProps) {
+function EventCard({ event }: EventCardProps) {
   const supabase = createClient()
   const getPosterUrl = (posterPath: string | null | undefined): string | null => {
     if (!posterPath) return null
@@ -246,141 +245,6 @@ function EventCard({ event, onOpen }: EventCardProps) {
 
 // ── Event Detail Modal ────────────────────────────────────────────────────────
 
-interface EventModalProps {
-  event: EventRecord | null
-  onClose: () => void
-}
-
-function EventModal({ event, onClose }: EventModalProps) {
-  const supabase = createClient()
-  const posterUrl = event?.poster_path ? handleGetUrl(supabase, event.poster_path) : null
-
-  return (
-    <AnimatePresence>
-      {event && (
-        <>
-          {/* Backdrop */}
-          <motion.div
-            key="modal-backdrop"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.2 }}
-            className="fixed inset-0 z-[100] bg-slate-950/60 backdrop-blur-md"
-            onClick={onClose}
-          />
-
-          {/* Modal Panel */}
-          <motion.div
-            key="modal-panel"
-            initial={{ opacity: 0, scale: 0.96, y: 20 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.96, y: 20 }}
-            transition={{ duration: 0.25, ease: 'easeOut' }}
-            className="fixed inset-0 z-[101] flex items-center justify-center p-4 pointer-events-none"
-          >
-            <div
-              className="relative w-full max-w-2xl max-h-[90vh] overflow-y-auto rounded-xl bg-white border border-slate-200 shadow-2xl pointer-events-auto"
-              onClick={(e) => e.stopPropagation()}
-            >
-              {/* Close button */}
-              <button
-                onClick={onClose}
-                className="absolute top-4 right-4 w-9 h-9 rounded-lg bg-slate-100 border border-slate-200 flex items-center justify-center text-slate-600 hover:text-slate-950 hover:border-slate-300 transition-all z-10 cursor-pointer"
-              >
-                <CloseIcon sx={{ fontSize: 18 }} />
-              </button>
-
-              {/* Poster */}
-              <div className="relative w-full aspect-video bg-slate-100">
-                {posterUrl ? (
-                  <Image
-                    src={posterUrl}
-                    alt={event.title ?? 'Event poster'}
-                    fill
-                    className="object-cover"
-                    sizes="(max-width: 768px) 100vw, 672px"
-                  />
-                ) : (
-                  <div className="w-full h-full flex items-center justify-center">
-                    <CalendarTodayIcon sx={{ fontSize: 40, color: '#94a3b8' }} />
-                  </div>
-                )}
-                <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent" />
-                {/* Status on poster */}
-                <div className="absolute bottom-4 left-4">
-                  <StatusBadge status={event.status} />
-                </div>
-              </div>
-
-              {/* Content */}
-              <div className="p-6 space-y-5">
-                {/* Title */}
-                <h2 className="text-2xl font-bold text-slate-950 leading-tight pr-10">
-                  {event.title ?? 'Untitled Event'}
-                </h2>
-
-                {/* Date/Time row */}
-                <div className="space-y-2">
-                  <div className="flex items-center gap-2 text-sm text-teal-700 font-semibold">
-                    <CalendarTodayIcon sx={{ fontSize: 16 }} />
-                    <span>
-                      {formatDate(event.start_date)}
-                      {event.start_date && ` • ${formatTime(event.start_date)}`}
-                    </span>
-                  </div>
-                  {event.end_date && (
-                    <div className="flex items-center gap-2 text-sm text-slate-600">
-                      <ScheduleIcon sx={{ fontSize: 16 }} />
-                      <span>Ends: {formatDate(event.end_date)} • {formatTime(event.end_date)}</span>
-                    </div>
-                  )}
-                  {event.location && (
-                    <div className="flex items-center gap-2 text-sm text-slate-600">
-                      <LocationOnIcon sx={{ fontSize: 16, color: '#00a89d' }} />
-                      <span>{event.location}</span>
-                    </div>
-                  )}
-                </div>
-
-                {/* Short description */}
-                {event.short_description && (
-                  <div className="space-y-1.5">
-                    <h4 className="text-sm font-bold text-slate-950 uppercase tracking-wider">About the Session</h4>
-                    <p className="text-sm text-slate-600 leading-relaxed">{event.short_description}</p>
-                  </div>
-                )}
-
-                {/* Footer CTA */}
-                <div className="pt-4 flex items-center justify-end gap-3 border-t border-slate-200">
-                  <button
-                    onClick={onClose}
-                    className="px-4 py-2 rounded-lg bg-slate-100 border border-slate-200 text-sm font-medium text-slate-800 hover:bg-slate-200 transition-all cursor-pointer"
-                  >
-                    Close
-                  </button>
-                  <Link
-                    href={`/events/${event.id}/edit`}
-                    className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg bg-slate-50 border border-slate-200 text-slate-700 text-sm font-semibold hover:bg-teal-50 hover:text-teal-800 hover:border-teal-200 transition-all"
-                  >
-                    <EditOutlinedIcon sx={{ fontSize: 16 }} />
-                    <span>Edit</span>
-                  </Link>
-                  <Link
-                    href={`/events/${event.id}`}
-                    className="px-5 py-2 rounded-lg bg-[#4bbca9] text-white text-sm font-bold shadow-md hover:bg-[#3ea694] transition-all"
-                  >
-                    View Full Event
-                  </Link>
-                </div>
-              </div>
-            </div>
-          </motion.div>
-        </>
-      )}
-    </AnimatePresence>
-  )
-}
 
 // ── Main Component ────────────────────────────────────────────────────────────
 
@@ -483,7 +347,7 @@ export default function HomeEventsClient({ initialEvents }: HomeEventsClientProp
                   viewport={{ once: true, margin: '-60px' }}
                   transition={{ duration: 0.4, ease: 'easeOut' }}
                 >
-                  <EventCard event={event} onOpen={openEvent} />
+                  <EventCard event={event} />
                 </motion.div>
               ))}
             </div>
@@ -510,8 +374,6 @@ export default function HomeEventsClient({ initialEvents }: HomeEventsClientProp
         </motion.div>
       )}
 
-      {/* ── Event Detail Modal ── */}
-      <EventModal event={selectedEvent} onClose={closeEvent} />
     </section>
   )
 }
