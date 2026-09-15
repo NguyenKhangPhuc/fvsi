@@ -25,9 +25,14 @@ const plusJakartaSans = Plus_Jakarta_Sans({
 })
 
 export const metadata: Metadata = {
-  title: 'Finland–Vietnam Strategic Impact Initiative (FVSI) | ITEE Faculty',
+  title: 'Oulu ICT Study Paths | ITEE Faculty',
   description:
     'Bilateral academic and research collaboration between the ITEE Faculty at University of Oulu, Finland, and premier academic institutes across Việt Nam.',
+  icons: {
+    icon: '/favicon-48x48.png',
+    shortcut: '/favicon-48x48.png',
+    apple: '/favicon-48x48.png',
+  },
 }
 
 export default function RootLayout({ children }: LayoutProps<'/'>) {

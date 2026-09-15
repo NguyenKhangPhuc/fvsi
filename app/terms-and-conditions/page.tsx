@@ -14,8 +14,8 @@ import { Metadata } from 'next'
 import TermsAndConditionsClient from './TermsAndConditionsClient'
 
 export const metadata: Metadata = {
-  title: 'Terms & Conditions | FVSI',
-  description: 'Terms and conditions for using the Finland–Vietnam Strategic Impact Initiative event management platform.',
+  title: 'Terms & Conditions | Oulu ICT Study Paths',
+  description: 'Terms and conditions for using the Oulu ICT Study Paths event management platform.',
 }
 
 export default function TermsAndConditionsPage() {

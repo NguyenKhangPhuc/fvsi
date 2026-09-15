@@ -1,6 +1,6 @@
 /**
  * PURPOSE:
- * Home page (route "/") for the Finland–Vietnam Strategic Impact Initiative (FVSI) application (Light Theme).
+ * Home page (route "/") for the Oulu ICT Study Paths application (Light Theme).
  * Server component — fetches all events then passes them to HomeEventsClient.
  * Renders:
  *   1. Hero section with video placeholder HUD
@@ -104,16 +104,17 @@ export default async function Home() {
                 <span className="text-[10px] text-teal-700 font-semibold">Oulu × TP. Hồ Chí Minh × Hà Nội</span>
               </div>
 
-              {/* Headline */}
-              <div className="space-y-3">
-                <h1 className="text-5xl md:text-6xl xl:text-7xl font-extrabold text-slate-950 leading-none tracking-tight">
-                  <span className="bg-gradient-to-r from-slate-950 via-teal-700 to-[#4bbca9] bg-clip-text text-transparent">
-                    FVSI
-                  </span>
-                </h1>
-                <p className="text-xl md:text-2xl xl:text-3xl font-bold text-slate-800 tracking-tight leading-snug">
-                  Finland–Vietnam Strategic Impact Initiative
-                </p>
+              {/* Logo replacing Title */}
+              <div className="relative w-full max-w-[340px] sm:max-w-[400px] py-1">
+                <Image
+                  src="/oulu_ict_logo.png"
+                  alt="Uni Oulu ICT Study Paths"
+                  width={730}
+                  height={395}
+                  priority
+                  className="w-full h-auto object-contain"
+                />
+                <h1 className="sr-only">Uni Oulu ICT Study Paths</h1>
               </div>
 
               {/* Description */}
@@ -131,7 +132,7 @@ export default async function Home() {
                   <ArrowDownwardIcon sx={{ fontSize: 18 }} />
                 </Link>
                 <a
-                  href="https://youtu.be/G-JScjKkdVg?si=HI14lmzdlzN88Chm"
+                  href="https://youtu.be/XNtjK50_0Qs"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-2 px-5 py-3 bg-white border border-slate-200 text-slate-800 text-sm font-semibold rounded-lg hover:bg-slate-50 transition-all duration-200 shadow-sm cursor-pointer"
@@ -141,31 +142,80 @@ export default async function Home() {
                 </a>
               </div>
 
-              {/* Live Stats — 2-column */}
-              <div className="grid grid-cols-2 gap-4 pt-4 w-full max-w-xs">
+              {/* Live Stats — 3-column with events.length and EUR-ACE Accredited */}
+              <div className="grid grid-cols-3 gap-3 pt-2 w-full max-w-md">
                 {[
-                  { value: '08', label: 'Flagship Events' },
+                  { value: String(events?.length ?? 0).padStart(2, '0'), label: 'Flagship Events' },
                   { value: '500+', label: 'Attendees' },
+                  { value: 'EUR-ACE', label: 'Accredited' },
                 ].map((stat) => (
-                  <div key={stat.label} className="p-3 rounded-lg bg-[#f8fafc] border border-slate-200 shadow-sm">
-                    <span className="block text-2xl font-bold text-slate-950">{stat.value}</span>
-                    <span className="text-[10px] font-bold text-teal-700 uppercase tracking-wider">{stat.label}</span>
+                  <div key={stat.label} className="p-3 rounded-lg bg-[#f8fafc] border border-slate-200 shadow-sm flex flex-col justify-between">
+                    <span className="block text-xl md:text-2xl font-bold text-slate-950 truncate">{stat.value}</span>
+                    <span className="text-[9px] md:text-[10px] font-bold text-teal-700 uppercase tracking-wider leading-tight mt-1">{stat.label}</span>
                   </div>
                 ))}
               </div>
             </div>
 
-            {/* ── Right: YouTube Video Embed ── */}
-            <div className="lg:col-span-6 relative w-full">
+            {/* ── Right: YouTube Video Embed & ShanghaiRanking ── */}
+            <div className="lg:col-span-6 flex flex-col gap-4 w-full">
               <div className="relative w-full aspect-video rounded-xl overflow-hidden bg-slate-950 border border-slate-200 shadow-xl">
                 <iframe
                   className="w-full h-full border-0"
-                  src="https://www.youtube.com/embed/G-JScjKkdVg?rel=0"
-                  title="FVSI - Finland–Vietnam Strategic Impact Initiative Video"
+                  src="https://www.youtube.com/embed/XNtjK50_0Qs?rel=0"
+                  title="Oulu ICT Study Paths Video"
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                   referrerPolicy="strict-origin-when-cross-origin"
                   allowFullScreen
                 />
+              </div>
+
+              {/* ShanghaiRanking 2025 Header & Cards */}
+              <div className="flex flex-col gap-2.5">
+                <div className="flex items-center justify-between">
+                  <span className="text-[11px] font-bold uppercase tracking-wider text-slate-700">
+                    ShanghaiRanking Global Ranking of Academic Subjects 2025
+                  </span>
+                </div>
+
+                {/* 4 Cards ordered from highest to lowest rank (left to right) */}
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+                  {[
+                    { rank: '41st', subject: 'Telecommunication Engineering', highlight: true },
+                    { rank: 'Top 100', subject: 'Electrical & Electronic Engineering', highlight: false },
+                    { rank: 'Top 150', subject: 'Artificial Intelligence', highlight: false },
+                    { rank: 'Top 300', subject: 'Computer Science & Engineering', highlight: false },
+                  ].map((item) => (
+                    <div
+                      key={item.subject}
+                      className={`p-2.5 rounded-xl border flex flex-col justify-between transition-all shadow-xs ${
+                        item.highlight
+                          ? 'bg-teal-50/80 border-teal-300/80 hover:border-teal-400'
+                          : 'bg-[#f8fafc] border-slate-200 hover:border-slate-300'
+                      }`}
+                    >
+                      <div>
+                        <span className={`block text-lg sm:text-xl font-extrabold leading-none ${
+                          item.highlight ? 'text-teal-800' : 'text-slate-950'
+                        }`}>
+                          {item.rank}
+                        </span>
+                        <span className="text-[9px] font-semibold text-slate-500 uppercase tracking-wider">Globally</span>
+                      </div>
+                      <p className="text-[11px] font-semibold text-slate-800 leading-snug mt-2 line-clamp-2">
+                        {item.subject}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+
+                {/* Accredited Programme Information Card */}
+                <div className="p-3 rounded-xl bg-slate-50 border border-slate-200/90 text-slate-700 flex items-start gap-2.5">
+                  <VerifiedIcon sx={{ fontSize: 18, color: '#00a89d', shrink: 0, mt: 0.5 }} />
+                  <p className="text-xs text-slate-600 leading-relaxed">
+                    The University of Oulu runs <strong className="text-slate-900">EUR-ACE accredited Wireless Communications Engineering</strong> master’s programme in tight collaboration with the <strong className="text-teal-800">6G Flagship</strong> – the research and innovation programme for 6G and beyond.
+                  </p>
+                </div>
               </div>
             </div>
           </div>

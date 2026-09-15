@@ -21,7 +21,7 @@ interface EditEventPageProps {
 }
 
 export const metadata = {
-  title: 'Edit Event | FVSI',
+  title: 'Edit Event | Oulu ICT Study Paths',
   description: 'Edit event details, schedule timeline, and specifications.',
 }
 

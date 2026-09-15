@@ -1,6 +1,6 @@
 /**
  * PURPOSE:
- * Site-wide Footer component for the Finland–Vietnam Strategic Impact Initiative (FVSI) app (Light Theme).
+ * Site-wide Footer component for the Oulu ICT Study Paths app (Light Theme).
  * Shows the academic nexus summary, People and Events navigation links,
  * and legal links (Terms & Conditions, Privacy Policy).
  *
@@ -8,6 +8,7 @@
  * Imported and rendered at the bottom of app/layout.tsx.
  */
 
+import Image from 'next/image'
 import Link from 'next/link'
 import LocationOnIcon from '@mui/icons-material/LocationOn'
 import GroupsIcon from '@mui/icons-material/Groups'
@@ -24,8 +25,17 @@ export default function Footer() {
 
           {/* Brand & Description */}
           <div className="md:col-span-1 space-y-4">
-            <div className="flex items-center gap-2">
-              <span className="text-[18px] font-bold text-slate-950">Finland–Vietnam Strategic Impact Initiative (FVSI)</span>
+            <div className="flex items-center gap-3">
+              <div className="relative h-8 w-auto flex items-center shrink-0">
+                <Image
+                  src="/oulu_ict_logo.png"
+                  alt="Oulu ICT Study Paths Logo"
+                  width={60}
+                  height={32}
+                  className="h-8 w-auto object-contain"
+                />
+              </div>
+              <span className="text-[18px] font-bold text-slate-950">Oulu ICT Study Paths</span>
             </div>
             <p className="text-sm text-slate-600 max-w-sm leading-relaxed">
               Empowering transformative bilateral research, engineering symposiums, and doctoral exchanges between the ITEE Faculty at University of Oulu and premier academic institutes across Việt Nam.
@@ -96,7 +106,7 @@ export default function Footer() {
           </span>
           <div className="flex items-center gap-1.5 font-medium">
             <span className="text-teal-700 font-mono text-[11px] tracking-wider uppercase font-semibold">
-              FVSI ACADEMIC BRIDGE
+              OULU ICT STUDY PATHS
             </span>
           </div>
         </div>

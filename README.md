@@ -1,4 +1,4 @@
-# Finland–Vietnam Strategic Impact Initiative (FVSI) Event Management Platform
+# Oulu ICT Study Paths Event Management Platform
 
 An enterprise-grade academic event management platform facilitating bilateral collaboration between the Faculty of Information Technology and Electrical Engineering (ITEE) at the University of Oulu (Finland) and partner universities across Vietnam.
 
@@ -8,7 +8,7 @@ An enterprise-grade academic event management platform facilitating bilateral co
 
 Academic partnerships across international institutions face significant logistical friction: fragmented event coordination, inconsistent communication channels, lack of centralized event archives, and cumbersome access control between administrators, faculty liaisons, and student attendees.
 
-The FVSI platform solves these challenges by providing:
+The Oulu ICT Study Paths platform solves these challenges by providing:
 - A single source of truth for academic events, symposia, research workshops, and student exchanges.
 - End-to-end event lifecycle management: draft creation, rich-text agenda composition, poster asset hosting, scheduling, publication, and completion archiving.
 - Secure, role-based access control (RBAC) separating administrative workflows from public attendee experiences.

@@ -17,6 +17,7 @@
  * - initialUser (Profile | null): The authenticated initialUser's profile fetched server-side.
  */
 
+import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { motion, AnimatePresence } from 'framer-motion'
@@ -89,9 +90,19 @@ export default function NavbarMobile({ initialUser }: NavbarMobileProps) {
       >
         <div className="bg-white/90 backdrop-blur-xl border border-slate-200/90 shadow-[0_4px_24px_rgba(15,23,42,0.06)] rounded-xl px-4 h-14 flex items-center justify-between transition-all">
           {/* Brand */}
-          <Link href="/" onClick={closeMenu} className="flex items-center gap-2">
+          <Link href="/" onClick={closeMenu} className="flex items-center gap-2.5 group">
+            <div className="relative h-8 w-auto flex items-center shrink-0">
+              <Image
+                src="/oulu_ict_logo.png"
+                alt="Oulu ICT Study Paths Logo"
+                width={56}
+                height={30}
+                className="h-8 w-auto object-contain"
+                priority
+              />
+            </div>
             <div className="flex flex-col">
-              <span className="text-[16px] font-bold text-slate-900 tracking-tight leading-none">FVSI</span>
+              <span className="text-[15px] font-bold text-slate-900 tracking-tight leading-none group-hover:text-teal-700 transition-colors">Oulu ICT Study Paths</span>
               <span className="text-[9px] font-bold text-teal-700 uppercase tracking-wider leading-none mt-0.5">ITEE Faculty</span>
             </div>
           </Link>

@@ -73,7 +73,7 @@ export default function TermsAndConditionsClient() {
                 Terms &amp; Conditions
               </h1>
               <p className="text-sm sm:text-base text-slate-600 leading-relaxed">
-                Please read these terms carefully before accessing or using the Finland–Vietnam Strategic Impact Initiative (FVSI) Collaborative Platform.
+                Please read these terms carefully before accessing or using the Oulu ICT Study Paths Collaborative Platform.
               </p>
             </div>
 
@@ -123,7 +123,7 @@ export default function TermsAndConditionsClient() {
             </div>
             <div className="text-sm md:text-base text-slate-600 leading-relaxed space-y-3">
               <p>
-                The Finland–Vietnam Strategic Impact Initiative (FVSI) web application is primarily designed and operated for <strong>internal administrative, research synchronization, and event coordination purposes</strong> between the Faculty of Information Technology and Electrical Engineering (ITEE) at the University of Oulu, Finland, and academic consortium partners in Vietnam.
+                The Oulu ICT Study Paths web application is primarily designed and operated for <strong>internal administrative, research synchronization, and event coordination purposes</strong> between the Faculty of Information Technology and Electrical Engineering (ITEE) at the University of Oulu, Finland, and academic consortium partners in Vietnam.
               </p>
               <div className="p-4 rounded-xl bg-slate-50 border border-slate-200 text-slate-800 space-y-2">
                 <p className="font-semibold text-slate-900">
