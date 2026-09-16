@@ -58,22 +58,52 @@ export default function BasicInfoSection({ register, errors }: BasicInfoSectionP
           )}
         </div>
 
-        {/* Location */}
+        {/* Location & Capacity Grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+          {/* Location */}
+          <div className="flex flex-col gap-1.5">
+            <label className="text-xs font-semibold text-slate-700 uppercase tracking-wider select-none">
+              Location <span className="text-red-500">*</span>
+            </label>
+            <input
+              type="text"
+              placeholder="e.g. University of Oulu / Online Hub"
+              className="bg-slate-50 text-slate-900 border border-slate-200 text-sm p-3 rounded-lg outline-none focus:border-[#4bbca9] focus:ring-2 focus:ring-[#4bbca9]/20 focus:bg-white transition-all w-full shadow-inner"
+              {...register('location', { required: 'Event location is required' })}
+            />
+            {errors.location && (
+              <span className="text-xs text-red-500 font-medium">
+                {errors.location.message || 'Location is required'}
+              </span>
+            )}
+          </div>
+
+          {/* Capacity (Max People) */}
+          <div className="flex flex-col gap-1.5">
+            <label className="text-xs font-semibold text-slate-700 uppercase tracking-wider select-none">
+              Capacity (Max People)
+            </label>
+            <input
+              type="number"
+              min="1"
+              placeholder="e.g. 100"
+              className="bg-slate-50 text-slate-900 border border-slate-200 text-sm p-3 rounded-lg outline-none focus:border-[#4bbca9] focus:ring-2 focus:ring-[#4bbca9]/20 focus:bg-white transition-all w-full shadow-inner"
+              {...register('max_people', { valueAsNumber: true })}
+            />
+          </div>
+        </div>
+
+        {/* Registration Link */}
         <div className="flex flex-col gap-1.5">
           <label className="text-xs font-semibold text-slate-700 uppercase tracking-wider select-none">
-            Location <span className="text-red-500">*</span>
+            Registration Link
           </label>
           <input
-            type="text"
-            placeholder="e.g. University of Oulu / Online Hub"
+            type="url"
+            placeholder="e.g. https://forms.gle/... or https://eventbrite.com/..."
             className="bg-slate-50 text-slate-900 border border-slate-200 text-sm p-3 rounded-lg outline-none focus:border-[#4bbca9] focus:ring-2 focus:ring-[#4bbca9]/20 focus:bg-white transition-all w-full shadow-inner"
-            {...register('location', { required: 'Event location is required' })}
+            {...register('register_link')}
           />
-          {errors.location && (
-            <span className="text-xs text-red-500 font-medium">
-              {errors.location.message || 'Location is required'}
-            </span>
-          )}
         </div>
       </div>
     </div>

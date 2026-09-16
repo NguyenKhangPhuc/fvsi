@@ -107,11 +107,11 @@ export default function EventSidebar({ event }: EventSidebarProps) {
 
             <div>
               <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block mb-1">
-                Group Capacity
+                Capacity
               </span>
               <div className="flex items-center gap-1.5 text-xs font-bold text-slate-800">
                 <PeopleOutlinedIcon sx={{ fontSize: 16, color: '#4bbca9' }} />
-                <span>{maxMembers ? `${maxMembers} members / group` : 'Open'}</span>
+                <span>{event.max_people ? `max ${event.max_people}` : maxMembers ? `max ${maxMembers}` : 'Open'}</span>
               </div>
             </div>
           </div>

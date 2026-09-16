@@ -138,6 +138,8 @@ export default function EditEventClient({ event }: EditEventClientProps) {
       location: event.location || '',
       start_date: convertUTCToLocalInput(event.start_date),
       end_date: convertUTCToLocalInput(event.end_date),
+      register_link: event.register_link || '',
+      max_people: event.max_people ?? null,
     },
   });
 
@@ -152,6 +154,8 @@ export default function EditEventClient({ event }: EditEventClientProps) {
         location: formData.location,
         start_date: convertLocalToUTC(formData.start_date),
         end_date: convertLocalToUTC(formData.end_date),
+        register_link: formData.register_link?.trim() || null,
+        max_people: formData.max_people ? Number(formData.max_people) : null,
       };
 
       const { error } = await updateEventInfo({ event: updatedEventPayload });

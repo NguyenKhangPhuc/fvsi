@@ -41,8 +41,10 @@ export type Database = {
           end_date: string | null
           id: string
           location: string | null
+          max_people: number | null
           owner_id: string | null
           poster_path: string | null
+          register_link: string | null
           short_description: string | null
           start_date: string | null
           status: Database["public"]["Enums"]["EVENT_STATUS"] | null
@@ -54,8 +56,10 @@ export type Database = {
           end_date?: string | null
           id?: string
           location?: string | null
+          max_people?: number | null
           owner_id?: string | null
           poster_path?: string | null
+          register_link?: string | null
           short_description?: string | null
           start_date?: string | null
           status?: Database["public"]["Enums"]["EVENT_STATUS"] | null
@@ -67,8 +71,10 @@ export type Database = {
           end_date?: string | null
           id?: string
           location?: string | null
+          max_people?: number | null
           owner_id?: string | null
           poster_path?: string | null
+          register_link?: string | null
           short_description?: string | null
           start_date?: string | null
           status?: Database["public"]["Enums"]["EVENT_STATUS"] | null
@@ -113,7 +119,7 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      get_my_role: { Args: never; Returns: string }
     }
     Enums: {
       EVENT_STATUS: "ongoing" | "finished"

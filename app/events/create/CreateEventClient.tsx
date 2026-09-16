@@ -29,15 +29,17 @@ import ContentSection from './components/ContentSection';
 import { Database } from '@/app/types/database.types';
 
 export interface EventForm {
-  title?: string | null,
-  short_description?: string | null,
-  content?: string | null
-  location?: string | null
+  title?: string | null;
+  short_description?: string | null;
+  content?: string | null;
+  location?: string | null;
   start_date?: string | null;
   status?: Database["public"]["Enums"]["EVENT_STATUS"] | null;
   created_at?: string;
   end_date?: string | null;
   id?: string;
+  register_link?: string | null;
+  max_people?: number | null;
 }
 
 export default function CreateEventClient() {
@@ -56,6 +58,8 @@ export default function CreateEventClient() {
       short_description: '',
       content: '',
       location: '',
+      register_link: '',
+      max_people: null,
     },
   });
 
@@ -65,13 +69,15 @@ export default function CreateEventClient() {
    * to UTC-0:0 ISO format, calls database insertions via createEvent server action,
    * triggers notifications, and redirects back to the events management dashboard.
    */
-  const handleCreateNewEvent = async (event: EventInsert): Promise<void> => {
+  const handleCreateNewEvent = async (event: EventForm): Promise<void> => {
     setIsOpenLoader(true);
     try {
       const updatedEventPayload: EventInsert = {
         ...event,
         start_date: convertLocalToUTC(event.start_date),
         end_date: convertLocalToUTC(event.end_date),
+        register_link: event.register_link?.trim() || null,
+        max_people: event.max_people ? Number(event.max_people) : null,
       };
 
       const { data, error } = await createEvent({ event: updatedEventPayload });

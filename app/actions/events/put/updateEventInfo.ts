@@ -34,7 +34,9 @@ export async function updateEventInfo({ event }: { event: EventInsert }) {
         end_date: event.end_date,
         short_description: event.short_description,
         content: event.content,
-        location: event.location
+        location: event.location,
+        register_link: event.register_link ?? null,
+        max_people: event.max_people ?? null,
     }).eq('id', event.id!)
 
     if (error) {

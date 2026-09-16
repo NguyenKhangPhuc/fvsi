@@ -20,6 +20,7 @@ import { motion } from 'framer-motion'
 import PlaceIcon from '@mui/icons-material/Place'
 import PeopleIcon from '@mui/icons-material/People'
 import ConfirmationNumberIcon from '@mui/icons-material/ConfirmationNumber'
+import OpenInNewIcon from '@mui/icons-material/OpenInNew'
 import { Event } from '@/app/types/event'
 import { EVENT_STATUS } from '@/app/types/enum'
 
@@ -66,12 +67,17 @@ export default function EventHero({ event, posterUrl }: EventHeroProps) {
             <span>{isOngoing ? 'ONGOING' : 'FINISHED'}</span>
           </div>
 
-          {maxMembers && (
+          {event.max_people ? (
+            <span className="inline-flex items-center gap-1.5 text-xs px-3 py-1 font-semibold rounded-lg border bg-slate-50 border-slate-200/80 text-slate-700">
+              <PeopleIcon sx={{ fontSize: 15, color: '#4bbca9' }} />
+              <span>Max {event.max_people} Capacity</span>
+            </span>
+          ) : maxMembers ? (
             <span className="inline-flex items-center gap-1.5 text-xs px-3 py-1 font-semibold rounded-lg border bg-slate-50 border-slate-200/80 text-slate-700">
               <PeopleIcon sx={{ fontSize: 15, color: '#4bbca9' }} />
               <span>Max {maxMembers} Members / Group</span>
             </span>
-          )}
+          ) : null}
 
           {event.location && (
             <span className="inline-flex items-center gap-1.5 text-xs px-3 py-1 font-semibold rounded-lg border bg-slate-50 border-slate-200/80 text-slate-700 truncate max-w-[280px]">
@@ -92,6 +98,34 @@ export default function EventHero({ event, posterUrl }: EventHeroProps) {
             {event.short_description}
           </p>
         )}
+
+        {/* Registration CTA Button */}
+        <div className="pt-2">
+          {event.register_link ? (
+            <a
+              href={event.register_link}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 px-6 py-3 bg-[#4bbca9] hover:bg-[#3ea694] text-white text-xs uppercase font-bold tracking-wider rounded-xl shadow-sm hover:shadow-md transition-all duration-200 cursor-pointer w-fit group"
+            >
+              <span>Register Now</span>
+              <OpenInNewIcon
+                sx={{ fontSize: 16 }}
+                className="transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+              />
+            </a>
+          ) : (
+            <button
+              type="button"
+              disabled
+              title="Registration link not available yet"
+              className="inline-flex items-center gap-2 px-6 py-3 bg-slate-100 text-slate-400 border border-slate-200 text-xs uppercase font-bold tracking-wider rounded-xl cursor-not-allowed w-fit select-none"
+            >
+              <span>Register Now</span>
+              <OpenInNewIcon sx={{ fontSize: 16 }} className="text-slate-300" />
+            </button>
+          )}
+        </div>
       </div>
 
       {/* Right Half (50%): Event Poster Image Showcase */}
