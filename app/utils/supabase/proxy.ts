@@ -54,11 +54,14 @@ export async function updateSession(request: NextRequest): Promise<UpdateSession
     const pathname = request.nextUrl.pathname;
     const isBaseProjectsPage = pathname === '/projects';
     const pathParts = pathname.split('/')
+    const isEventDetailsPage = pathParts.length === 3 &&
+        pathParts[1] === 'events' &&
+        UUID_REGEX.test(pathParts[2]);
     const isProjectDetailPage =
         pathParts.length === 3 &&
         pathParts[1] === 'projects' &&
         UUID_REGEX.test(pathParts[2]);
-    const isAccessingProjectSystem = isBaseProjectsPage || isProjectDetailPage;
+    const isAccessingProjectOrEventSystem = isBaseProjectsPage || isProjectDetailPage || isEventDetailsPage;
 
     if (
         !claims &&
@@ -70,7 +73,7 @@ export async function updateSession(request: NextRequest): Promise<UpdateSession
         !pathname.startsWith('/terms-and-conditions') &&
         !pathname.startsWith('/privacy-policy') &&
         !pathname.startsWith('/about') &&
-        !isAccessingProjectSystem &&
+        !isAccessingProjectOrEventSystem &&
         pathname !== '/'
     ) {
         const url = request.nextUrl.clone()
