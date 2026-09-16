@@ -88,17 +88,17 @@ export default function NavBar({ initialUser }: NavBarProps) {
         <Link href="/" className="flex items-center gap-3 group">
           <div className="relative h-9 w-auto flex items-center shrink-0">
             <Image
-              src="/oulu_ict_logo.png"
-              alt="Oulu ICT Study Paths Logo"
-              width={66}
+              src="/unioulu-logo.png"
+              alt="UniOulu ICT Study Paths Logo"
+              width={72}
               height={36}
               className="h-9 w-auto object-contain"
               priority
             />
           </div>
           <div className="flex flex-col">
-            <span className="text-[17px] font-bold text-slate-900 tracking-tight leading-none group-hover:text-teal-700 transition-colors">Oulu ICT Study Paths</span>
-            <span className="text-[10px] font-bold text-teal-700 uppercase tracking-wider leading-none mt-1">ITEE Faculty</span>
+            <span className="text-[17px] font-bold text-slate-900 tracking-tight leading-none group-hover:text-teal-700 transition-colors">UniOulu ICT Study Paths</span>
+            <span className="text-[10px] font-bold text-teal-700 uppercase tracking-wider leading-none mt-1">Faculty of ITEE</span>
           </div>
         </Link>
 

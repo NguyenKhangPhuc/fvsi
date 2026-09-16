@@ -25,9 +25,9 @@ const plusJakartaSans = Plus_Jakarta_Sans({
 })
 
 export const metadata: Metadata = {
-  title: 'Oulu ICT Study Paths | ITEE Faculty',
+  title: 'UniOulu ICT Study Paths | Faculty of ITEE',
   description:
-    'Bilateral academic and research collaboration between the ITEE Faculty at University of Oulu, Finland, and premier academic institutes across Việt Nam.',
+    'Bilateral academic and research collaboration between the Faculty of ITEE at University of Oulu, Finland, and premier academic institutes across Việt Nam.',
   icons: {
     icon: '/favicon-48x48.png',
     shortcut: '/favicon-48x48.png',

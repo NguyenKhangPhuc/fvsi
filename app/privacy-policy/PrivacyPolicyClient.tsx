@@ -106,7 +106,7 @@ export default function PrivacyPolicyClient() {
                 Privacy Policy
               </h1>
               <p className="text-sm sm:text-base text-slate-600 leading-relaxed">
-                Learn how Oulu ICT Study Paths protects your privacy, manages internal authentication, and upholds European GDPR standards.
+                Learn how UniOulu ICT Study Paths protects your privacy, manages internal authentication, and upholds European GDPR standards.
               </p>
             </div>
 
@@ -157,7 +157,7 @@ export default function PrivacyPolicyClient() {
             </div>
             <div className="text-sm md:text-base text-slate-600 leading-relaxed space-y-3">
               <p>
-                The Oulu ICT Study Paths portal is engineered primarily for <strong>internal administrative, research partnership, and organizational coordination</strong> between the Faculty of ITEE at the University of Oulu and academic institutions in Vietnam.
+                The UniOulu ICT Study Paths portal is engineered primarily for <strong>internal administrative, research partnership, and organizational coordination</strong> between the Faculty of ITEE at the University of Oulu and academic institutions in Vietnam.
               </p>
               <div className="p-4 rounded-xl bg-slate-50 border border-slate-200 text-slate-800 space-y-2">
                 <p className="font-semibold text-slate-900">
@@ -336,7 +336,7 @@ export default function PrivacyPolicyClient() {
                 <strong>No Commercial Sharing:</strong> We do not sell, license, rent, or trade your personal information with third-party advertisers, data aggregators, or marketing firms under any circumstances.
               </p>
               <p>
-                <strong>Retention Period:</strong> Personal identifiers associated with internal accounts are stored only for the duration of active institutional involvement in the Oulu ICT Study Paths collaboration or until account deletion is requested.
+                <strong>Retention Period:</strong> Personal identifiers associated with internal accounts are stored only for the duration of active institutional involvement in the UniOulu ICT Study Paths collaboration or until account deletion is requested.
               </p>
             </div>
           </motion.section>

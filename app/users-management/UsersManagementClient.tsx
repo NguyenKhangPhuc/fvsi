@@ -161,7 +161,7 @@ export default function UsersManagementClient({ users: initialUsers }: UsersMana
             <div className="flex items-center gap-2">
               <PeopleIcon sx={{ fontSize: 18, color: '#4bbca9' }} />
               <span className="text-xs font-bold text-teal-700 uppercase tracking-wider">
-                ITEE Faculty Administration
+                Faculty of ITEE Administration
               </span>
             </div>
             <h1 className="text-2xl lg:text-3xl font-extrabold text-slate-900 tracking-tight">

@@ -1,6 +1,6 @@
 /**
  * PURPOSE:
- * Site-wide Footer component for the Oulu ICT Study Paths app (Light Theme).
+ * Site-wide Footer component for the UniOulu ICT Study Paths app (Light Theme).
  * Shows the academic nexus summary, People and Events navigation links,
  * and legal links (Terms & Conditions, Privacy Policy).
  *
@@ -28,17 +28,17 @@ export default function Footer() {
             <div className="flex items-center gap-3">
               <div className="relative h-8 w-auto flex items-center shrink-0">
                 <Image
-                  src="/oulu_ict_logo.png"
-                  alt="Oulu ICT Study Paths Logo"
-                  width={60}
+                  src="/unioulu-logo.png"
+                  alt="UniOulu ICT Study Paths Logo"
+                  width={64}
                   height={32}
                   className="h-8 w-auto object-contain"
                 />
               </div>
-              <span className="text-[18px] font-bold text-slate-950">Oulu ICT Study Paths</span>
+              <span className="text-[18px] font-bold text-slate-950">UniOulu ICT Study Paths</span>
             </div>
             <p className="text-sm text-slate-600 max-w-sm leading-relaxed">
-              Empowering transformative bilateral research, engineering symposiums, and doctoral exchanges between the ITEE Faculty at University of Oulu and premier academic institutes across Việt Nam.
+              Empowering transformative bilateral research, engineering symposiums, and doctoral exchanges between the Faculty of ITEE at University of Oulu and premier academic institutes across Việt Nam.
             </p>
             <div className="flex items-start gap-2 text-teal-700">
               <LocationOnIcon sx={{ fontSize: 18, marginTop: '2px', flexShrink: 0, color: '#00a89d' }} />
@@ -102,11 +102,11 @@ export default function Footer() {
         {/* ── Bottom Bar ── */}
         <div className="pt-6 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-slate-500">
           <span>
-            © 2025 ITEE Faculty, University of Oulu &amp; Vietnam Academic Consortia. All rights reserved.
+            © 2025 Faculty of ITEE, University of Oulu &amp; Vietnam Academic Consortia. All rights reserved.
           </span>
           <div className="flex items-center gap-1.5 font-medium">
             <span className="text-teal-700 font-mono text-[11px] tracking-wider uppercase font-semibold">
-              OULU ICT STUDY PATHS
+              UNIOULU ICT STUDY PATHS
             </span>
           </div>
         </div>

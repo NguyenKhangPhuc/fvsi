@@ -171,7 +171,7 @@ export default function EventManagementClient({ events: initialEvents }: EventMa
             <div className="flex items-center gap-2">
               <EventNoteIcon sx={{ fontSize: 18, color: '#00a89d' }} />
               <span className="text-xs font-bold text-teal-700 uppercase tracking-wider">
-                ITEE Faculty Administration
+                Faculty of ITEE Administration
               </span>
             </div>
             <h1 className="text-2xl lg:text-3xl font-extrabold text-slate-900 tracking-tight">

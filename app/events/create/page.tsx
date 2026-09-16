@@ -13,7 +13,7 @@
 import CreateEventClient from './CreateEventClient';
 
 export const metadata = {
-  title: 'Create Event | Oulu ICT Study Paths',
+  title: 'Create Event | UniOulu ICT Study Paths',
   description: 'Create a new collaboration or academic event.',
 };
 

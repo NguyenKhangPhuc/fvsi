@@ -14,8 +14,8 @@ import { Metadata } from 'next'
 import PrivacyPolicyClient from './PrivacyPolicyClient'
 
 export const metadata: Metadata = {
-  title: 'Privacy Policy | Oulu ICT Study Paths',
-  description: 'Privacy policy and GDPR user rights disclosures for the Oulu ICT Study Paths platform.',
+  title: 'Privacy Policy | UniOulu ICT Study Paths',
+  description: 'Privacy policy and GDPR user rights disclosures for the UniOulu ICT Study Paths platform.',
 }
 
 export default function PrivacyPolicyPage() {

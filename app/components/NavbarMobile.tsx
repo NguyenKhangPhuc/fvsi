@@ -93,17 +93,17 @@ export default function NavbarMobile({ initialUser }: NavbarMobileProps) {
           <Link href="/" onClick={closeMenu} className="flex items-center gap-2.5 group">
             <div className="relative h-8 w-auto flex items-center shrink-0">
               <Image
-                src="/oulu_ict_logo.png"
-                alt="Oulu ICT Study Paths Logo"
-                width={56}
+                src="/unioulu-logo.png"
+                alt="UniOulu ICT Study Paths Logo"
+                width={60}
                 height={30}
                 className="h-8 w-auto object-contain"
                 priority
               />
             </div>
             <div className="flex flex-col">
-              <span className="text-[15px] font-bold text-slate-900 tracking-tight leading-none group-hover:text-teal-700 transition-colors">Oulu ICT Study Paths</span>
-              <span className="text-[9px] font-bold text-teal-700 uppercase tracking-wider leading-none mt-0.5">ITEE Faculty</span>
+              <span className="text-[15px] font-bold text-slate-900 tracking-tight leading-none group-hover:text-teal-700 transition-colors">UniOulu ICT Study Paths</span>
+              <span className="text-[9px] font-bold text-teal-700 uppercase tracking-wider leading-none mt-0.5">Faculty of ITEE</span>
             </div>
           </Link>
 

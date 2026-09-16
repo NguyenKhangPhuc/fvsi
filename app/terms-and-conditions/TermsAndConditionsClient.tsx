@@ -73,7 +73,7 @@ export default function TermsAndConditionsClient() {
                 Terms &amp; Conditions
               </h1>
               <p className="text-sm sm:text-base text-slate-600 leading-relaxed">
-                Please read these terms carefully before accessing or using the Oulu ICT Study Paths Collaborative Platform.
+                Please read these terms carefully before accessing or using the UniOulu ICT Study Paths Collaborative Platform.
               </p>
             </div>
 
@@ -123,7 +123,7 @@ export default function TermsAndConditionsClient() {
             </div>
             <div className="text-sm md:text-base text-slate-600 leading-relaxed space-y-3">
               <p>
-                The Oulu ICT Study Paths web application is primarily designed and operated for <strong>internal administrative, research synchronization, and event coordination purposes</strong> between the Faculty of Information Technology and Electrical Engineering (ITEE) at the University of Oulu, Finland, and academic consortium partners in Vietnam.
+                The UniOulu ICT Study Paths web application is primarily designed and operated for <strong>internal administrative, research synchronization, and event coordination purposes</strong> between the Faculty of Information Technology and Electrical Engineering (ITEE) at the University of Oulu, Finland, and academic consortium partners in Vietnam.
               </p>
               <div className="p-4 rounded-xl bg-slate-50 border border-slate-200 text-slate-800 space-y-2">
                 <p className="font-semibold text-slate-900">
@@ -225,7 +225,7 @@ export default function TermsAndConditionsClient() {
                 All visual identities, emblems, photographs, event curricula, software artifacts, and institutional merchandise featured on this portal are protected by international copyright, trademark, and intellectual property conventions.
               </p>
               <p>
-                Trademarks of the University of Oulu, the ITEE Faculty, and collaborating Vietnamese academic universities may not be reproduced, altered, or redistributed for commercial exploitation without prior formal written consent from authorized institutional liaisons.
+                Trademarks of the University of Oulu, the Faculty of ITEE, and collaborating Vietnamese academic universities may not be reproduced, altered, or redistributed for commercial exploitation without prior formal written consent from authorized institutional liaisons.
               </p>
             </div>
           </motion.section>
@@ -273,7 +273,7 @@ export default function TermsAndConditionsClient() {
               6. Limitation of Liability
             </h2>
             <p className="text-sm md:text-base text-slate-600 leading-relaxed">
-              This portal is provided on an &quot;AS IS&quot; and &quot;AS AVAILABLE&quot; basis for non-commercial academic coordination. While the ITEE Faculty endeavors to maintain platform availability and accurate event schedules, we accept no liability for incidental interruptions, inadvertent scheduling inaccuracies, or third-party telecommunication failures.
+              This portal is provided on an &quot;AS IS&quot; and &quot;AS AVAILABLE&quot; basis for non-commercial academic coordination. While the Faculty of ITEE endeavors to maintain platform availability and accurate event schedules, we accept no liability for incidental interruptions, inadvertent scheduling inaccuracies, or third-party telecommunication failures.
             </p>
           </motion.section>
 
