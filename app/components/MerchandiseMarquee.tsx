@@ -24,27 +24,27 @@ interface MerchandiseItem {
 const MERCHANDISE_ITEMS: MerchandiseItem[] = [
   {
     id: 'merch-1',
-    title: 'University of Oulu Merchandise',
-    src: '/merchandise/merch_1_img.webp',
-    alt: 'University of Oulu Merchandise 1',
+    title: 'University of Oulu Tote Bags',
+    src: '/merchandise/university_bag.jpg',
+    alt: 'University of Oulu Tote Bags',
   },
   {
     id: 'merch-2',
     title: 'University of Oulu Merchandise',
     src: '/merchandise/merch_2_img.webp',
-    alt: 'University of Oulu Merchandise 2',
+    alt: 'University of Oulu Merchandise',
   },
   {
     id: 'merch-3',
-    title: 'University of Oulu Merchandise',
-    src: '/merchandise/merch_3_img.webp',
-    alt: 'University of Oulu Merchandise 3',
+    title: 'Future Innovator Sticker',
+    src: '/merchandise/sticker_1.png',
+    alt: 'University of Oulu Future Innovator Sticker',
   },
   {
     id: 'merch-4',
-    title: 'University of Oulu Merchandise',
-    src: '/merchandise/merch_4_img.webp',
-    alt: 'University of Oulu Merchandise 4',
+    title: 'Curious Mind Sticker',
+    src: '/merchandise/sticker_2.png',
+    alt: 'University of Oulu Curious Mind Sticker',
   },
 ]
 
@@ -85,6 +85,7 @@ export default function MerchandiseMarquee() {
                   src={item.src}
                   alt={item.alt}
                   fill
+                  unoptimized
                   className="object-contain p-3 group-hover:scale-105 transition-transform duration-300"
                   sizes="(max-width: 640px) 256px, 288px"
                 />
