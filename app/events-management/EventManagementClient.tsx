@@ -157,7 +157,7 @@ export default function EventManagementClient({ events: initialEvents }: EventMa
     <div className="w-full flex flex-col gap-6">
       {/* Top Navigation */}
       <div className="flex items-center justify-between">
-        <BackButton href="/" label="Back to Home" />
+        <BackButton />
         <span className="text-xs font-semibold text-slate-500 uppercase tracking-widest">
           Admin Portal // Event Controller
         </span>

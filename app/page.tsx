@@ -205,7 +205,7 @@ export default async function Home() {
               <div className="flex flex-col gap-2.5">
                 <div className="flex items-center justify-between">
                   <span className="text-[11px] font-bold uppercase tracking-wider text-slate-700">
-                    SHANG HAI RANKING Global Ranking of Academic Subjects 2025
+                    SHANGHAI RANKING Global Ranking of Academic Subjects 2025
                   </span>
                 </div>
 

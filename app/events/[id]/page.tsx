@@ -56,7 +56,7 @@ export default async function Page({ params }: SingleEventPageProps) {
             </p>
           </div>
           <div className="pt-2 flex justify-center">
-            <BackButton label="Back to Events" href="/events-management" />
+            <BackButton />
           </div>
         </div>
       </div>

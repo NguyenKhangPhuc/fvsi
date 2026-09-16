@@ -187,7 +187,7 @@ export default function EditEventClient({ event }: EditEventClientProps) {
     <div className="w-full flex flex-col gap-8 select-none">
       {/* Top Navigation */}
       <div className="flex items-center justify-between">
-        <BackButton href={`/events/${event.id}`} label="Back to Event" />
+        <BackButton />
         <span className="text-xs font-semibold text-slate-500 uppercase tracking-widest">
           Edit Mode // ID: {event.id.slice(0, 8)}
         </span>

@@ -49,7 +49,7 @@ export default function SingleEventPage({ event }: SingleEventPageProps) {
     <div className="w-full flex flex-col gap-6">
       {/* Top Navigation */}
       <div className="flex items-center justify-between">
-        <BackButton href="/events-management" label="Back to Events" />
+        <BackButton />
         <span className="text-xs font-semibold text-slate-500 uppercase tracking-widest">
           Event Overview // View Mode
         </span>

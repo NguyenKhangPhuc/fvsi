@@ -83,7 +83,7 @@ export default function PrivacyPolicyClient() {
       <div className="relative z-10 max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8 pt-8">
         {/* Navigation / Back Button */}
         <div className="mb-6 flex items-center justify-between">
-          <BackButton href="/" label="Return to Home" />
+          <BackButton />
           <span className="text-xs font-semibold text-teal-700 bg-teal-50 border border-teal-200 px-3 py-1 rounded-full uppercase tracking-wider">
             GDPR Compliant Notice
           </span>

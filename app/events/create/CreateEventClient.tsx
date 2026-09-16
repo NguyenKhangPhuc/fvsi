@@ -110,7 +110,7 @@ export default function CreateEventClient() {
     <div className="w-full flex flex-col gap-8 select-none">
       {/* Top Navigation */}
       <div className="flex items-center justify-between">
-        <BackButton href="/events-management" label="Back to Events" />
+        <BackButton />
       </div>
 
       {/* Page Header */}
