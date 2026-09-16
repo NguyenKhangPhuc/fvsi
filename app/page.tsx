@@ -33,7 +33,7 @@ const PEOPLE = [
     description:
       'Dean of Education at the Faculty of ITEE, University of Oulu. Research interests include electronics materials, wearable and stretchable devices, testing technologies, and RF-sensing.',
     meta: 'ORCID: 0000-0002-8911-3140',
-    image: '/team/jari.jpeg',
+    image: '/team/jari.png',
     icons: [SchoolIcon, EmailIcon],
   },
   {
@@ -188,16 +188,14 @@ export default async function Home() {
                   ].map((item) => (
                     <div
                       key={item.subject}
-                      className={`p-2.5 rounded-xl border flex flex-col justify-between transition-all shadow-xs ${
-                        item.highlight
-                          ? 'bg-teal-50/80 border-teal-300/80 hover:border-teal-400'
-                          : 'bg-[#f8fafc] border-slate-200 hover:border-slate-300'
-                      }`}
+                      className={`p-2.5 rounded-xl border flex flex-col justify-between transition-all shadow-xs ${item.highlight
+                        ? 'bg-teal-50/80 border-teal-300/80 hover:border-teal-400'
+                        : 'bg-[#f8fafc] border-slate-200 hover:border-slate-300'
+                        }`}
                     >
                       <div>
-                        <span className={`block text-lg sm:text-xl font-extrabold leading-none ${
-                          item.highlight ? 'text-teal-800' : 'text-slate-950'
-                        }`}>
+                        <span className={`block text-lg sm:text-xl font-extrabold leading-none ${item.highlight ? 'text-teal-800' : 'text-slate-950'
+                          }`}>
                           {item.rank}
                         </span>
                         <span className="text-[9px] font-semibold text-slate-500 uppercase tracking-wider">Globally</span>
