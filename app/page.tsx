@@ -201,20 +201,20 @@ export default async function Home() {
                 />
               </div>
 
-              {/* ShanghaiRanking 2025 Header & Cards */}
+              {/* ShanghaiRanking 2026 Header & Cards */}
               <div className="flex flex-col gap-2.5">
                 <div className="flex items-center justify-between">
                   <span className="text-[11px] font-bold uppercase tracking-wider text-slate-700">
-                    SHANGHAI RANKING Global Ranking of Academic Subjects 2025
+                    SHANGHAI RANKING Global Ranking of Academic Subjects 2026
                   </span>
                 </div>
 
                 {/* 4 Cards ordered from highest to lowest rank (left to right) */}
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
                   {[
-                    { rank: '41st', subject: 'Telecommunication Engineering', highlight: true },
+                    { rank: 'Top 75', subject: 'Telecommunication Engineering', highlight: true },
                     { rank: 'Top 100', subject: 'Electrical & Electronic Engineering', highlight: false },
-                    { rank: 'Top 150', subject: 'Artificial Intelligence', highlight: false },
+                    { rank: 'Top 200', subject: 'Artificial Intelligence', highlight: false },
                     { rank: 'Top 300', subject: 'Computer Science & Engineering', highlight: false },
                   ].map((item) => (
                     <div
@@ -246,7 +246,7 @@ export default async function Home() {
                   <VerifiedIcon sx={{ fontSize: 18, color: '#00a89d', shrink: 0, mt: 0.5 }} />
                   <p className="text-xs text-slate-700 leading-relaxed">
                     <strong className="text-teal-900 mr-1">* EUR-ACE Accreditation:</strong>
-                    The University of Oulu runs <strong className="text-slate-950">EUR-ACE accredited Wireless Communications Engineering</strong> master’s programme in tight collaboration with the <strong className="text-teal-900">6G Flagship</strong> – the research and innovation programme for 6G and beyond.
+                    The degree programme in <strong className="text-slate-950">Electronics and Communications Engineering</strong> (including Bachelor’s, Electronics Master’s, and Wireless Communications Engineering) is EUR-ACE accredited in tight collaboration with the <strong className="text-teal-900">6G Flagship</strong> – the research and innovation programme for 6G and beyond.
                   </p>
                 </div>
               </div>

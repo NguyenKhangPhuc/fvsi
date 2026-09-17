@@ -99,10 +99,12 @@ function StatusBadge({ status }: { status: string | null }) {
 
 interface EventCardProps {
   event: EventRecord
+  idPrefix?: string
 }
 
-function EventCard({ event }: EventCardProps) {
+function EventCard({ event, idPrefix }: EventCardProps) {
   const supabase = createClient()
+  const patternId = `grid-${idPrefix ? `${idPrefix}-` : ''}${event.id}`
   const getPosterUrl = (posterPath: string | null | undefined): string | null => {
     if (!posterPath) return null
     if (
@@ -135,11 +137,11 @@ function EventCard({ event }: EventCardProps) {
             <div className="w-full h-full bg-slate-100 flex items-center justify-center relative overflow-hidden">
               <svg className="absolute inset-0 w-full h-full opacity-20 pointer-events-none">
                 <defs>
-                  <pattern id={`grid-${event.id}`} width="32" height="32" patternUnits="userSpaceOnUse">
+                  <pattern id={patternId} width="32" height="32" patternUnits="userSpaceOnUse">
                     <path d="M 32 0 L 0 0 0 32" fill="none" stroke="#00a89d" strokeDasharray="2 4" strokeWidth="0.5" />
                   </pattern>
                 </defs>
-                <rect width="100%" height="100%" fill={`url(#grid-${event.id})`} />
+                <rect width="100%" height="100%" fill={`url(#${patternId})`} />
               </svg>
               <div className="relative z-10 flex flex-col items-center gap-2 text-slate-400">
                 <div className="w-10 h-10 rounded-lg border border-slate-200 flex items-center justify-center bg-white shadow-xs">
@@ -289,34 +291,61 @@ export default function HomeEventsClient({ initialEvents }: HomeEventsClientProp
         </div>
       </div>
 
-      {/* ── Stacking Event Rows ── */}
-      {rows.length > 0 ? (
-        <div className="space-y-8 relative">
-          {rows.map((rowEvents, rowIndex) => (
-            <div
-              key={rowIndex}
-              className="event-row grid grid-cols-1 md:grid-cols-2 gap-6 transition-transform duration-300"
-              style={{
-                position: 'sticky',
-                // Each row sticks at a progressively higher top offset so it stacks over the previous
-                top: `${100 + rowIndex * 8}px`,
-                zIndex: 10 + rowIndex,
-              }}
-            >
-              {rowEvents.map((event) => (
+      {/* ── Stacking Events ── */}
+      {filtered.length > 0 ? (
+        <>
+          {/* Mobile View (< md): Stacking per individual project card */}
+          <div className="flex flex-col space-y-6 md:hidden relative pb-8">
+            {filtered.map((event, index) => (
+              <div
+                key={`mobile-${event.id}`}
+                className="event-card-mobile-sticky transition-transform duration-300"
+                style={{
+                  position: 'sticky',
+                  top: `${76 + Math.min(index * 8, 32)}px`,
+                  zIndex: 10 + index,
+                }}
+              >
                 <motion.div
-                  key={event.id}
-                  initial={{ opacity: 0, y: 24 }}
+                  initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: '-60px' }}
+                  viewport={{ once: true, margin: '-20px' }}
                   transition={{ duration: 0.4, ease: 'easeOut' }}
                 >
-                  <EventCard event={event} />
+                  <EventCard event={event} idPrefix="m" />
                 </motion.div>
-              ))}
-            </div>
-          ))}
-        </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Desktop View (>= md): 2-per-row grid stacking */}
+          <div className="hidden md:block space-y-8 relative pb-8">
+            {rows.map((rowEvents, rowIndex) => (
+              <div
+                key={`desktop-row-${rowIndex}`}
+                className="event-row grid grid-cols-2 gap-6 transition-transform duration-300"
+                style={{
+                  position: 'sticky',
+                  // Each row sticks at a progressively higher top offset so it stacks over the previous
+                  top: `${100 + rowIndex * 8}px`,
+                  zIndex: 10 + rowIndex,
+                }}
+              >
+                {rowEvents.map((event) => (
+                  <motion.div
+                    key={event.id}
+                    initial={{ opacity: 0, y: 24 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, margin: '-60px' }}
+                    transition={{ duration: 0.4, ease: 'easeOut' }}
+                  >
+                    <EventCard event={event} idPrefix="d" />
+                  </motion.div>
+                ))}
+              </div>
+            ))}
+          </div>
+        </>
       ) : (
         /* ── Empty State ── */
         <motion.div
