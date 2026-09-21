@@ -73,6 +73,40 @@ export default function ScheduleSection({ register, errors }: ScheduleSectionPro
             </span>
           )}
         </div>
+
+        {/* Start Date & Time 2 */}
+        <div className="flex flex-col gap-1.5">
+          <label className="text-xs font-semibold text-slate-700 uppercase tracking-wider select-none">
+            Start Date & Time 2
+          </label>
+          <input
+            type="datetime-local"
+            className="bg-slate-50 text-slate-900 border border-slate-200 text-sm p-3 rounded-lg outline-none focus:border-[#4bbca9] focus:ring-2 focus:ring-[#4bbca9]/20 focus:bg-white transition-all w-full shadow-inner"
+            {...register('start_date_2')}
+          />
+          {errors.start_date_2 && (
+            <span className="text-xs text-red-500 font-medium">
+              {errors.start_date_2.message}
+            </span>
+          )}
+        </div>
+
+        {/* End Date & Time 2 */}
+        <div className="flex flex-col gap-1.5">
+          <label className="text-xs font-semibold text-slate-700 uppercase tracking-wider select-none">
+            End Date & Time 2
+          </label>
+          <input
+            type="datetime-local"
+            className="bg-slate-50 text-slate-900 border border-slate-200 text-sm p-3 rounded-lg outline-none focus:border-[#4bbca9] focus:ring-2 focus:ring-[#4bbca9]/20 focus:bg-white transition-all w-full shadow-inner"
+            {...register('end_date_2')}
+          />
+          {errors.end_date_2 && (
+            <span className="text-xs text-red-500 font-medium">
+              {errors.end_date_2.message}
+            </span>
+          )}
+        </div>
       </div>
     </div>
   );

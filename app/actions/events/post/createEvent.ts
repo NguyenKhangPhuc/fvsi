@@ -41,6 +41,8 @@ export async function createEvent({ event }: { event: EventInsert }) {
             location: event.location,
             start_date: event.start_date,
             end_date: event.end_date,
+            start_date_2: event.start_date_2 ?? null,
+            end_date_2: event.end_date_2 ?? null,
             status: EVENT_STATUS.ONGOING,
             owner_id: user.user?.id,
             register_link: event.register_link ?? null,

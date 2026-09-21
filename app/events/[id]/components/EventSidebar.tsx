@@ -117,47 +117,103 @@ export default function EventSidebar({ event }: EventSidebarProps) {
           </div>
 
           {/* Execution Timeline (Start & End Dates) */}
-          <div className="flex flex-col gap-3 pb-4 border-b border-slate-100">
-            <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">
-              Execution Timeline
-            </span>
+          {(event.start_date || event.end_date || event.start_date_2 || event.end_date_2) && (
+            <div className="flex flex-col gap-3 pb-4 border-b border-slate-100">
+              <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">
+                Execution Timeline
+              </span>
 
-            {/* Start Date */}
-            <div className="flex items-center justify-between p-2.5 rounded-lg bg-slate-50 border border-slate-100">
-              <div className="flex items-center gap-2 text-xs font-semibold text-slate-600">
-                <CalendarTodayIcon sx={{ fontSize: 14, color: '#94a3b8' }} />
-                <span>Start:</span>
-              </div>
-              <div className="text-right">
-                <span className="text-xs font-bold text-slate-900 block">
-                  {fmtDate(event.start_date)}
-                </span>
-                {event.start_date && (
-                  <span className="text-[11px] text-slate-500 font-mono">
-                    {fmtTime(event.start_date)}
+              {/* Workshop Session 1 */}
+              {(event.start_date || event.end_date) && (
+                <div className="flex flex-col gap-2">
+                  <span className="text-[11px] font-bold text-teal-800 uppercase tracking-wide block">
+                    Workshop Session 1
                   </span>
-                )}
-              </div>
-            </div>
 
-            {/* End Date */}
-            <div className="flex items-center justify-between p-2.5 rounded-lg bg-slate-50 border border-slate-100">
-              <div className="flex items-center gap-2 text-xs font-semibold text-slate-600">
-                <AccessTimeIcon sx={{ fontSize: 14, color: '#94a3b8' }} />
-                <span>End:</span>
-              </div>
-              <div className="text-right">
-                <span className="text-xs font-bold text-slate-900 block">
-                  {fmtDate(event.end_date)}
-                </span>
-                {event.end_date && (
-                  <span className="text-[11px] text-slate-500 font-mono">
-                    {fmtTime(event.end_date)}
+                  {/* Start Date */}
+                  {event.start_date && (
+                    <div className="flex items-center justify-between p-2.5 rounded-lg bg-slate-50 border border-slate-100">
+                      <div className="flex items-center gap-2 text-xs font-semibold text-slate-600">
+                        <CalendarTodayIcon sx={{ fontSize: 14, color: '#94a3b8' }} />
+                        <span>Start:</span>
+                      </div>
+                      <div className="text-right">
+                        <span className="text-xs font-bold text-slate-900 block">
+                          {fmtDate(event.start_date)}
+                        </span>
+                        <span className="text-[11px] text-slate-500 font-mono">
+                          {fmtTime(event.start_date)}
+                        </span>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* End Date */}
+                  {event.end_date && (
+                    <div className="flex items-center justify-between p-2.5 rounded-lg bg-slate-50 border border-slate-100">
+                      <div className="flex items-center gap-2 text-xs font-semibold text-slate-600">
+                        <AccessTimeIcon sx={{ fontSize: 14, color: '#94a3b8' }} />
+                        <span>End:</span>
+                      </div>
+                      <div className="text-right">
+                        <span className="text-xs font-bold text-slate-900 block">
+                          {fmtDate(event.end_date)}
+                        </span>
+                        <span className="text-[11px] text-slate-500 font-mono">
+                          {fmtTime(event.end_date)}
+                        </span>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {/* Workshop Session 2 */}
+              {(event.start_date_2 || event.end_date_2) && (
+                <div className="flex flex-col gap-2 pt-1">
+                  <span className="text-[11px] font-bold text-teal-800 uppercase tracking-wide block">
+                    Workshop Session 2
                   </span>
-                )}
-              </div>
+
+                  {/* Start Date 2 */}
+                  {event.start_date_2 && (
+                    <div className="flex items-center justify-between p-2.5 rounded-lg bg-slate-50 border border-slate-100">
+                      <div className="flex items-center gap-2 text-xs font-semibold text-slate-600">
+                        <CalendarTodayIcon sx={{ fontSize: 14, color: '#94a3b8' }} />
+                        <span>Start:</span>
+                      </div>
+                      <div className="text-right">
+                        <span className="text-xs font-bold text-slate-900 block">
+                          {fmtDate(event.start_date_2)}
+                        </span>
+                        <span className="text-[11px] text-slate-500 font-mono">
+                          {fmtTime(event.start_date_2)}
+                        </span>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* End Date 2 */}
+                  {event.end_date_2 && (
+                    <div className="flex items-center justify-between p-2.5 rounded-lg bg-slate-50 border border-slate-100">
+                      <div className="flex items-center gap-2 text-xs font-semibold text-slate-600">
+                        <AccessTimeIcon sx={{ fontSize: 14, color: '#94a3b8' }} />
+                        <span>End:</span>
+                      </div>
+                      <div className="text-right">
+                        <span className="text-xs font-bold text-slate-900 block">
+                          {fmtDate(event.end_date_2)}
+                        </span>
+                        <span className="text-[11px] text-slate-500 font-mono">
+                          {fmtTime(event.end_date_2)}
+                        </span>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              )}
             </div>
-          </div>
+          )}
 
           {/* Event Creation Info */}
           <div className="flex items-center justify-between text-xs text-slate-500 pt-1">

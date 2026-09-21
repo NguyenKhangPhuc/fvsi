@@ -39,6 +39,7 @@ export type Database = {
           content: Json | null
           created_at: string
           end_date: string | null
+          end_date_2: string | null
           id: string
           location: string | null
           max_people: number | null
@@ -47,6 +48,7 @@ export type Database = {
           register_link: string | null
           short_description: string | null
           start_date: string | null
+          start_date_2: string | null
           status: Database["public"]["Enums"]["EVENT_STATUS"] | null
           title: string | null
         }
@@ -54,6 +56,7 @@ export type Database = {
           content?: Json | null
           created_at?: string
           end_date?: string | null
+          end_date_2?: string | null
           id?: string
           location?: string | null
           max_people?: number | null
@@ -62,6 +65,7 @@ export type Database = {
           register_link?: string | null
           short_description?: string | null
           start_date?: string | null
+          start_date_2?: string | null
           status?: Database["public"]["Enums"]["EVENT_STATUS"] | null
           title?: string | null
         }
@@ -69,6 +73,7 @@ export type Database = {
           content?: Json | null
           created_at?: string
           end_date?: string | null
+          end_date_2?: string | null
           id?: string
           location?: string | null
           max_people?: number | null
@@ -77,6 +82,7 @@ export type Database = {
           register_link?: string | null
           short_description?: string | null
           start_date?: string | null
+          start_date_2?: string | null
           status?: Database["public"]["Enums"]["EVENT_STATUS"] | null
           title?: string | null
         }

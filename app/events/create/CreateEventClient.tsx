@@ -40,6 +40,8 @@ export interface EventForm {
   id?: string;
   register_link?: string | null;
   max_people?: number | null;
+  start_date_2?: string | null;
+  end_date_2?: string | null;
 }
 
 export default function CreateEventClient() {
@@ -60,6 +62,8 @@ export default function CreateEventClient() {
       location: '',
       register_link: '',
       max_people: null,
+      start_date_2: '',
+      end_date_2: '',
     },
   });
 
@@ -76,6 +80,8 @@ export default function CreateEventClient() {
         ...event,
         start_date: convertLocalToUTC(event.start_date),
         end_date: convertLocalToUTC(event.end_date),
+        start_date_2: convertLocalToUTC(event.start_date_2),
+        end_date_2: convertLocalToUTC(event.end_date_2),
         register_link: event.register_link?.trim() || null,
         max_people: event.max_people ? Number(event.max_people) : null,
       };

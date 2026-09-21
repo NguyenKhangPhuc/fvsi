@@ -32,6 +32,8 @@ export async function updateEventInfo({ event }: { event: EventInsert }) {
         title: event.title,
         start_date: event.start_date,
         end_date: event.end_date,
+        start_date_2: event.start_date_2 ?? null,
+        end_date_2: event.end_date_2 ?? null,
         short_description: event.short_description,
         content: event.content,
         location: event.location,

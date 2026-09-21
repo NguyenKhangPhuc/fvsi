@@ -164,31 +164,70 @@ function EventCard({ event, idPrefix }: EventCardProps) {
           )}
         </div>
 
-        {/* Date & Time */}
-        <div className="flex flex-wrap items-center gap-2 text-teal-700 text-xs font-semibold">
-          <span className="flex items-center gap-1">
-            <CalendarTodayIcon sx={{ fontSize: 14 }} />
-            <span>{formatDate(event.start_date)}</span>
-          </span>
-          {event.start_date && (
-            <>
-              <span className="text-slate-300">•</span>
-              <span className="flex items-center gap-1">
-                <ScheduleIcon sx={{ fontSize: 14 }} />
-                <span>{formatTime(event.start_date)}</span>
-              </span>
-            </>
-          )}
-          {event.end_date && (
-            <>
-              <span className="text-slate-300">•</span>
-              <span className="flex items-center gap-1">
-                <ScheduleIcon sx={{ fontSize: 14 }} />
-                <span>{formatTime(event.end_date)}</span>
-              </span>
-            </>
-          )}
-        </div>
+        {/* Date & Time Sessions */}
+        {(event.start_date || event.end_date || event.start_date_2 || event.end_date_2) && (
+          <div className="flex flex-col gap-1.5 text-teal-700 text-xs font-semibold">
+            {/* Session 1 */}
+            {(event.start_date || event.end_date) && (
+              <div className="flex flex-wrap items-center gap-1.5">
+                <span className="text-[11px] font-bold text-teal-800 shrink-0">
+                  Session 1:
+                </span>
+                {event.start_date && (
+                  <span className="flex items-center gap-1 text-slate-700">
+                    <CalendarTodayIcon sx={{ fontSize: 13, color: '#00a89d' }} />
+                    <span>{formatDate(event.start_date)}</span>
+                  </span>
+                )}
+                {event.start_date && (
+                  <>
+                    <span className="text-slate-300">•</span>
+                    <span className="flex items-center gap-1 text-teal-700">
+                      <ScheduleIcon sx={{ fontSize: 13 }} />
+                      <span>{formatTime(event.start_date)}</span>
+                    </span>
+                  </>
+                )}
+                {event.end_date && (
+                  <>
+                    <span className="text-slate-300">-</span>
+                    <span className="text-teal-700">{formatTime(event.end_date)}</span>
+                  </>
+                )}
+              </div>
+            )}
+
+            {/* Session 2 */}
+            {(event.start_date_2 || event.end_date_2) && (
+              <div className="flex flex-wrap items-center gap-1.5">
+                <span className="text-[11px] font-bold text-teal-800 shrink-0">
+                  Session 2:
+                </span>
+                {event.start_date_2 && (
+                  <span className="flex items-center gap-1 text-slate-700">
+                    <CalendarTodayIcon sx={{ fontSize: 13, color: '#00a89d' }} />
+                    <span>{formatDate(event.start_date_2)}</span>
+                  </span>
+                )}
+                {event.start_date_2 && (
+                  <>
+                    <span className="text-slate-300">•</span>
+                    <span className="flex items-center gap-1 text-teal-700">
+                      <ScheduleIcon sx={{ fontSize: 13 }} />
+                      <span>{formatTime(event.start_date_2)}</span>
+                    </span>
+                  </>
+                )}
+                {event.end_date_2 && (
+                  <>
+                    <span className="text-slate-300">-</span>
+                    <span className="text-teal-700">{formatTime(event.end_date_2)}</span>
+                  </>
+                )}
+              </div>
+            )}
+          </div>
+        )}
 
         {/* Title */}
         <h3 className="text-[18px] font-semibold text-slate-950 leading-snug group-hover:text-teal-700 transition-colors line-clamp-2">

@@ -136,32 +136,82 @@ export default function EventTable({
 
                     {/* 3. Start Date Time */}
                     <td className="py-4 px-4 whitespace-nowrap">
-                      <div className="flex flex-col gap-0.5 text-slate-700">
-                        <span className="flex items-center gap-1.5 font-semibold text-xs">
-                          <CalendarTodayIcon sx={{ fontSize: 13, color: '#00a89d' }} />
-                          <span>{formatDate(event.start_date)}</span>
-                        </span>
-                        {event.start_date && (
-                          <span className="flex items-center gap-1.5 text-[11px] text-slate-500 pl-5">
-                            <ScheduleIcon sx={{ fontSize: 12 }} />
-                            <span>{formatTime(event.start_date)}</span>
+                      <div className="flex flex-col gap-1.5 text-slate-700">
+                        {/* Session 1 Start */}
+                        <div className="flex flex-col gap-0.5">
+                          {event.start_date_2 && (
+                            <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">
+                              Session 1:
+                            </span>
+                          )}
+                          <span className="flex items-center gap-1.5 font-semibold text-xs">
+                            <CalendarTodayIcon sx={{ fontSize: 13, color: '#00a89d' }} />
+                            <span>{formatDate(event.start_date)}</span>
                           </span>
+                          {event.start_date && (
+                            <span className="flex items-center gap-1.5 text-[11px] text-slate-500 pl-5">
+                              <ScheduleIcon sx={{ fontSize: 12 }} />
+                              <span>{formatTime(event.start_date)}</span>
+                            </span>
+                          )}
+                        </div>
+
+                        {/* Session 2 Start */}
+                        {event.start_date_2 && (
+                          <div className="pt-1.5 border-t border-slate-100 flex flex-col gap-0.5">
+                            <span className="text-[10px] font-bold text-teal-800 uppercase tracking-wider">
+                              Session 2:
+                            </span>
+                            <span className="flex items-center gap-1.5 font-semibold text-xs text-teal-900">
+                              <CalendarTodayIcon sx={{ fontSize: 13, color: '#00a89d' }} />
+                              <span>{formatDate(event.start_date_2)}</span>
+                            </span>
+                            <span className="flex items-center gap-1.5 text-[11px] text-slate-500 pl-5">
+                              <ScheduleIcon sx={{ fontSize: 12 }} />
+                              <span>{formatTime(event.start_date_2)}</span>
+                            </span>
+                          </div>
                         )}
                       </div>
                     </td>
 
                     {/* 4. End Date Time */}
                     <td className="py-4 px-4 whitespace-nowrap">
-                      <div className="flex flex-col gap-0.5 text-slate-700">
-                        <span className="flex items-center gap-1.5 font-semibold text-xs">
-                          <CalendarTodayIcon sx={{ fontSize: 13, color: '#00a89d' }} />
-                          <span>{formatDate(event.end_date)}</span>
-                        </span>
-                        {event.end_date && (
-                          <span className="flex items-center gap-1.5 text-[11px] text-slate-500 pl-5">
-                            <ScheduleIcon sx={{ fontSize: 12 }} />
-                            <span>{formatTime(event.end_date)}</span>
+                      <div className="flex flex-col gap-1.5 text-slate-700">
+                        {/* Session 1 End */}
+                        <div className="flex flex-col gap-0.5">
+                          {event.end_date_2 && (
+                            <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">
+                              Session 1:
+                            </span>
+                          )}
+                          <span className="flex items-center gap-1.5 font-semibold text-xs">
+                            <CalendarTodayIcon sx={{ fontSize: 13, color: '#00a89d' }} />
+                            <span>{formatDate(event.end_date)}</span>
                           </span>
+                          {event.end_date && (
+                            <span className="flex items-center gap-1.5 text-[11px] text-slate-500 pl-5">
+                              <ScheduleIcon sx={{ fontSize: 12 }} />
+                              <span>{formatTime(event.end_date)}</span>
+                            </span>
+                          )}
+                        </div>
+
+                        {/* Session 2 End */}
+                        {event.end_date_2 && (
+                          <div className="pt-1.5 border-t border-slate-100 flex flex-col gap-0.5">
+                            <span className="text-[10px] font-bold text-teal-800 uppercase tracking-wider">
+                              Session 2:
+                            </span>
+                            <span className="flex items-center gap-1.5 font-semibold text-xs text-teal-900">
+                              <CalendarTodayIcon sx={{ fontSize: 13, color: '#00a89d' }} />
+                              <span>{formatDate(event.end_date_2)}</span>
+                            </span>
+                            <span className="flex items-center gap-1.5 text-[11px] text-slate-500 pl-5">
+                              <ScheduleIcon sx={{ fontSize: 12 }} />
+                              <span>{formatTime(event.end_date_2)}</span>
+                            </span>
+                          </div>
                         )}
                       </div>
                     </td>
