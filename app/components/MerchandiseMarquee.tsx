@@ -24,15 +24,21 @@ interface MerchandiseItem {
 const MERCHANDISE_ITEMS: MerchandiseItem[] = [
   {
     id: 'merch-1',
-    title: 'University of Oulu Tote Bags',
+    title: 'University of Oulu Tote Bag',
     src: '/merchandise/university_bag.jpg',
     alt: 'University of Oulu Tote Bags',
   },
   {
-    id: 'merch-2',
-    title: 'University of Oulu Merchandise',
-    src: '/merchandise/merch_2_img.webp',
-    alt: 'University of Oulu Merchandise',
+    id: 'merch-booklet',
+    title: 'University of Oulu Booklet',
+    src: '/merchandise/booklet.jpg',
+    alt: 'University of Oulu Booklet',
+  },
+  {
+    id: 'merch-pen',
+    title: 'University of Oulu Pen',
+    src: '/merchandise/pen.jpg',
+    alt: 'University of Oulu Pen',
   },
   {
     id: 'merch-3',
