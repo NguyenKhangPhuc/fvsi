@@ -25,7 +25,6 @@ import MenuIcon from '@mui/icons-material/Menu'
 import CloseIcon from '@mui/icons-material/Close'
 import PersonIcon from '@mui/icons-material/Person'
 import LoginIcon from '@mui/icons-material/Login'
-import PersonAddIcon from '@mui/icons-material/PersonAdd'
 import LogoutIcon from '@mui/icons-material/Logout'
 import HomeIcon from '@mui/icons-material/Home'
 import GroupsIcon from '@mui/icons-material/Groups'
@@ -120,11 +119,11 @@ export default function NavbarMobile({ initialUser }: NavbarMobileProps) {
               </button>
             ) : (
               <Link
-                href="/sign-up"
+                href="/login"
                 className="flex items-center gap-1 px-2.5 py-1 text-xs font-bold text-white bg-[#4bbca9] rounded-lg shadow-2xs hover:bg-[#3ea694] transition-all"
               >
-                <PersonAddIcon sx={{ fontSize: 14 }} />
-                <span>Sign Up</span>
+                <LoginIcon sx={{ fontSize: 14 }} />
+                <span>Sign In</span>
               </Link>
             )}
 
@@ -244,18 +243,10 @@ export default function NavbarMobile({ initialUser }: NavbarMobileProps) {
                     <Link
                       href="/login"
                       onClick={closeMenu}
-                      className="flex items-center justify-center gap-2 w-full px-4 py-2.5 text-sm text-slate-700 border border-slate-200 hover:bg-slate-100 rounded-lg transition-all font-medium"
+                      className="flex items-center justify-center gap-2 w-full px-4 py-2.5 text-sm font-bold text-white bg-[#4bbca9] rounded-lg shadow-[0_0_12px_rgba(75,188,169,0.35)] hover:shadow-[0_0_20px_rgba(75,188,169,0.5)] hover:bg-[#3ea694] transition-all"
                     >
                       <LoginIcon sx={{ fontSize: 16 }} />
                       <span>Sign In</span>
-                    </Link>
-                    <Link
-                      href="/sign-up"
-                      onClick={closeMenu}
-                      className="flex items-center justify-center gap-2 w-full px-4 py-2.5 text-sm font-bold text-white bg-[#4bbca9] rounded-lg shadow-[0_0_12px_rgba(75,188,169,0.35)] hover:shadow-[0_0_20px_rgba(75,188,169,0.5)] hover:bg-[#3ea694] transition-all"
-                    >
-                      <PersonAddIcon sx={{ fontSize: 16 }} />
-                      <span>Sign Up</span>
                     </Link>
                   </div>
                 )}

@@ -21,6 +21,7 @@ import AccessTimeIcon from '@mui/icons-material/AccessTime'
 import PeopleOutlinedIcon from '@mui/icons-material/PeopleOutlined'
 import CheckCircleOutlinedIcon from '@mui/icons-material/CheckCircleOutlined'
 import HourglassEmptyIcon from '@mui/icons-material/HourglassEmpty'
+import PersonOutlineIcon from '@mui/icons-material/PersonOutline'
 import { Event } from '@/app/types/event'
 import { EVENT_STATUS } from '@/app/types/enum'
 
@@ -116,11 +117,31 @@ export default function EventSidebar({ event }: EventSidebarProps) {
             </div>
           </div>
 
-          {/* Execution Timeline (Start & End Dates) */}
-          {(event.start_date || event.end_date || event.start_date_2 || event.end_date_2) && (
-            <div className="flex flex-col gap-3 pb-4 border-b border-slate-100">
+          {/* Workshop Organiser */}
+          <div className="flex flex-col gap-2.5 pb-4 border-b border-slate-100">
+            <div className="flex items-center gap-1.5">
+              <PersonOutlineIcon sx={{ fontSize: 16, color: '#4bbca9' }} />
               <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">
-                Execution Timeline
+                Workshop Organiser
+              </span>
+            </div>
+            <div className="flex flex-col gap-2">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between p-2.5 rounded-lg bg-slate-50 border border-slate-100 gap-1">
+                <span className="text-xs font-bold text-slate-900">Hanna Saarela</span>
+                <span className="text-[11px] text-slate-500 font-medium">Development Manager</span>
+              </div>
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between p-2.5 rounded-lg bg-slate-50 border border-slate-100 gap-1">
+                <span className="text-xs font-bold text-slate-900">Phuc Nguyen</span>
+                <span className="text-[11px] text-slate-500 font-medium">(Third-year CSE student)</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Workshop Session(s) */}
+          {(event.start_date || event.end_date || event.start_date_2 || event.end_date_2) && (
+            <div className="flex flex-col gap-3">
+              <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">
+                Workshop Session(s)
               </span>
 
               {/* Workshop Session 1 */}
@@ -214,14 +235,6 @@ export default function EventSidebar({ event }: EventSidebarProps) {
               )}
             </div>
           )}
-
-          {/* Event Creation Info */}
-          <div className="flex items-center justify-between text-xs text-slate-500 pt-1">
-            <span className="text-[11px] font-medium text-slate-400">Created:</span>
-            <span className="text-xs font-mono font-medium text-slate-700">
-              {fmtDate(event.created_at)}
-            </span>
-          </div>
         </div>
       </div>
     </motion.div>

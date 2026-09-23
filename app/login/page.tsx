@@ -15,9 +15,7 @@
 
 import GitHubIconMui from "@mui/icons-material/GitHub"
 import GoogleIcon from "@mui/icons-material/Google"
-// import MicrosoftIcon from "@mui/icons-material/Microsoft"
 import { useForm } from "react-hook-form"
-import Link from "next/link"
 import { createClient } from "../utils/supabase/client"
 import { login } from "../actions/authentication/post/login"
 import { resendVerificationCode } from "../actions/authentication/post/resendVerificationCode"
@@ -183,16 +181,7 @@ const Home = () => {
             Sign In
           </button>
 
-          {/* Switch to Sign Up */}
-          <p className="text-center text-sm text-slate-500 mt-1">
-            Don&apos;t have an account?{" "}
-            <Link
-              href="/sign-up"
-              className="text-teal-700 font-semibold hover:underline transition-colors"
-            >
-              Sign Up
-            </Link>
-          </p>
+
 
           {/* Divider */}
           <div className="flex items-center gap-4 my-1">

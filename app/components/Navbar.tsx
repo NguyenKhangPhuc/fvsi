@@ -23,7 +23,6 @@ import { usePathname, useRouter } from 'next/navigation'
 import { motion } from 'framer-motion'
 import PersonIcon from '@mui/icons-material/Person'
 import LoginIcon from '@mui/icons-material/Login'
-import PersonAddIcon from '@mui/icons-material/PersonAdd'
 import LogoutIcon from '@mui/icons-material/Logout'
 import { Database } from '@/app/types/database.types'
 import { createClient } from '@/app/utils/supabase/client'
@@ -148,22 +147,13 @@ export default function NavBar({ initialUser }: NavBarProps) {
               </button>
             </div>
           ) : (
-            <>
-              <Link
-                href="/login"
-                className="flex items-center gap-1.5 px-4 py-2 text-sm text-slate-700 hover:text-slate-950 border border-slate-200 hover:bg-slate-50 rounded-lg transition-all font-medium"
-              >
-                <LoginIcon sx={{ fontSize: 16 }} />
-                <span>Sign In</span>
-              </Link>
-              <Link
-                href="/sign-up"
-                className="flex items-center gap-1.5 px-4 py-2 text-sm font-bold text-white bg-[#4bbca9] rounded-lg shadow-[0_0_16px_rgba(75,188,169,0.35)] hover:shadow-[0_0_24px_rgba(75,188,169,0.5)] hover:bg-[#3ea694] transition-all"
-              >
-                <PersonAddIcon sx={{ fontSize: 16 }} />
-                <span>Sign Up</span>
-              </Link>
-            </>
+            <Link
+              href="/login"
+              className="flex items-center gap-1.5 px-4 py-2 text-sm font-bold text-white bg-[#4bbca9] rounded-lg shadow-[0_0_16px_rgba(75,188,169,0.35)] hover:shadow-[0_0_24px_rgba(75,188,169,0.5)] hover:bg-[#3ea694] transition-all"
+            >
+              <LoginIcon sx={{ fontSize: 16 }} />
+              <span>Sign In</span>
+            </Link>
           )}
         </div>
       </div>

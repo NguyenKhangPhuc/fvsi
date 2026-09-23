@@ -120,8 +120,8 @@ function EventCard({ event, idPrefix }: EventCardProps) {
   const posterUrl = getPosterUrl(event.poster_path)
   // console.log("THis is", posterUrl)
   return (
-    <article className="event-card group rounded-xl bg-white border border-slate-200 shadow-md p-4 lg:p-6 flex flex-col justify-between transition-all duration-300 hover:border-teal-500/50 hover:shadow-[0_8px_30px_rgba(0,194,178,0.2)]">
-      <div className="space-y-4">
+    <article className="event-card group h-full min-h-[520px] md:min-h-[580px] lg:min-h-[640px] rounded-xl bg-white border border-slate-200 shadow-md p-4 lg:p-6 flex flex-col justify-between transition-all duration-300 hover:border-teal-500/50 hover:shadow-[0_8px_30px_rgba(0,194,178,0.2)]">
+      <div className="space-y-4 flex-1 flex flex-col">
         {/* Poster Image */}
         <div className="relative w-full aspect-video rounded-lg overflow-hidden bg-slate-100">
           {posterUrl ? (
@@ -164,70 +164,78 @@ function EventCard({ event, idPrefix }: EventCardProps) {
           )}
         </div>
 
-        {/* Date & Time Sessions */}
-        {(event.start_date || event.end_date || event.start_date_2 || event.end_date_2) && (
-          <div className="flex flex-col gap-1.5 text-teal-700 text-xs font-semibold">
-            {/* Session 1 */}
-            {(event.start_date || event.end_date) && (
-              <div className="flex flex-wrap items-center gap-1.5">
-                <span className="text-[11px] font-bold text-teal-800 shrink-0">
-                  Session 1:
-                </span>
-                {event.start_date && (
-                  <span className="flex items-center gap-1 text-slate-700">
-                    <CalendarTodayIcon sx={{ fontSize: 13, color: '#00a89d' }} />
-                    <span>{formatDate(event.start_date)}</span>
+        {/* Date & Time Sessions & Static City */}
+        <div className="flex flex-col gap-1.5">
+          {(event.start_date || event.end_date || event.start_date_2 || event.end_date_2) && (
+            <div className="min-h-[48px] flex flex-col justify-start gap-1.5 text-teal-700 text-xs font-semibold">
+              {/* Session 1 */}
+              {(event.start_date || event.end_date) && (
+                <div className="flex flex-wrap items-center gap-1.5">
+                  <span className="text-[11px] font-bold text-teal-800 shrink-0">
+                    Session 1:
                   </span>
-                )}
-                {event.start_date && (
-                  <>
-                    <span className="text-slate-300">•</span>
-                    <span className="flex items-center gap-1 text-teal-700">
-                      <ScheduleIcon sx={{ fontSize: 13 }} />
-                      <span>{formatTime(event.start_date)}</span>
+                  {event.start_date && (
+                    <span className="flex items-center gap-1 text-slate-700">
+                      <CalendarTodayIcon sx={{ fontSize: 13, color: '#00a89d' }} />
+                      <span>{formatDate(event.start_date)}</span>
                     </span>
-                  </>
-                )}
-                {event.end_date && (
-                  <>
-                    <span className="text-slate-300">-</span>
-                    <span className="text-teal-700">{formatTime(event.end_date)}</span>
-                  </>
-                )}
-              </div>
-            )}
+                  )}
+                  {event.start_date && (
+                    <>
+                      <span className="text-slate-300">•</span>
+                      <span className="flex items-center gap-1 text-teal-700">
+                        <ScheduleIcon sx={{ fontSize: 13 }} />
+                        <span>{formatTime(event.start_date)}</span>
+                      </span>
+                    </>
+                  )}
+                  {event.end_date && (
+                    <>
+                      <span className="text-slate-300">-</span>
+                      <span className="text-teal-700">{formatTime(event.end_date)}</span>
+                    </>
+                  )}
+                </div>
+              )}
 
-            {/* Session 2 */}
-            {(event.start_date_2 || event.end_date_2) && (
-              <div className="flex flex-wrap items-center gap-1.5">
-                <span className="text-[11px] font-bold text-teal-800 shrink-0">
-                  Session 2:
-                </span>
-                {event.start_date_2 && (
-                  <span className="flex items-center gap-1 text-slate-700">
-                    <CalendarTodayIcon sx={{ fontSize: 13, color: '#00a89d' }} />
-                    <span>{formatDate(event.start_date_2)}</span>
+              {/* Session 2 */}
+              {(event.start_date_2 || event.end_date_2) && (
+                <div className="flex flex-wrap items-center gap-1.5">
+                  <span className="text-[11px] font-bold text-teal-800 shrink-0">
+                    Session 2:
                   </span>
-                )}
-                {event.start_date_2 && (
-                  <>
-                    <span className="text-slate-300">•</span>
-                    <span className="flex items-center gap-1 text-teal-700">
-                      <ScheduleIcon sx={{ fontSize: 13 }} />
-                      <span>{formatTime(event.start_date_2)}</span>
+                  {event.start_date_2 && (
+                    <span className="flex items-center gap-1 text-slate-700">
+                      <CalendarTodayIcon sx={{ fontSize: 13, color: '#00a89d' }} />
+                      <span>{formatDate(event.start_date_2)}</span>
                     </span>
-                  </>
-                )}
-                {event.end_date_2 && (
-                  <>
-                    <span className="text-slate-300">-</span>
-                    <span className="text-teal-700">{formatTime(event.end_date_2)}</span>
-                  </>
-                )}
-              </div>
-            )}
+                  )}
+                  {event.start_date_2 && (
+                    <>
+                      <span className="text-slate-300">•</span>
+                      <span className="flex items-center gap-1 text-teal-700">
+                        <ScheduleIcon sx={{ fontSize: 13 }} />
+                        <span>{formatTime(event.start_date_2)}</span>
+                      </span>
+                    </>
+                  )}
+                  {event.end_date_2 && (
+                    <>
+                      <span className="text-slate-300">-</span>
+                      <span className="text-teal-700">{formatTime(event.end_date_2)}</span>
+                    </>
+                  )}
+                </div>
+              )}
+            </div>
+          )}
+
+          {/* Static City under time session */}
+          <div className="flex items-center gap-1 text-xs font-semibold text-slate-600">
+            <LocationOnIcon sx={{ fontSize: 14, color: '#00a89d' }} />
+            <span>TP Hồ Chí Minh</span>
           </div>
-        )}
+        </div>
 
         {/* Title */}
         <h3 className="text-[18px] font-semibold text-slate-950 leading-snug group-hover:text-teal-700 transition-colors line-clamp-2">
@@ -251,19 +259,14 @@ function EventCard({ event, idPrefix }: EventCardProps) {
       </div>
 
       {/* Card Footer */}
-      <div className="pt-4 mt-4 flex items-center justify-between border-t border-slate-100 gap-2">
-        <span className="text-[10px] font-semibold uppercase tracking-wider text-teal-800 truncate">
-          Venue: {event.location ?? 'Online / Campus'}
-        </span>
-        <div className="flex items-center gap-2 shrink-0">
-          <Link
-            href={`/events/${event.id}`}
-            className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg bg-slate-100 border border-slate-200 text-slate-800 text-xs font-bold hover:bg-[#4bbca9] hover:text-white hover:border-[#4bbca9] transition-all duration-200"
-          >
-            <span>View Details</span>
-            <ArrowForwardIcon sx={{ fontSize: 14 }} />
-          </Link>
-        </div>
+      <div className="pt-4 mt-4 flex items-center justify-end border-t border-slate-100">
+        <Link
+          href={`/events/${event.id}`}
+          className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg bg-slate-100 border border-slate-200 text-slate-800 text-xs font-bold hover:bg-[#4bbca9] hover:text-white hover:border-[#4bbca9] transition-all duration-200"
+        >
+          <span>View Details</span>
+          <ArrowForwardIcon sx={{ fontSize: 14 }} />
+        </Link>
       </div>
     </article>
   )
@@ -346,6 +349,7 @@ export default function HomeEventsClient({ initialEvents }: HomeEventsClientProp
                 }}
               >
                 <motion.div
+                  className="h-full flex flex-col"
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, margin: '-20px' }}
@@ -373,6 +377,7 @@ export default function HomeEventsClient({ initialEvents }: HomeEventsClientProp
                 {rowEvents.map((event) => (
                   <motion.div
                     key={event.id}
+                    className="h-full flex flex-col"
                     initial={{ opacity: 0, y: 24 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true, margin: '-60px' }}
