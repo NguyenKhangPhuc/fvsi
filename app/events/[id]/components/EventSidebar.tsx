@@ -21,7 +21,7 @@ import AccessTimeIcon from '@mui/icons-material/AccessTime'
 import PeopleOutlinedIcon from '@mui/icons-material/PeopleOutlined'
 import CheckCircleOutlinedIcon from '@mui/icons-material/CheckCircleOutlined'
 import HourglassEmptyIcon from '@mui/icons-material/HourglassEmpty'
-import PersonOutlineIcon from '@mui/icons-material/PersonOutline'
+import Person2OutlinedIcon from '@mui/icons-material/Person2Outlined'
 import { Event } from '@/app/types/event'
 import { EVENT_STATUS } from '@/app/types/enum'
 
@@ -120,7 +120,7 @@ export default function EventSidebar({ event }: EventSidebarProps) {
           {/* Workshop Organiser */}
           <div className="flex flex-col gap-2.5 pb-4 border-b border-slate-100">
             <div className="flex items-center gap-1.5">
-              <PersonOutlineIcon sx={{ fontSize: 16, color: '#4bbca9' }} />
+              <Person2OutlinedIcon sx={{ fontSize: 16, color: '#4bbca9' }} />
               <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">
                 Workshop Organiser
               </span>
