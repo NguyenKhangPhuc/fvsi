@@ -96,6 +96,7 @@ export default function EventTable({
             ) : (
               paginatedEvents.map((event, idx) => {
                 const isOngoing = event.status === EVENT_STATUS.ONGOING
+                const isUpcoming = event.status === EVENT_STATUS.UPCOMING
                 const isUpdating = updatingEventId === event.id
 
                 return (
@@ -221,15 +222,19 @@ export default function EventTable({
                       <div className="relative inline-block">
                         <select
                           disabled={isUpdating}
-                          value={event.status ?? EVENT_STATUS.ONGOING}
+                          value={event.status ?? EVENT_STATUS.UPCOMING}
                           onChange={(e) =>
                             handleStatusChange(event.id, e.target.value as EVENT_STATUS)
                           }
-                          className={`text-xs font-semibold py-1.5 px-2.5 rounded-lg border focus:outline-none focus:ring-2 focus:ring-teal-400 cursor-pointer transition-all ${isOngoing
-                            ? 'bg-teal-50/80 text-teal-700 border-teal-200 hover:bg-teal-100/70'
-                            : 'bg-slate-100 text-slate-700 border-slate-200 hover:bg-slate-200/60'
+                          className={`text-xs font-semibold py-1.5 px-2.5 rounded-lg border focus:outline-none focus:ring-2 cursor-pointer transition-all ${
+                            isOngoing
+                              ? 'bg-teal-50/80 text-teal-700 border-teal-200 hover:bg-teal-100/70 focus:ring-teal-400'
+                              : isUpcoming
+                              ? 'bg-amber-50/80 text-amber-700 border-amber-200 hover:bg-amber-100/70 focus:ring-amber-400'
+                              : 'bg-slate-100 text-slate-700 border-slate-200 hover:bg-slate-200/60 focus:ring-slate-400'
                             } ${isUpdating ? 'opacity-50 pointer-events-none' : ''}`}
                         >
+                          <option value={EVENT_STATUS.UPCOMING}>Upcoming</option>
                           <option value={EVENT_STATUS.ONGOING}>Ongoing</option>
                           <option value={EVENT_STATUS.FINISHED}>Finished</option>
                         </select>

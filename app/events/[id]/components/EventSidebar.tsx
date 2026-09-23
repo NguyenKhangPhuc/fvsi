@@ -33,6 +33,9 @@ export default function EventSidebar({ event }: EventSidebarProps) {
   const isOngoing =
     event.status?.toLowerCase() === EVENT_STATUS.ONGOING.toLowerCase() ||
     event.status?.toUpperCase() === 'ONGOING'
+  const isUpcoming =
+    event.status?.toLowerCase() === EVENT_STATUS.UPCOMING.toLowerCase() ||
+    event.status?.toUpperCase() === 'UPCOMING'
 
   const maxMembers = (event as any).member_per_groups ?? (event as any).max_group_members
 
@@ -93,6 +96,13 @@ export default function EventSidebar({ event }: EventSidebarProps) {
                     <HourglassEmptyIcon sx={{ fontSize: 16, color: '#4bbca9' }} />
                     <span className="text-xs font-bold text-teal-700 uppercase">
                       Ongoing
+                    </span>
+                  </>
+                ) : isUpcoming ? (
+                  <>
+                    <AccessTimeIcon sx={{ fontSize: 16, color: '#d97706' }} />
+                    <span className="text-xs font-bold text-amber-700 uppercase">
+                      Upcoming
                     </span>
                   </>
                 ) : (

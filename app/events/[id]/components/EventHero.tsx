@@ -33,6 +33,9 @@ export default function EventHero({ event, posterUrl }: EventHeroProps) {
   const isOngoing =
     event.status?.toLowerCase() === EVENT_STATUS.ONGOING.toLowerCase() ||
     event.status?.toUpperCase() === 'ONGOING'
+  const isUpcoming =
+    event.status?.toLowerCase() === EVENT_STATUS.UPCOMING.toLowerCase() ||
+    event.status?.toUpperCase() === 'UPCOMING'
 
   const eventTitle =
     event.title ||
@@ -56,15 +59,21 @@ export default function EventHero({ event, posterUrl }: EventHeroProps) {
             className={`inline-flex items-center gap-2 text-xs px-3 py-1 font-bold rounded-lg border ${
               isOngoing
                 ? 'bg-teal-50 border-teal-200 text-[#00a89d]'
+                : isUpcoming
+                ? 'bg-amber-50 border-amber-200 text-amber-700'
                 : 'bg-slate-100 border-slate-200 text-slate-600'
             }`}
           >
             <span
               className={`w-2 h-2 rounded-full ${
-                isOngoing ? 'bg-[#4bbca9] animate-pulse' : 'bg-slate-400'
+                isOngoing
+                  ? 'bg-[#4bbca9] animate-pulse'
+                  : isUpcoming
+                  ? 'bg-amber-500'
+                  : 'bg-slate-400'
               }`}
             />
-            <span>{isOngoing ? 'ONGOING' : 'FINISHED'}</span>
+            <span>{isOngoing ? 'ONGOING' : isUpcoming ? 'UPCOMING' : 'FINISHED'}</span>
           </div>
 
           {event.max_people ? (

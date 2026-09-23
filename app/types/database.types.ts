@@ -128,7 +128,7 @@ export type Database = {
       get_my_role: { Args: never; Returns: string }
     }
     Enums: {
-      EVENT_STATUS: "ongoing" | "finished"
+      EVENT_STATUS: "ongoing" | "finished" | "upcoming"
       PROFILE_ROLE: "admin" | "student"
     }
     CompositeTypes: {
@@ -260,7 +260,7 @@ export const Constants = {
   },
   public: {
     Enums: {
-      EVENT_STATUS: ["ongoing", "finished"],
+      EVENT_STATUS: ["ongoing", "finished", "upcoming"],
       PROFILE_ROLE: ["admin", "student"],
     },
   },

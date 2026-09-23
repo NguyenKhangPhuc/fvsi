@@ -35,6 +35,7 @@ import EventBusyIcon from '@mui/icons-material/EventBusy'
 import CheckCircleIcon from '@mui/icons-material/CheckCircle'
 import PlayCircleIcon from '@mui/icons-material/PlayCircle'
 import { Event as EventRecord } from '@/app/types/event'
+import { EVENT_STATUS } from '@/app/types/enum'
 import { createClient } from '@/app/utils/supabase/client'
 import { handleGetUrl } from '@/app/helpers/FileUrl'
 
@@ -72,7 +73,8 @@ function formatTime(dateStr: string | null): string {
 }
 
 function StatusBadge({ status }: { status: string | null }) {
-  if (status === 'ongoing') {
+  const normStatus = status?.toLowerCase()
+  if (normStatus === EVENT_STATUS.ONGOING || normStatus === 'ongoing') {
     return (
       <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded bg-slate-950/90 border border-white/20 text-[#4bbca9] text-[10px] font-bold uppercase tracking-wider">
         <PlayCircleIcon sx={{ fontSize: 12 }} />
@@ -80,7 +82,7 @@ function StatusBadge({ status }: { status: string | null }) {
       </span>
     )
   }
-  if (status === 'finished') {
+  if (normStatus === EVENT_STATUS.FINISHED || normStatus === 'finished') {
     return (
       <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded bg-slate-200 border border-slate-300 text-slate-700 text-[10px] font-bold uppercase tracking-wider">
         <CheckCircleIcon sx={{ fontSize: 12 }} />
@@ -89,7 +91,8 @@ function StatusBadge({ status }: { status: string | null }) {
     )
   }
   return (
-    <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded bg-slate-950/90 border border-white/20 text-teal-300 text-[10px] font-bold uppercase tracking-wider">
+    <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded bg-slate-950/90 border border-white/20 text-amber-300 text-[10px] font-bold uppercase tracking-wider">
+      <ScheduleIcon sx={{ fontSize: 12 }} />
       Upcoming
     </span>
   )

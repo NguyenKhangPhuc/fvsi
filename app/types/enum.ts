@@ -6,6 +6,7 @@ export enum PROFILE_ROLE {
 export enum EVENT_STATUS {
     FINISHED = 'finished',
     ONGOING = 'ongoing',
+    UPCOMING = 'upcoming',
 }
 export enum AUTH_ERROR_CODE {
     INVALID_CREDENTIALS = 'invalid_credentials',

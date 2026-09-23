@@ -82,9 +82,9 @@ export default function NavBar({ initialUser }: NavBarProps) {
       transition={{ duration: 0.4, ease: 'easeOut' }}
       className="fixed top-6 left-0 right-0 z-50 px-4 lg:px-6 max-w-[1280px] mx-auto w-full"
     >
-      <div className="bg-white/90 backdrop-blur-xl border border-slate-200/90 shadow-[0_4px_24px_rgba(15,23,42,0.06)] rounded-xl px-6 h-16 flex items-center justify-between transition-all">
+      <div className="bg-white/90 backdrop-blur-xl border border-slate-200/90 shadow-[0_4px_24px_rgba(15,23,42,0.06)] rounded-xl px-6 h-16 grid grid-cols-[1fr_auto_1fr] items-center transition-all">
         {/* ── Brand ── */}
-        <Link href="/" className="flex items-center gap-3 group">
+        <Link href="/" className="flex items-center gap-3 group justify-self-start">
           <div className="relative h-9 w-auto flex items-center shrink-0">
             <Image
               src="/unioulu-logo.png"
@@ -102,7 +102,7 @@ export default function NavBar({ initialUser }: NavBarProps) {
         </Link>
 
         {/* ── Nav Links ── */}
-        <nav className="flex items-center gap-6">
+        <nav className="flex items-center justify-center gap-6 justify-self-center">
           {navLinks.map((link) => (
             <Link
               key={link.label}
@@ -119,7 +119,7 @@ export default function NavBar({ initialUser }: NavBarProps) {
         </nav>
 
         {/* ── Auth Controls ── */}
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-3 justify-self-end">
           {initialUser ? (
             <div className="flex items-center gap-2.5">
               <div className="flex items-center gap-2 px-3 py-1.5 bg-slate-100 border border-slate-200 rounded-lg">

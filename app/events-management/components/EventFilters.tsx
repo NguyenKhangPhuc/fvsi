@@ -77,6 +77,7 @@ export default function EventFilters({
             className="bg-slate-50 border border-slate-200 text-slate-700 text-xs font-semibold py-2 px-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-400 cursor-pointer transition-colors"
           >
             <option value="">All Statuses</option>
+            <option value="upcoming">Upcoming</option>
             <option value="ongoing">Ongoing</option>
             <option value="finished">Finished</option>
           </select>
