@@ -196,7 +196,12 @@ function astToProcessedLines(ast: LowlightRoot, isSolution: boolean): ProcessedL
         fullText.includes('let newItem: CollectionItem = res.data') ||
         fullText.includes('updateCollectionItemPoster(newItem, posterFile)') ||
         fullText.includes('image_url: resPoster.data') ||
-        fullText.includes('onSuccess(newItem)'))
+        fullText.includes('onSuccess(newItem)') ||
+        fullText.includes('id: itemToEdit.id') ||
+        fullText.includes('order: data.order') ||
+        fullText.includes('updateCollectionItem(payload)') ||
+        fullText.includes('const updatedItem: CollectionItem = {') ||
+        fullText.includes('onSuccess(updatedItem, true)'))
 
     return {
       indentCount,
@@ -241,7 +246,12 @@ function fallbackToProcessedLines(code: string, isSolution: boolean): ProcessedL
             line.includes('let newItem: CollectionItem = res.data') ||
             line.includes('updateCollectionItemPoster(newItem, posterFile)') ||
             line.includes('image_url: resPoster.data') ||
-            line.includes('onSuccess(newItem)')),
+            line.includes('onSuccess(newItem)') ||
+            line.includes('id: itemToEdit.id') ||
+            line.includes('order: data.order') ||
+            line.includes('updateCollectionItem(payload)') ||
+            line.includes('const updatedItem: CollectionItem = {') ||
+            line.includes('onSuccess(updatedItem, true)')),
       }
     })
 }
