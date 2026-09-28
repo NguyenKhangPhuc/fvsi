@@ -184,7 +184,12 @@ function astToProcessedLines(ast: LowlightRoot, isSolution: boolean): ProcessedL
       isSolution &&
       (fullText.includes('data.description || null') ||
         fullText.includes('data.start_time || null') ||
-        fullText.includes('data.end_time || null'))
+        fullText.includes('data.end_time || null') ||
+        fullText.includes('updatePayload') ||
+        fullText.includes('updateCollection(updatePayload)') ||
+        fullText.includes('poster_url: res.data?.poster_url') ||
+        fullText.includes('collection_items: collection.collection_items') ||
+        fullText.includes('onSuccess(updatedCollection)'))
 
     return {
       indentCount,
@@ -217,7 +222,12 @@ function fallbackToProcessedLines(code: string, isSolution: boolean): ProcessedL
           isSolution &&
           (line.includes('data.description || null') ||
             line.includes('data.start_time || null') ||
-            line.includes('data.end_time || null')),
+            line.includes('data.end_time || null') ||
+            line.includes('updatePayload') ||
+            line.includes('updateCollection(updatePayload)') ||
+            line.includes('poster_url: res.data?.poster_url') ||
+            line.includes('collection_items: collection.collection_items') ||
+            line.includes('onSuccess(updatedCollection)')),
       }
     })
 }

@@ -816,10 +816,10 @@ export default function MemoryBookTutorialClient() {
                   Are you sure you want to view the solution?
                 </h3>
                 <p className="text-xs text-teal-700 font-semibold italic">
-                  Bạn có chắc là muốn xem solutions chứ, hãy suy nghĩ thêm một chút thử xem!
+                  Take a moment to give it another try before revealing the answer!
                 </p>
                 <p className="text-sm text-slate-600 leading-relaxed">
-                  Solving tasks independently helps you master Next.js Server Actions and database mapping. Would you like to think a bit more, or reveal the reference solution?
+                  Solving tasks independently helps you master Next.js Server Actions and database mutations. Would you like to think a bit more, or reveal the reference solution?
                 </p>
               </div>
 
@@ -829,7 +829,7 @@ export default function MemoryBookTutorialClient() {
                   onClick={() => setShowSolutionModal(false)}
                   className="w-full sm:w-auto px-4 py-2.5 rounded-xl border border-slate-300 text-slate-700 hover:bg-slate-50 font-semibold text-xs transition-all cursor-pointer"
                 >
-                  Keep Thinking / Suy nghĩ thêm
+                  Keep Thinking
                 </button>
                 <button
                   type="button"
@@ -838,7 +838,7 @@ export default function MemoryBookTutorialClient() {
                   }
                   className="w-full sm:w-auto px-5 py-2.5 rounded-xl bg-[#4bbca9] hover:bg-[#3ea694] text-white font-bold text-xs shadow-md transition-all cursor-pointer"
                 >
-                  Reveal Solution / Xem Solution
+                  Reveal Solution
                 </button>
               </div>
             </motion.div>
