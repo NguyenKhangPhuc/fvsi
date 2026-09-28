@@ -3074,4 +3074,416 @@ export function sortCollections(
       },
     ],
   },
+  {
+    id: 14,
+    stepNumber: 14,
+    category: 'task',
+    badge: 'Coding Task 7',
+    title: 'Task 7: Edit Collection Poster (task-7.ts)',
+    shortTitle: 'Task 7: Poster',
+    summary:
+      'Manage uploading, replacing, or removing a collection cover poster image by validating file formats, invoking the updateCollectionPoster Server Action to sync with Supabase Storage, generating optimistic preview URLs, and cleaning up storage assets.',
+    estimatedTime: '10-15 mins',
+    codingTask: {
+      taskNumber: 7,
+      file: 'components/tasks/task-7.ts',
+      usedBy: 'EditCollectionModal.tsx (app/components/EditCollectionModal.tsx)',
+      purpose:
+        'Task 7 manages uploading, replacing, or removing the cover poster image for a memory collection. When a user selects or drags and drops a new image in EditCollectionModal, editCollectionPoster validates client-side MIME types (PNG, JPG, WEBP), triggers the updateCollectionPoster Next.js Server Action to upload the binary file to the Supabase Storage "attachments" bucket, persists the public URL in PostgreSQL, and generates an optimistic URL.createObjectURL preview for zero-latency feedback. When the user clicks "Delete/Remove Poster", file is null, directing the server action to permanently delete the remote cloud file to conserve storage quota, set poster_url to SQL NULL in the database, and synchronize client state.',
+      keyConcepts: [
+        {
+          name: 'collection: CollectionWithItems',
+          role: 'Baseline Collection Entity',
+          explanation:
+            'Supplies collection.id to target the specific PostgreSQL database row and provide unique subfolder pathing within the Supabase Storage bucket.',
+        },
+        {
+          name: 'file: File | null',
+          role: 'Input Media Payload',
+          explanation:
+            'Browser File object passed from the input file picker or drag-and-drop zone. If present, it executes the upload workflow (Case A); if null, it executes the removal workflow (Case B).',
+        },
+        {
+          name: 'validTypes: [PNG, JPEG, JPG, WEBP]',
+          role: 'Client-Side MIME Validation Whitelist',
+          explanation:
+            'Pre-validates that uploaded files conform to accepted web image formats before initiating network requests, preventing bandwidth wastage and rejected server uploads.',
+        },
+        {
+          name: 'updateCollectionPoster(collection, file)',
+          role: 'Next.js Server Action with Supabase Storage',
+          explanation:
+            'Executes on the server to upload the image buffer to Supabase Storage, removes any previous poster files belonging to this collection to prevent orphaned clutter, and updates the poster_url column.',
+        },
+        {
+          name: 'URL.createObjectURL(file)',
+          role: 'Optimistic Browser Preview URL',
+          explanation:
+            'Creates an instantaneous blob URL referencing the local in-memory file, allowing the user interface to preview the new cover poster immediately without waiting for server round-trips.',
+        },
+        {
+          name: 'Case A: File Upload / Replacement',
+          role: 'Image Attachment Workflow',
+          explanation:
+            'Invokes updateCollectionPoster with the file, checks for server-side errors, constructs updatedCollection with poster_url: previewUrl, displays a success toast, and dispatches onSuccess.',
+        },
+        {
+          name: 'Case B: File Removal / Deletion',
+          role: 'Media Purge Workflow',
+          explanation:
+            'Invokes updateCollectionPoster(collection, null) to delete the storage file from Supabase Storage and set the column to null, producing clearedCollection with poster_url: null.',
+        },
+        {
+          name: 'onSuccess?(updatedCollection)',
+          role: 'Parent React State Synchronizer',
+          explanation:
+            'Notifies parent components (e.g., CollectionListSection or CollectionDetailView) of the new or cleared poster URL so that cards and 3D books update immediately.',
+        },
+      ],
+      starterCode: `/**
+ * ============================================================================
+ * Task 7: Edit Collection Poster
+ * ============================================================================
+ *
+ * @file task-7.ts
+ * @module components/tasks/task-7
+ *
+ * @description
+ * This task handles updating or removing the cover poster image for a collection.
+ * It manages:
+ * 1. Uploading a new image file (\`File\`) to the Supabase Storage bucket (\`attachments\`).
+ * 2. Deleting old storage files to prevent orphan files and save storage quota.
+ * 3. Updating the collection record's \`poster_url\` in the database.
+ * 4. Clearing/removing the poster when \`file\` is \`null\`.
+ *
+ * @usedBy
+ * - \`EditCollectionModal.tsx\` (\`app/components/EditCollectionModal.tsx\`)
+ *   Invoked when the user drags and drops a new poster, chooses a file via the
+ *   file picker, or clicks the "Delete/Remove Poster" button.
+ */
+
+import { CollectionWithItems } from '../../types/collection'
+import { updateCollectionPoster } from '../../actions/collection'
+
+/**
+ * Updates or removes the poster cover image for a collection.
+ *
+ * @param {CollectionWithItems} collection - The collection whose poster is being modified.
+ * @param {File | null} file - The new image file to upload, or \`null\` to clear the existing poster.
+ * @param {(updatedCollection: CollectionWithItems) => void} [onSuccess] - Optional callback triggered on success.
+ * @param {(message: string) => void} [showNotification] - Optional notification trigger for success and error alerts.
+ * @returns {Promise<CollectionWithItems>} The updated collection object with the new or cleared \`poster_url\`.
+ *
+ * @example
+ * \`\`\`ts
+ * // Upload a new poster
+ * const updated = await editCollectionPoster(currentCol, selectedFile, (col) => updateState(col), showNotification);
+ *
+ * // Clear/remove the existing poster
+ * const cleared = await editCollectionPoster(currentCol, null, (col) => updateState(col), showNotification);
+ * \`\`\`
+ */
+export async function editCollectionPoster(
+  collection: CollectionWithItems,
+  file: File | null,
+  onSuccess?: (updatedCollection: CollectionWithItems) => void,
+  showNotification?: (message: string) => void
+): Promise<CollectionWithItems> {
+  try {
+    /**
+     * --------------------------------------------------------------------------
+     * Step 1: Validate target collection existence
+     * --------------------------------------------------------------------------
+     * Specification:
+     * - Verify that \`collection\` reference and \`collection.id\` are defined.
+     * - If invalid, trigger toast error notification and abort execution.
+     */
+    // Check if target collection is valid and contains an ID.
+    if (!collection || !collection.id) {
+      // Define error message for missing collection reference.
+      const errorMsg = 'Invalid collection: A collection with a valid ID is required to update its poster.'
+      // Show error toast notification to user.
+      showNotification?.(errorMsg)
+      // Throw error to cancel execution.
+      throw new Error(errorMsg)
+    }
+
+    /**
+     * --------------------------------------------------------------------------
+     * Step 2: Handle Case A - File Upload / Replacement (when file is provided)
+     * --------------------------------------------------------------------------
+     * Specification:
+     * - Validate client-side image MIME types (PNG, JPG, WEBP).
+     * - Call Server Action \`updateCollectionPoster(collection, file)\` to upload to Supabase Storage.
+     * - Create an optimistic browser object URL (\`URL.createObjectURL(file)\`).
+     * - Assemble updated collection, trigger success toast, and invoke \`onSuccess\`.
+     * - Return updated collection object.
+     */
+    // Check if user provided a file to upload or replace poster.
+    if (file != null) {
+      // Define supported image MIME types for client-side validation.
+      const validTypes = ['image/png', 'image/jpeg', 'image/jpg', 'image/webp']
+      // Verify uploaded file format against valid MIME types list.
+      if (!validTypes.includes(file.type.toLowerCase())) {
+        // Define format rejection error message.
+        const errorMsg = 'Unsupported file format. Please upload PNG, JPG, or WEBP images.'
+        // Display toast error notification to the user.
+        showNotification?.(errorMsg)
+        // Throw error to abort file upload.
+        throw new Error(errorMsg)
+      }
+
+      // Call server action updateCollectionPoster to upload to storage and update DB.
+
+      // Check if server upload returned an error.
+
+      // Log storage upload error to console.
+
+      // Show failure toast notification to the user.
+
+      // Throw error to break out of execution.
+
+
+
+      // Create client-side object URL for immediate optimistic UI preview.
+      const previewUrl = URL.createObjectURL(file)
+
+      // Assemble updated collection state containing new preview URL.
+      const updatedCollection: CollectionWithItems = undefined as any
+
+      // Show success toast notification upon successful poster update.
+      showNotification?.('Collection poster updated successfully!')
+
+      // Check if onSuccess callback was provided.
+      if (onSuccess) {
+        // Invoke callback to pass updated collection to parent state.
+      }
+
+      // Return the updated collection object.
+      return updatedCollection
+    }
+
+    /**
+     * --------------------------------------------------------------------------
+     * Step 3: Handle Case B - File Removal / Deletion (when file is null)
+     * --------------------------------------------------------------------------
+     * Specification:
+     * - Invoke \`updateCollectionPoster(collection, null)\` to purge cloud asset and set DB column to null.
+     * - Assemble cleared collection with \`poster_url: null\`.
+     * - Trigger removal success toast notification via \`showNotification\`.
+     * - Notify parent state via \`onSuccess\` callback if provided.
+     * - Return cleared collection object.
+     */
+    // Handle case when file is null: call server action to delete poster and set column null.
+    // Check if removal server action returned an error.
+    // Log storage removal error to console.
+    // Show failure toast notification to user.
+    // Throw error to enter catch block.
+    // Assemble updated collection state with poster_url cleared to null.
+    // Show success toast notification indicating poster removal.
+    // Check if onSuccess callback was provided.
+    // Invoke callback to notify parent state of poster removal.
+    // Return the cleared collection object.
+    // TODO: Implement Case B (delete / remove poster file) here
+
+    const clearedCollection: CollectionWithItems = undefined as any
+    return clearedCollection
+  } catch (error) {
+    // Extract error message string from caught error object.
+    const errorMsg = error instanceof Error ? error.message : 'Failed to update collection poster.'
+    // Display error toast notification to alert the user.
+    showNotification?.(errorMsg)
+    // Re-throw error to let calling modal handle failure.
+    throw error
+  }
+}
+`,
+      solutionCode: `/**
+ * ============================================================================
+ * Task 7: Edit Collection Poster
+ * ============================================================================
+ *
+ * @file task-7.ts
+ * @module components/tasks/task-7
+ *
+ * @description
+ * This task handles updating or removing the cover poster image for a collection.
+ * It manages:
+ * 1. Uploading a new image file (\`File\`) to the Supabase Storage bucket (\`attachments\`).
+ * 2. Deleting old storage files to prevent orphan files and save storage quota.
+ * 3. Updating the collection record's \`poster_url\` in the database.
+ * 4. Clearing/removing the poster when \`file\` is \`null\`.
+ *
+ * @usedBy
+ * - \`EditCollectionModal.tsx\` (\`app/components/EditCollectionModal.tsx\`)
+ *   Invoked when the user drags and drops a new poster, chooses a file via the
+ *   file picker, or clicks the "Delete/Remove Poster" button.
+ */
+
+import { CollectionWithItems } from '../../types/collection'
+import { updateCollectionPoster } from '../../actions/collection'
+
+/**
+ * Updates or removes the poster cover image for a collection.
+ *
+ * @param {CollectionWithItems} collection - The collection whose poster is being modified.
+ * @param {File | null} file - The new image file to upload, or \`null\` to clear the existing poster.
+ * @param {(updatedCollection: CollectionWithItems) => void} [onSuccess] - Optional callback triggered on success.
+ * @param {(message: string) => void} [showNotification] - Optional notification trigger for success and error alerts.
+ * @returns {Promise<CollectionWithItems>} The updated collection object with the new or cleared \`poster_url\`.
+ *
+ * @example
+ * \`\`\`ts
+ * // Upload a new poster
+ * const updated = await editCollectionPoster(currentCol, selectedFile, (col) => updateState(col), showNotification);
+ *
+ * // Clear/remove the existing poster
+ * const cleared = await editCollectionPoster(currentCol, null, (col) => updateState(col), showNotification);
+ * \`\`\`
+ */
+export async function editCollectionPoster(
+  collection: CollectionWithItems,
+  file: File | null,
+  onSuccess?: (updatedCollection: CollectionWithItems) => void,
+  showNotification?: (message: string) => void
+): Promise<CollectionWithItems> {
+  try {
+    /**
+     * --------------------------------------------------------------------------
+     * Step 1: Validate target collection existence
+     * --------------------------------------------------------------------------
+     * Specification:
+     * - Verify that \`collection\` reference and \`collection.id\` are defined.
+     * - If invalid, trigger toast error notification and abort execution.
+     */
+    // Check if target collection is valid and contains an ID.
+    if (!collection || !collection.id) {
+      // Define error message for missing collection reference.
+      const errorMsg = 'Invalid collection: A collection with a valid ID is required to update its poster.'
+      // Show error toast notification to user.
+      showNotification?.(errorMsg)
+      // Throw error to cancel execution.
+      throw new Error(errorMsg)
+    }
+
+    /**
+     * --------------------------------------------------------------------------
+     * Step 2: Handle Case A - File Upload / Replacement (when file is provided)
+     * --------------------------------------------------------------------------
+     * Specification:
+     * - Validate client-side image MIME types (PNG, JPG, WEBP).
+     * - Call Server Action \`updateCollectionPoster(collection, file)\` to upload to Supabase Storage.
+     * - Create an optimistic browser object URL (\`URL.createObjectURL(file)\`).
+     * - Assemble updated collection, trigger success toast, and invoke \`onSuccess\`.
+     * - Return updated collection object.
+     */
+    // Check if user provided a file to upload or replace poster.
+    if (file != null) {
+      // Define supported image MIME types for client-side validation.
+      const validTypes = ['image/png', 'image/jpeg', 'image/jpg', 'image/webp']
+      // Verify uploaded file format against valid MIME types list.
+      if (!validTypes.includes(file.type.toLowerCase())) {
+        // Define format rejection error message.
+        const errorMsg = 'Unsupported file format. Please upload PNG, JPG, or WEBP images.'
+        // Display toast error notification to the user.
+        showNotification?.(errorMsg)
+        // Throw error to abort file upload.
+        throw new Error(errorMsg)
+      }
+
+      // Call server action updateCollectionPoster to upload to storage and update DB.
+      const res = await updateCollectionPoster(collection, file)
+      // Check if server upload returned an error.
+      if (res?.error) {
+        // Log storage upload error to console.
+        console.error('Failed to upload collection poster:', res.error)
+        // Show failure toast notification to the user.
+        showNotification?.('Failed to update poster: ' + res.error)
+        // Throw error to break out of execution.
+        throw new Error(res.error)
+      }
+
+      // Create client-side object URL for immediate optimistic UI preview.
+      const previewUrl = URL.createObjectURL(file)
+
+      // Assemble updated collection state containing new preview URL.
+      const updatedCollection: CollectionWithItems = {
+        ...collection,
+        poster_url: previewUrl,
+      }
+
+      // Show success toast notification upon successful poster update.
+      showNotification?.('Collection poster updated successfully!')
+
+      // Check if onSuccess callback was provided.
+      if (onSuccess) {
+        // Invoke callback to pass updated collection to parent state.
+        onSuccess(updatedCollection)
+      }
+
+      // Return the updated collection object.
+      return updatedCollection
+    }
+
+    /**
+     * --------------------------------------------------------------------------
+     * Step 3: Handle Case B - File Removal / Deletion (when file is null)
+     * --------------------------------------------------------------------------
+     * Specification:
+     * - Invoke \`updateCollectionPoster(collection, null)\` to purge cloud asset and set DB column to null.
+     * - Assemble cleared collection with \`poster_url: null\`.
+     * - Trigger removal success toast notification via \`showNotification\`.
+     * - Notify parent state via \`onSuccess\` callback if provided.
+     * - Return cleared collection object.
+     */
+    // Handle case when file is null: call server action to delete poster and set column null.
+    const res = await updateCollectionPoster(collection, null)
+    // Check if removal server action returned an error.
+    if (res?.error) {
+      // Log storage removal error to console.
+      console.error('Failed to clear collection poster:', res.error)
+      // Show failure toast notification to user.
+      showNotification?.('Failed to remove poster: ' + res.error)
+      // Throw error to enter catch block.
+      throw new Error(res.error)
+    }
+
+    // Assemble updated collection state with poster_url cleared to null.
+    const clearedCollection: CollectionWithItems = {
+      ...collection,
+      poster_url: null,
+    }
+
+    // Show success toast notification indicating poster removal.
+    showNotification?.('Collection poster removed successfully!')
+
+    // Check if onSuccess callback was provided.
+    if (onSuccess) {
+      // Invoke callback to notify parent state of poster removal.
+      onSuccess(clearedCollection)
+    }
+
+    // Return the cleared collection object.
+    return clearedCollection
+  } catch (error) {
+    // Extract error message string from caught error object.
+    const errorMsg = error instanceof Error ? error.message : 'Failed to update collection poster.'
+    // Display error toast notification to alert the user.
+    showNotification?.(errorMsg)
+    // Re-throw error to let calling modal handle failure.
+    throw error
+  }
+}
+`,
+      solutionExplanation:
+        'Task 7 bifurcates into two branches depending on whether file is provided: when file is present (Case A), it validates image MIME types, calls updateCollectionPoster(collection, file), creates an optimistic preview via URL.createObjectURL(file), and updates state. When file is null (Case B), it invokes updateCollectionPoster(collection, null) to purge the storage asset and sets poster_url to null.',
+    },
+    sections: [
+      {
+        title: 'Task Overview & File Target',
+        description:
+          'Open components/tasks/task-7.ts in your project. Implement editCollectionPoster to handle both image uploading/replacement (Case A) and poster removal/deletion (Case B) using the updateCollectionPoster server action.',
+      },
+    ],
+  },
 ]

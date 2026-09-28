@@ -217,7 +217,14 @@ function astToProcessedLines(ast: LowlightRoot, isSolution: boolean): ProcessedL
         fullText.includes('if (!a.start_time) return 1') ||
         fullText.includes('if (!b.start_time) return -1') ||
         fullText.includes('new Date(a.start_time).getTime() - new Date(b.start_time).getTime()') ||
-        fullText.includes('new Date(b.start_time).getTime() - new Date(a.start_time).getTime()'))
+        fullText.includes('new Date(b.start_time).getTime() - new Date(a.start_time).getTime()') ||
+        fullText.includes('updateCollectionPoster(collection, file)') ||
+        fullText.includes('poster_url: previewUrl') ||
+        fullText.includes('updateCollectionPoster(collection, null)') ||
+        fullText.includes('poster_url: null') ||
+        fullText.includes('Collection poster removed successfully!') ||
+        fullText.includes('onSuccess(clearedCollection)') ||
+        fullText.includes('return clearedCollection'))
 
     return {
       indentCount,
@@ -283,7 +290,14 @@ function fallbackToProcessedLines(code: string, isSolution: boolean): ProcessedL
             line.includes('if (!a.start_time) return 1') ||
             line.includes('if (!b.start_time) return -1') ||
             line.includes('new Date(a.start_time).getTime() - new Date(b.start_time).getTime()') ||
-            line.includes('new Date(b.start_time).getTime() - new Date(a.start_time).getTime()')),
+            line.includes('new Date(b.start_time).getTime() - new Date(a.start_time).getTime()') ||
+            line.includes('updateCollectionPoster(collection, file)') ||
+            line.includes('poster_url: previewUrl') ||
+            line.includes('updateCollectionPoster(collection, null)') ||
+            line.includes('poster_url: null') ||
+            line.includes('Collection poster removed successfully!') ||
+            line.includes('onSuccess(clearedCollection)') ||
+            line.includes('return clearedCollection')),
       }
     })
 }
