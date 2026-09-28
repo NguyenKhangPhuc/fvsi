@@ -73,6 +73,7 @@ export async function updateSession(request: NextRequest): Promise<UpdateSession
         !pathname.startsWith('/terms-and-conditions') &&
         !pathname.startsWith('/privacy-policy') &&
         !pathname.startsWith('/about') &&
+        !pathname.startsWith('/memory-book-tutorial') &&
         !isAccessingProjectOrEventSystem &&
         pathname !== '/'
     ) {

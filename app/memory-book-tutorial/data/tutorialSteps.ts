@@ -1,0 +1,1153 @@
+/**
+ * PURPOSE:
+ * Structured tutorial step definitions for the Memory Book development setup guide.
+ * All content is in English, covering repository cloning, Node.js LTS, Docker, pnpm,
+ * dependency installation, Supabase CLI local database setup, and dev server validation.
+ */
+
+export interface CommandSnippet {
+  label?: string
+  os?: 'all' | 'macos' | 'windows' | 'linux'
+  command: string
+  description?: string
+  output?: string
+}
+
+export interface CalloutItem {
+  type: 'tip' | 'info' | 'warning' | 'important'
+  title: string
+  message: string
+}
+
+export interface PlatformGuide {
+  platform: string
+  os: 'macos' | 'windows' | 'linux' | 'all'
+  instructions: string
+  badge?: string
+  commands?: CommandSnippet[]
+}
+
+export interface MethodOption {
+  id: string
+  title: string
+  badge?: string
+  description?: string
+  websiteUrl?: string
+  websiteButtonText?: string
+  platformGuides?: PlatformGuide[]
+  commands?: CommandSnippet[]
+  bulletPoints?: string[]
+}
+
+export interface StepSection {
+  title: string
+  description?: string
+  subtext?: string
+  commands?: CommandSnippet[]
+  callouts?: CalloutItem[]
+  bulletPoints?: string[]
+  options?: MethodOption[]
+}
+
+export interface KeyConceptExplanation {
+  name: string
+  role: string
+  explanation: string
+}
+
+export interface CodingTask {
+  taskNumber: number
+  file: string
+  usedBy: string
+  purpose: string
+  keyConcepts: KeyConceptExplanation[]
+  starterCode: string
+  solutionCode: string
+  solutionExplanation: string
+}
+
+export interface TutorialStep {
+  id: number
+  stepNumber: number
+  badge: string
+  title: string
+  shortTitle: string
+  summary: string
+  estimatedTime: string
+  category?: 'setup' | 'task'
+  sections: StepSection[]
+  codingTask?: CodingTask
+}
+
+export const TUTORIAL_STEPS: TutorialStep[] = [
+  {
+    id: 1,
+    stepNumber: 1,
+    badge: 'Account & Repository',
+    title: 'GitHub Authentication, Git CLI & Repository Cloning',
+    shortTitle: 'GitHub & Git CLI',
+    summary:
+      'Set up your GitHub account, install the Git command-line tools, authenticate via CLI, and clone the Memory Book repository.',
+    estimatedTime: '3-5 mins',
+    sections: [
+      {
+        title: '1. Create or Sign In to Your GitHub Account',
+        description:
+          'To collaborate and access code repositories, you need an active GitHub account.',
+        bulletPoints: [
+          'Visit https://github.com and log in with your credentials.',
+          'If you do not have an account yet, click "Sign up" and complete the verification process.',
+        ],
+      },
+      {
+        title: '2. Install Git and GitHub CLI',
+        description:
+          'Ensure Git and the official GitHub CLI (gh) are installed on your machine so you can manage version control and authentication smoothly.',
+        commands: [
+          {
+            label: 'macOS (Homebrew)',
+            os: 'macos',
+            command: 'brew install git gh',
+            description: 'Install both Git and GitHub CLI via Homebrew package manager.',
+          },
+          {
+            label: 'Windows (winget)',
+            os: 'windows',
+            command: 'winget install --id Git.Git -e && winget install --id GitHub.cli -e',
+            description: 'Install Git and GitHub CLI via Windows Package Manager.',
+          },
+          {
+            label: 'Linux (Debian / Ubuntu)',
+            os: 'linux',
+            command: 'sudo apt update && sudo apt install -y git gh',
+            description: 'Install Git and GitHub CLI from the standard apt repository.',
+          },
+        ],
+      },
+      {
+        title: '3. Configure Git Identity (Username & Email)',
+        description:
+          'Configure your Git committer name and email address. Git attaches this information to every commit you make so GitHub can properly attribute your code contributions.',
+        commands: [
+          {
+            label: 'Global Configuration (Recommended)',
+            command: `git config --global user.name "username"
+git config --global user.email "example@gmail.com"`,
+            description:
+              'Sets your default name and email across all Git repositories on your computer. Replace "username" and "example@gmail.com" with your real details.',
+          },
+          {
+            label: 'Local Repository Configuration (Optional)',
+            command: `git config user.name "username"
+git config user.email "example@gmail.com"`,
+            description:
+              'Sets your committer name and email specifically for the active repository only (without the --global flag).',
+          },
+        ],
+        callouts: [
+          {
+            type: 'tip',
+            title: 'Verify Your Git Config',
+            message:
+              'To confirm your settings have been saved, run: git config user.name && git config user.email. The terminal will print your configured username and email address.',
+          },
+        ],
+      },
+      {
+        title: '4. Authenticate with GitHub CLI',
+        description:
+          'Log in to your GitHub account directly from your terminal using the interactive GitHub CLI prompt. This eliminates the need for manual personal access token (PAT) configuration.',
+        commands: [
+          {
+            label: 'Login Command',
+            command: 'gh auth login',
+            description:
+              'Select "GitHub.com" -> "HTTPS" -> "Yes" for Git credentials -> "Login with a web browser". Copy the one-time code shown in terminal and authorize in your browser.',
+            output: `? What account do you want to log into? GitHub.com
+? What is your preferred protocol for Git operations on this host? HTTPS
+? Authenticate Git with your GitHub credentials? Yes
+? How would you like to authenticate GitHub CLI? Login with a web browser
+! First copy your one-time code: 1234-ABCD
+- Press Enter to open github.com/login/device in your browser...
+✓ Authentication complete.
+- gh config set -h github.com git_protocol https
+✓ Configured git protocol
+✓ Logged in as your-username`,
+          },
+        ],
+      },
+      {
+        title: '5. Clone the Memory Book Repository',
+        description:
+          'Clone the official Memory Book project into your preferred workspace directory.',
+        commands: [
+          {
+            label: 'Clone Repository',
+            command: 'git clone https://github.com/NguyenKhangPhuc/memory-book.git',
+            description: 'Downloads the complete source code, git history, and submodules.',
+            output: `Cloning into 'memory-book'...
+remote: Enumerating objects: 382, done.
+remote: Counting objects: 100% (382/382), done.
+remote: Compressing objects: 100% (240/240), done.
+remote: Total 382 (delta 156), reused 350 (delta 130)
+Receiving objects: 100% (382/382), 1.20 MiB | 4.80 MiB/s, done.
+Resolving deltas: 100% (156/156), done.`,
+          },
+        ],
+      },
+    ],
+  },
+  {
+    id: 2,
+    stepNumber: 2,
+    badge: 'Runtime Environment',
+    title: 'Install the Latest Node.js LTS Environment',
+    shortTitle: 'Node.js LTS',
+    summary:
+      'Install the current Long Term Support (LTS) release of Node.js required to execute Next.js 16 and modern JavaScript tooling.',
+    estimatedTime: '2-4 mins',
+    sections: [
+      {
+        title: '1. Recommended Node.js Version',
+        description:
+          'Memory Book requires Node.js v20.x or higher (Node.js 22.x LTS is strongly recommended for optimal performance with Next.js 16 and React 19).',
+        bulletPoints: [
+          'Node.js 22.x LTS provides active LTS support, faster startup times, and native ECMAScript module stability.',
+          'Using a version manager such as fnm or nvm makes switching between project versions effortless.',
+        ],
+      },
+      {
+        title: '2. Installation Methods (Choose an Approach)',
+        description:
+          'You can download the official graphical installer directly from the Node.js website, or install via terminal using a version manager / package manager.',
+        options: [
+          {
+            id: 'website',
+            title: 'Option A: Direct Download from Official Website (Recommended GUI)',
+            badge: 'Official Installer',
+            description:
+              'Download the official prebuilt installer directly from the Node.js website. Ideal for standard installation without learning CLI package managers.',
+            websiteUrl: 'https://nodejs.org/en/download',
+            websiteButtonText: 'Visit nodejs.org Downloads',
+            bulletPoints: [
+              'Make sure to choose the "LTS" (Long Term Support) tab (e.g., Node.js 22.x LTS).',
+              'The installer automatically bundles and configures both Node.js and npm in your system PATH.',
+            ],
+            platformGuides: [
+              {
+                platform: 'macOS',
+                os: 'macos',
+                badge: '.pkg Installer',
+                instructions:
+                  'Download the macOS Installer (.pkg). Open the downloaded package and follow the guided wizard. It installs Node.js and npm into /usr/local/bin automatically.',
+              },
+              {
+                platform: 'Windows',
+                os: 'windows',
+                badge: '.msi Installer (64-bit)',
+                instructions:
+                  'Download the Windows Installer (.msi). Run the wizard, accept the license, and leave all defaults checked — including the "Add to PATH" option.',
+              },
+              {
+                platform: 'Linux',
+                os: 'linux',
+                badge: 'Prebuilt Binaries',
+                instructions:
+                  'Download Prebuilt Binaries (.tar.xz) from the download page and extract into /usr/local, or use the terminal package repository in Option B.',
+              },
+            ],
+          },
+          {
+            id: 'terminal',
+            title: 'Option B: Terminal / Version Manager (CLI)',
+            badge: 'CLI & Version Managers',
+            description:
+              'Install Node.js using fnm/nvm version manager or your system package manager (Homebrew, winget, or NodeSource).',
+            commands: [
+              {
+                label: 'Using fnm / nvm (Recommended for Developers - All OS)',
+                os: 'all',
+                command: 'nvm install --lts && nvm use --lts',
+                description:
+                  'Installs the newest LTS version and switches your active shell to use it.',
+              },
+              {
+                label: 'macOS (Homebrew)',
+                os: 'macos',
+                command: 'brew install node@22 && brew link node@22',
+                description: 'Installs Node.js 22 LTS via Homebrew.',
+              },
+              {
+                label: 'Windows (winget)',
+                os: 'windows',
+                command: 'winget install OpenJS.NodeJS.LTS',
+                description:
+                  'Installs the official Node.js LTS MSI package via Windows Package Manager.',
+              },
+              {
+                label: 'Linux (Debian / Ubuntu via NodeSource)',
+                os: 'linux',
+                command:
+                  'curl -fsSL https://deb.nodesource.com/setup_22.x | sudo -E bash - && sudo apt install -y nodejs',
+                description: 'Installs Node.js 22 LTS directly via NodeSource PPA.',
+              },
+            ],
+          },
+        ],
+      },
+      {
+        title: '3. Verify Your Node.js & npm Installation',
+        description: 'Check that Node.js and its bundled npm binary are properly linked in your PATH.',
+        commands: [
+          {
+            label: 'Verify Version',
+            command: 'node -v && npm -v',
+            description: 'Prints installed Node.js and npm versions.',
+            output: `v22.14.0
+10.9.2`,
+          },
+        ],
+        callouts: [
+          {
+            type: 'info',
+            title: 'Node Version Check',
+            message:
+              'Ensure the output is at least v20.0.0. If you see an older version (e.g., v18 or v16), run "nvm use 22" or update your system PATH.',
+          },
+        ],
+      },
+    ],
+  },
+  {
+    id: 3,
+    stepNumber: 3,
+    badge: 'Container Virtualization',
+    title: 'Install Docker & Docker Compose',
+    shortTitle: 'Docker & Compose',
+    summary:
+      'Install Docker Engine and Docker Compose to power the local Supabase stack (PostgreSQL, GoTrue Auth, Storage, and Studio).',
+    estimatedTime: '5-8 mins',
+    sections: [
+      {
+        title: '1. Why Docker is Essential for Local Development',
+        description:
+          'Supabase uses Docker under the hood to mirror production cloud features locally. When you run local Supabase, Docker spins up a complete microservice architecture:',
+        bulletPoints: [
+          'PostgreSQL 17 database instance with pgvector and extensions.',
+          'GoTrue Authentication service for session handling.',
+          'Realtime server, Storage engine, and Kong API gateway.',
+          'Local Supabase Studio web dashboard (accessible at localhost:54323).',
+        ],
+      },
+      {
+        title: '2. Installation Methods (Choose an Approach)',
+        description:
+          'You can download the Docker Desktop installer directly from the official Docker website, or install via terminal package managers.',
+        options: [
+          {
+            id: 'website',
+            title: 'Option A: Direct Download from Official Website (Docker Desktop GUI)',
+            badge: 'Official Installer',
+            description:
+              'Download Docker Desktop directly from the Docker portal. Includes Docker Engine, Docker CLI, Docker Compose v2, and the visual desktop management dashboard.',
+            websiteUrl: 'https://www.docker.com/products/docker-desktop/',
+            websiteButtonText: 'Visit docker.com Downloads',
+            bulletPoints: [
+              'Docker Desktop provides a convenient graphical dashboard to inspect containers, images, and volumes.',
+              'Docker Compose is bundled natively with Docker Desktop — no separate installation needed.',
+            ],
+            platformGuides: [
+              {
+                platform: 'macOS',
+                os: 'macos',
+                badge: '.dmg Package',
+                instructions:
+                  'Click "Download for Mac" — choose "Mac with Apple Chip" (Apple Silicon M1/M2/M3/M4) or "Mac with Intel chip". Open Docker.dmg and drag the Docker icon to your Applications folder.',
+              },
+              {
+                platform: 'Windows',
+                os: 'windows',
+                badge: '.exe Installer',
+                instructions:
+                  'Click "Download for Windows" (Docker Desktop Installer.exe). During installation, ensure the option "Use WSL 2 instead of Hyper-V" is checked for best performance. Restart your machine if prompted.',
+              },
+              {
+                platform: 'Linux',
+                os: 'linux',
+                badge: '.deb / .rpm Package',
+                instructions:
+                  'Download the official Docker Desktop package (.deb for Ubuntu/Debian or .rpm for Fedora) from the Docker docs, or install Docker Engine via terminal in Option B.',
+              },
+            ],
+          },
+          {
+            id: 'terminal',
+            title: 'Option B: Terminal / Package Manager (CLI)',
+            badge: 'CLI / Package Managers',
+            description:
+              'Install Docker Desktop or Docker Engine directly through terminal commands without downloading from a browser.',
+            commands: [
+              {
+                label: 'macOS (Homebrew Cask)',
+                os: 'macos',
+                command: 'brew install --cask docker',
+                description: 'Downloads and installs Docker Desktop for macOS via Homebrew.',
+              },
+              {
+                label: 'Windows (winget)',
+                os: 'windows',
+                command: 'winget install Docker.DockerDesktop',
+                description: 'Installs Docker Desktop with WSL 2 backend via Windows Package Manager.',
+              },
+              {
+                label: 'Linux (Debian / Ubuntu)',
+                os: 'linux',
+                command: 'sudo apt update && sudo apt install -y docker.io docker-compose-plugin',
+                description: 'Installs Docker Engine and the modern Docker Compose v2 plugin via apt.',
+              },
+            ],
+          },
+        ],
+        callouts: [
+          {
+            type: 'important',
+            title: 'Launch Docker Daemon',
+            message:
+              'After installation, open Docker Desktop and wait until the status indicator turns green ("Engine running"). On Linux, ensure the service is active with: sudo systemctl start docker',
+          },
+        ],
+      },
+      {
+        title: '3. Verify Docker & Docker Compose',
+        description: 'Run the commands below to confirm the Docker daemon is responding.',
+        commands: [
+          {
+            label: 'Check Docker Status',
+            command: 'docker --version && docker compose version',
+            description: 'Outputs the installed Docker and Docker Compose versions.',
+            output: `Docker version 27.5.1, build 9f9e405
+Docker Compose version v2.32.4`,
+          },
+        ],
+      },
+    ],
+  },
+  {
+    id: 4,
+    stepNumber: 4,
+    badge: 'Package Manager',
+    title: 'Install the pnpm Package Manager',
+    shortTitle: 'Install pnpm',
+    summary:
+      'Install pnpm, the fast, disk space-efficient package manager required by the Memory Book workspace.',
+    estimatedTime: '1-2 mins',
+    sections: [
+      {
+        title: '1. Why pnpm is Required',
+        description:
+          'Memory Book defines "pnpm@11.3.0" in its packageManager manifest. pnpm utilizes content-addressable storage with hard links, preventing duplicate node_modules across projects while ensuring strict dependency resolution.',
+      },
+      {
+        title: '2. Installation Methods',
+        description:
+          'You can install pnpm via Node.js Corepack, the official standalone script, or npm:',
+        commands: [
+          {
+            label: 'Method A: Corepack (Standard with Node.js)',
+            os: 'all',
+            command: 'corepack enable && corepack prepare pnpm@latest --activate',
+            description:
+              'Activates Node’s built-in package manager orchestrator to manage pnpm automatically.',
+          },
+          {
+            label: 'Method B: Global npm Install (Alternative)',
+            os: 'all',
+            command: 'npm install -g pnpm',
+            description: 'Installs pnpm globally across your system.',
+          },
+          {
+            label: 'Method C: macOS (Homebrew)',
+            os: 'macos',
+            command: 'brew install pnpm',
+            description: 'Installs pnpm via Homebrew.',
+          },
+          {
+            label: 'Method D: Windows (PowerShell)',
+            os: 'windows',
+            command: 'iwr https://get.pnpm.io/install.ps1 -useb | iex',
+            description: 'Executes the official standalone Windows PowerShell installation script.',
+          },
+        ],
+      },
+      {
+        title: '3. Verify pnpm Installation',
+        description: 'Ensure the pnpm executable is available globally in your terminal.',
+        commands: [
+          {
+            label: 'Verify Version',
+            command: 'pnpm -v',
+            description: 'Displays the current version of pnpm.',
+            output: `11.3.0`,
+          },
+        ],
+      },
+    ],
+  },
+  {
+    id: 5,
+    stepNumber: 5,
+    badge: 'Dependencies',
+    title: 'Navigate to Repository & Install Dependencies',
+    shortTitle: 'Install Dependencies',
+    summary:
+      'Change directory into the cloned project and install all required frontend and backend npm packages.',
+    estimatedTime: '2-3 mins',
+    sections: [
+      {
+        title: '1. Navigate into the Project Root',
+        description:
+          'Enter the directory where you cloned the repository in Step 1.',
+        commands: [
+          {
+            label: 'Change Directory',
+            command: 'cd memory-book',
+            description: 'Move into the memory-book project folder.',
+          },
+        ],
+      },
+      {
+        title: '2. Install Dependencies with pnpm',
+        description:
+          'Run the install command to download all packages specified in package.json and verify checksums against pnpm-lock.yaml.',
+        commands: [
+          {
+            label: 'Install Packages',
+            command: 'pnpm install',
+            description:
+              'Installs Next.js 16, React 19, Tailwind CSS v4, Framer Motion, react-pageflip, and Supabase client libraries.',
+            output: `Lockfile is up to date, resolution step is skipped
+Packages: +428
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Progress: resolved 428, reused 428, downloaded 0, added 428, done
+
+Done in 4.2s`,
+          },
+        ],
+        callouts: [
+          {
+            type: 'tip',
+            title: 'Frozen Lockfile Tip',
+            message:
+              'In continuous integration (CI) or production setups, run "pnpm install --frozen-lockfile" to guarantee 100% reproducible builds matching pnpm-lock.yaml.',
+          },
+        ],
+      },
+    ],
+  },
+  {
+    id: 6,
+    stepNumber: 6,
+    badge: 'Database & Backend',
+    title: 'Set Up Supabase CLI & Local Database',
+    shortTitle: 'Supabase Setup',
+    summary:
+      'Install Supabase CLI, start local Docker containers, apply database migrations with db reset, and configure local environment variables.',
+    estimatedTime: '4-6 mins',
+    sections: [
+      {
+        title: '1. Install Supabase CLI',
+        description:
+          'The Supabase CLI lets you manage PostgreSQL migrations, local authentication, and seed data directly from your terminal. Since you already installed Node.js and pnpm in earlier steps, installing globally via npm or pnpm is the fastest cross-platform method.',
+        commands: [
+          {
+            label: 'Method A: Via npm (Recommended & Cross-Platform)',
+            os: 'all',
+            command: 'npm install -g supabase',
+            description: 'Installs the Supabase CLI globally on any platform with Node.js.',
+          },
+          {
+            label: 'Method B: Via pnpm (Fast Global Install)',
+            os: 'all',
+            command: 'pnpm add -g supabase',
+            description: 'Installs the Supabase CLI globally using the pnpm package manager.',
+          },
+          {
+            label: 'Method C: macOS / Linux (Homebrew)',
+            os: 'macos',
+            command: 'brew install supabase/tap/supabase',
+            description: 'Alternative installation via Homebrew package tap.',
+          },
+          {
+            label: 'Method D: Windows (Scoop)',
+            os: 'windows',
+            command: 'scoop bucket add supabase https://github.com/supabase/scoop-bucket.git && scoop install supabase',
+            description: 'Alternative installation on Windows via Scoop.',
+          },
+          {
+            label: 'Method E: Via npx (No Global Install Needed)',
+            os: 'all',
+            command: 'npx supabase --version',
+            description: 'Run Supabase commands on-demand without installing globally.',
+          },
+        ],
+        callouts: [
+          {
+            type: 'tip',
+            title: 'Verify Supabase CLI Installation',
+            message:
+              'Once installed, verify that the CLI is accessible in your PATH by running: supabase --version. It should print the installed version (e.g. 2.x.x).',
+          },
+        ],
+      },
+      {
+        title: '2. Start Local Supabase Stack',
+        description:
+          'Launch local Supabase services in Docker. Ensure your Docker daemon is active before running this command.',
+        commands: [
+          {
+            label: 'Start Containers',
+            command: 'supabase start',
+            description:
+              'Pulls and boots up Docker images for PostgreSQL, Studio, Storage, Auth, and Kong gateway.',
+            output: `Started supabase local development setup.
+         API URL: http://127.0.0.1:54321
+          DB URL: postgresql://postgres:postgres@127.0.0.1:54322/postgres
+      Studio URL: http://127.0.0.1:54323
+    Inbucket URL: http://127.0.0.1:54324
+        anon key: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+  publishable key: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZhbGVudGluZS1tZW1vcnktYm9vayIsInJvbGUiOiJhbm9uIiwiaWF0IjoxNzg4MzcwMDAwLCJleHAiOjIwOTM5NDYwMDB9...
+service_role key: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...`,
+          },
+        ],
+        callouts: [
+          {
+            type: 'important',
+            title: 'Publishable Key Notice',
+            message:
+              'Take note of the "publishable key" (also referenced as anon key) printed in your terminal. This is the safe public API key used by client-side browser requests to authenticate with your local Supabase instance.',
+          },
+        ],
+      },
+      {
+        title: '3. Reset Local Database and Apply Migrations',
+        description:
+          'Apply all SQL migrations located in supabase/migrations/ to create tables, enable Row Level Security (RLS) policies, and configure storage buckets.',
+        commands: [
+          {
+            label: 'Reset Database',
+            command: 'supabase db reset',
+            description:
+              'Recreates the local public schema, applies all migration scripts, and seeds initial test data.',
+            output: `Resetting local database...
+Applying migration 20260902081732_table_rls_setting_up.sql...
+Finished supabase db reset on branch main.`,
+          },
+        ],
+      },
+      {
+        title: '4. Configure Environment Variables (.env.local)',
+        description:
+          'Create a .env.local file in the project root to connect the Next.js app to your local Supabase instance:',
+        commands: [
+          {
+            label: 'Create .env.local',
+            command: `cat << 'EOF' > .env.local
+NEXT_PUBLIC_SUPABASE_URL=http://127.0.0.1:54321
+NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=your-local-publishable-key-here
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your-local-publishable-key-here
+EOF`,
+            description:
+              'Replace the publishable key value with the key printed from "supabase start".',
+          },
+        ],
+        callouts: [
+          {
+            type: 'info',
+            title: 'Supabase Studio Access',
+            message:
+              'You can manage tables and upload images visually by opening the local Supabase Studio dashboard at http://127.0.0.1:54323 in your browser.',
+          },
+        ],
+      },
+    ],
+  },
+  {
+    id: 7,
+    stepNumber: 7,
+    badge: 'Run & Verify',
+    title: 'Run Development Server & Verify Application',
+    shortTitle: 'Run & Verify',
+    summary:
+      'Start the local Next.js development server with pnpm dev, open the application in your browser, and verify all features.',
+    estimatedTime: '2-3 mins',
+    sections: [
+      {
+        title: '1. Start Next.js Development Server',
+        description:
+          'Launch the Next.js Turbo / webpack development compiler with Hot Module Replacement (HMR).',
+        commands: [
+          {
+            label: 'Start Dev Server',
+            command: 'pnpm dev',
+            description: 'Runs next dev on port 3000.',
+            output: `  ▲ Next.js 16.3.4
+  - Local:        http://localhost:3000
+  - Environments: .env.local
+
+ ✓ Starting...
+ ✓ Ready in 1.4s`,
+          },
+        ],
+      },
+      {
+        title: '2. Open in Browser & Verify',
+        description: 'Navigate to the local web application to inspect the flipbook interface:',
+        bulletPoints: [
+          'Open http://localhost:3000 in Chrome, Safari, or Firefox.',
+          'Verify that the interactive 3D memory flipbook renders properly on screen.',
+          'Try creating a memory collection or flipping through the sample pages.',
+          'Check the browser developer console (F12) to ensure there are no unhandled connection errors.',
+        ],
+      },
+      {
+        title: '3. Troubleshooting Common Pitfalls',
+        description: 'If you encounter unexpected issues, check the following checklist:',
+        callouts: [
+          {
+            type: 'warning',
+            title: 'Port 3000 or 54321 Already in Use',
+            message:
+              'If port 3000 is occupied by another application, pass a different port: pnpm dev -p 3001. If port 54321 is in use, run "supabase stop" then restart.',
+          },
+          {
+            type: 'warning',
+            title: 'Docker Daemon Not Running',
+            message:
+              'If supabase start fails with "Cannot connect to the Docker daemon", open Docker Desktop and wait until it finishes booting before retrying.',
+          },
+          {
+            type: 'tip',
+            title: 'Generating TypeScript Database Types',
+            message:
+              'Whenever you modify the database schema, run: pnpm generate:types to refresh app/types/database.types.ts automatically.',
+          },
+        ],
+      },
+    ],
+  },
+  {
+    id: 8,
+    stepNumber: 8,
+    category: 'task',
+    badge: 'Coding Task 1',
+    title: 'Task 1: Create Collection (task-1.ts)',
+    shortTitle: 'Task 1: Collection',
+    summary:
+      'Map form inputs to the database payload, execute the createNewCollection Server Action in Supabase, and handle UI notifications and state updates.',
+    estimatedTime: '5-10 mins',
+    codingTask: {
+      taskNumber: 1,
+      file: 'components/tasks/task-1.ts',
+      usedBy: 'CreateCollectionModal.tsx (app/components/CreateCollectionModal.tsx)',
+      purpose:
+        'The primary objective of Task 1 is to bridge user form input from the collection creation modal with the persistent database layer in Supabase. When a user submits the "Create Collection" modal in the Memory Book UI, React Hook Form validates the mandatory fields (such as collection name) and hands the validated object to createCollection. This function constructs a clean Supabase database insert payload, calls the Next.js Server Action createNewCollection, handles network or permission errors gracefully, and returns a fully formed CollectionWithItems object to immediately update client state.',
+      keyConcepts: [
+        {
+          name: 'data: CreateCollectionFormInputs',
+          role: 'Pre-Validated Form Input Object',
+          explanation:
+            'Contains user inputs captured by React Hook Form. Upstream declarative validation guarantees that data.name is already non-empty. Optional fields like description, start_time, and end_time may be undefined or empty strings, so they must be sanitized before database insertion.',
+        },
+        {
+          name: 'payload: CollectionInsert',
+          role: 'Database Schema Contract',
+          explanation:
+            'Matches the Supabase PostgreSQL table definition. Optional fields that are empty or undefined must be converted to null so the database stores clean SQL NULL values instead of empty strings. The cover photo (poster_url) is initialized to null because image uploads are handled separately in Task 7.',
+        },
+        {
+          name: 'poster_url: null',
+          role: 'Initial Asset State',
+          explanation:
+            'Initial collection creation only creates the textual and date metadata. The cover poster image is uploaded separately via Task 7 (editCollectionPoster) after the collection record exists in the database.',
+        },
+        {
+          name: 'createNewCollection(payload)',
+          role: 'Next.js Server Action Execution',
+          explanation:
+            'A secure server-side function that interacts directly with Supabase via the server client. Because it runs on the server, it enforces Row Level Security (RLS) policies and prevents database credentials or direct database access tokens from being exposed to the client browser.',
+        },
+        {
+          name: 'res?.error & Error Handling',
+          role: 'Resilience and User Feedback',
+          explanation:
+            'Database operations can fail due to network interruptions, validation constraints, or authorization issues. Checking res?.error logs the technical message to the browser console, displays a friendly toast notification to the user via showNotification, and throws an error to abort execution so the modal does not falsely close.',
+        },
+        {
+          name: 'createdCol: CollectionWithItems',
+          role: 'Client-Side Model Representation',
+          explanation:
+            'Because a freshly created collection has no items yet, attaching collection_items: [] fulfills the CollectionWithItems TypeScript interface. This allows client components to immediately render the collection card without triggering another round-trip query to the server.',
+        },
+        {
+          name: 'Optimistic Fallback (Mock/Offline)',
+          role: 'Graceful Degradation',
+          explanation:
+            'If the server returns no data (such as during offline development or mock demonstration environments), a fallback object with a timestamp ID (col-Date.now()) is constructed so the application remains interactive without crashing.',
+        },
+        {
+          name: 'onCreated?(createdCol)',
+          role: 'Parent React State Synchronization',
+          explanation:
+            'Invoking this callback notifies the parent component (CollectionListSection) to prepend the new collection to its active state list. This provides instantaneous reactivity without needing a full browser refresh.',
+        },
+      ],
+      starterCode: `/**
+ * ============================================================================
+ * Task 1: Create Collection
+ * ============================================================================
+ *
+ * @file task-1.ts
+ * @module components/tasks/task-1
+ *
+ * @description
+ * This task handles creating a new memory collection in the application.
+ * Form validation (such as ensuring the collection name is provided) is handled
+ * declaratively upfront by React Hook Form (\`register\`, \`required\`).
+ * This function receives the pre-validated form data, constructs the database
+ * payload, invokes a Next.js Server Action to persist the collection in Supabase,
+ * and returns a fully formed CollectionWithItems object ready for client-side state updates.
+ *
+ * NOTE: Initial creation does not include a poster image; cover images are uploaded
+ * and managed separately via Task 7 (\`editCollectionPoster\`).
+ *
+ * @usedBy
+ * - \`CreateCollectionModal.tsx\` (\`app/components/CreateCollectionModal.tsx\`)
+ *   Invoked inside \`handleSubmit(onSubmit)\` when the user submits the creation form.
+ */
+
+import { CollectionInsert, CollectionWithItems } from '../../types/collection'
+import { createNewCollection } from '../../actions/collection'
+
+/**
+ * Form input values received from the React Hook Form collection creation modal.
+ * Upstream validation (e.g. required name) is handled by React Hook Form.
+ */
+export interface CreateCollectionFormInputs {
+  /** The title/name of the collection (required, validated by React Hook Form) */
+  name: string
+  /** An optional description or romantic note for this collection */
+  description?: string
+  /** Optional start date string in YYYY-MM-DD format */
+  start_time?: string
+  /** Optional end date string in YYYY-MM-DD format */
+  end_time?: string
+}
+
+/**
+ * Creates a new collection by mapping form inputs to a database payload, executing
+ * the Server Action, and returning a valid CollectionWithItems object.
+ *
+ * @param {CreateCollectionFormInputs} data - Pre-validated form data from React Hook Form.
+ * @param {(newCollection: CollectionWithItems) => void} [onCreated] - Optional callback to update parent state.
+ * @param {(message: string) => void} [showNotification] - Optional notification trigger for success and error alerts.
+ * @returns {Promise<CollectionWithItems>} The newly created collection object with an initialized items array.
+ *
+ * @example
+ * \`\`\`ts
+ * const newCol = await createCollection(
+ *   { name: "Trip to Paris", start_time: "2026-06-01" },
+ *   (col) => setCollections(prev => [col, ...prev]),
+ *   showNotification
+ * );
+ * \`\`\`
+ */
+export async function createCollection(
+  data: CreateCollectionFormInputs,
+  onCreated?: (newCollection: CollectionWithItems) => void,
+  showNotification?: (message: string) => void
+): Promise<CollectionWithItems> {
+  try {
+    /**
+     * --------------------------------------------------------------------------
+     * Step 1: Map form inputs to database payload
+     * --------------------------------------------------------------------------
+     * Specification:
+     * - Form validation (ensuring name is present) is handled upfront by React Hook Form.
+     * - Map pre-validated form inputs to the \`CollectionInsert\` database schema.
+     * - Convert empty/undefined strings to \`null\` for clean database storage.
+     * - Initialize \`poster_url\` to \`null\` (cover photos are uploaded via Task 7).
+     */
+    // Map form inputs to database fields; set poster_url to null initially.
+    const payload: CollectionInsert = {
+      // Assign the validated collection name.
+      name: data.name,
+      // Provide optional description or fallback to null.
+      description: null, // TODO: Map data.description or fallback to null
+      // Provide optional start date or fallback to null.
+      start_time: null, // TODO: Map data.start_time or fallback to null
+      // Provide optional end date or fallback to null.
+      end_time: null, // TODO: Map data.end_time or fallback to null
+      // Initialize cover photo as null (managed via Task 7).
+      poster_url: null,
+    }
+
+    /**
+     * --------------------------------------------------------------------------
+     * Step 2: Persist collection to Supabase via Server Action
+     * --------------------------------------------------------------------------
+     * Specification:
+     * - Invoke \`createNewCollection(payload)\` running securely on the server.
+     * - Check for server errors; log to console, trigger user toast notification,
+     *   and throw an Error to abort on failure.
+     */
+    // Call server action createNewCollection to persist the collection row in Supabase.
+    const res = await createNewCollection(payload)
+
+    // Check if the server returned an error during creation.
+    if (res?.error) {
+      // Log server error details to the console for debugging.
+      console.error('Failed to create collection in database:', res.error)
+      // Notify the user of the creation failure via toast notification.
+      showNotification?.('Failed to create collection: ' + res.error)
+      // Throw error to interrupt execution and enter catch block.
+      throw new Error(res.error)
+    }
+
+    /**
+     * --------------------------------------------------------------------------
+     * Step 3: Construct collection object, trigger notifications, and notify parent state
+     * --------------------------------------------------------------------------
+     * Specification:
+     * - If the database record succeeds, attach empty \`collection_items: []\` to satisfy \`CollectionWithItems\`.
+     * - If offline/demo mode without DB data, generate an optimistic fallback with a timestamp ID.
+     * - Display a success toast notification via \`showNotification\`.
+     * - Invoke the \`onCreated\` callback with the new collection if provided.
+     * - Return the created \`CollectionWithItems\` object to the caller.
+     */
+    // Declare variable to hold the final created collection object.
+    let createdCol: CollectionWithItems
+
+    // Check if the database record was returned successfully.
+    if (res?.data) {
+      // Attach an empty items array to satisfy the CollectionWithItems type.
+      createdCol = {
+        ...res.data,
+        collection_items: [],
+      }
+    } else {
+      // Log warning when server returns no data (e.g., local mock or offline mode).
+      console.warn('Server insertion did not return data. Generating client fallback:', res?.error)
+      // Construct fallback optimistic collection with a timestamp-based ID.
+      createdCol = {
+        id: 'col-' + Date.now(),
+        name: payload.name ?? null,
+        description: payload.description ?? null,
+        start_time: payload.start_time ?? null,
+        end_time: payload.end_time ?? null,
+        poster_url: null,
+        created_at: new Date().toISOString(),
+        collection_items: [],
+      }
+    }
+
+    // Display a success toast notification to the user.
+    showNotification?.('Collection created successfully!')
+
+    // Check if an onCreated callback was supplied by the caller.
+    if (onCreated) {
+      // Invoke callback to pass the new collection to parent state.
+      onCreated(createdCol)
+    }
+
+    // Return the newly created collection object.
+    return createdCol
+  } catch (error) {
+    // Extract error message string or provide a fallback error text.
+    const errorMsg = error instanceof Error ? error.message : 'Failed to create collection.'
+    // Show error notification toast with the failure reason.
+    showNotification?.(errorMsg)
+    // Re-throw error so calling components can handle form state accordingly.
+    throw error
+  }
+}`,
+      solutionCode: `/**
+ * ============================================================================
+ * Task 1: Create Collection
+ * ============================================================================
+ *
+ * @file task-1.ts
+ * @module components/tasks/task-1
+ *
+ * @description
+ * This task handles creating a new memory collection in the application.
+ * Form validation (such as ensuring the collection name is provided) is handled
+ * declaratively upfront by React Hook Form (\`register\`, \`required\`).
+ * This function receives the pre-validated form data, constructs the database
+ * payload, invokes a Next.js Server Action to persist the collection in Supabase,
+ * and returns a fully formed CollectionWithItems object ready for client-side state updates.
+ *
+ * NOTE: Initial creation does not include a poster image; cover images are uploaded
+ * and managed separately via Task 7 (\`editCollectionPoster\`).
+ *
+ * @usedBy
+ * - \`CreateCollectionModal.tsx\` (\`app/components/CreateCollectionModal.tsx\`)
+ *   Invoked inside \`handleSubmit(onSubmit)\` when the user submits the creation form.
+ */
+
+import { CollectionInsert, CollectionWithItems } from '../../types/collection'
+import { createNewCollection } from '../../actions/collection'
+
+/**
+ * Form input values received from the React Hook Form collection creation modal.
+ * Upstream validation (e.g. required name) is handled by React Hook Form.
+ */
+export interface CreateCollectionFormInputs {
+  /** The title/name of the collection (required, validated by React Hook Form) */
+  name: string
+  /** An optional description or romantic note for this collection */
+  description?: string
+  /** Optional start date string in YYYY-MM-DD format */
+  start_time?: string
+  /** Optional end date string in YYYY-MM-DD format */
+  end_time?: string
+}
+
+/**
+ * Creates a new collection by mapping form inputs to a database payload, executing
+ * the Server Action, and returning a valid CollectionWithItems object.
+ *
+ * @param {CreateCollectionFormInputs} data - Pre-validated form data from React Hook Form.
+ * @param {(newCollection: CollectionWithItems) => void} [onCreated] - Optional callback to update parent state.
+ * @param {(message: string) => void} [showNotification] - Optional notification trigger for success and error alerts.
+ * @returns {Promise<CollectionWithItems>} The newly created collection object with an initialized items array.
+ *
+ * @example
+ * \`\`\`ts
+ * const newCol = await createCollection(
+ *   { name: "Trip to Paris", start_time: "2026-06-01" },
+ *   (col) => setCollections(prev => [col, ...prev]),
+ *   showNotification
+ * );
+ * \`\`\`
+ */
+export async function createCollection(
+  data: CreateCollectionFormInputs,
+  onCreated?: (newCollection: CollectionWithItems) => void,
+  showNotification?: (message: string) => void
+): Promise<CollectionWithItems> {
+  try {
+    /**
+     * --------------------------------------------------------------------------
+     * Step 1: Map form inputs to database payload
+     * --------------------------------------------------------------------------
+     * Specification:
+     * - Form validation (ensuring name is present) is handled upfront by React Hook Form.
+     * - Map pre-validated form inputs to the \`CollectionInsert\` database schema.
+     * - Convert empty/undefined strings to \`null\` for clean database storage.
+     * - Initialize \`poster_url\` to \`null\` (cover photos are uploaded via Task 7).
+     */
+    // Map form inputs to database fields; set poster_url to null initially.
+    const payload: CollectionInsert = {
+      // Assign the validated collection name.
+      name: data.name,
+      // Provide optional description or fallback to null.
+      description: data.description || null,
+      // Provide optional start date or fallback to null.
+      start_time: data.start_time || null,
+      // Provide optional end date or fallback to null.
+      end_time: data.end_time || null,
+      // Initialize cover photo as null (managed via Task 7).
+      poster_url: null,
+    }
+
+    /**
+     * --------------------------------------------------------------------------
+     * Step 2: Persist collection to Supabase via Server Action
+     * --------------------------------------------------------------------------
+     * Specification:
+     * - Invoke \`createNewCollection(payload)\` running securely on the server.
+     * - Check for server errors; log to console, trigger user toast notification,
+     *   and throw an Error to abort on failure.
+     */
+    // Call server action createNewCollection to persist the collection row in Supabase.
+    const res = await createNewCollection(payload)
+
+    // Check if the server returned an error during creation.
+    if (res?.error) {
+      // Log server error details to the console for debugging.
+      console.error('Failed to create collection in database:', res.error)
+      // Notify the user of the creation failure via toast notification.
+      showNotification?.('Failed to create collection: ' + res.error)
+      // Throw error to interrupt execution and enter catch block.
+      throw new Error(res.error)
+    }
+
+    /**
+     * --------------------------------------------------------------------------
+     * Step 3: Construct collection object, trigger notifications, and notify parent state
+     * --------------------------------------------------------------------------
+     * Specification:
+     * - If the database record succeeds, attach empty \`collection_items: []\` to satisfy \`CollectionWithItems\`.
+     * - If offline/demo mode without DB data, generate an optimistic fallback with a timestamp ID.
+     * - Display a success toast notification via \`showNotification\`.
+     * - Invoke the \`onCreated\` callback with the new collection if provided.
+     * - Return the created \`CollectionWithItems\` object to the caller.
+     */
+    // Declare variable to hold the final created collection object.
+    let createdCol: CollectionWithItems
+
+    // Check if the database record was returned successfully.
+    if (res?.data) {
+      // Attach an empty items array to satisfy the CollectionWithItems type.
+      createdCol = {
+        ...res.data,
+        collection_items: [],
+      }
+    } else {
+      // Log warning when server returns no data (e.g., local mock or offline mode).
+      console.warn('Server insertion did not return data. Generating client fallback:', res?.error)
+      // Construct fallback optimistic collection with a timestamp-based ID.
+      createdCol = {
+        id: 'col-' + Date.now(),
+        name: payload.name ?? null,
+        description: payload.description ?? null,
+        start_time: payload.start_time ?? null,
+        end_time: payload.end_time ?? null,
+        poster_url: null,
+        created_at: new Date().toISOString(),
+        collection_items: [],
+      }
+    }
+
+    // Display a success toast notification to the user.
+    showNotification?.('Collection created successfully!')
+
+    // Check if an onCreated callback was supplied by the caller.
+    if (onCreated) {
+      // Invoke callback to pass the new collection to parent state.
+      onCreated(createdCol)
+    }
+
+    // Return the newly created collection object.
+    return createdCol
+  } catch (error) {
+    // Extract error message string or provide a fallback error text.
+    const errorMsg = error instanceof Error ? error.message : 'Failed to create collection.'
+    // Show error notification toast with the failure reason.
+    showNotification?.(errorMsg)
+    // Re-throw error so calling components can handle form state accordingly.
+    throw error
+  }
+}`,
+      solutionExplanation:
+        'In Step 1 of createCollection, the optional form fields must be mapped to the database payload. If a user leaves description, start_time, or end_time empty in the form, data.description || null evaluates to null. This prevents empty strings from corrupting the database date/text fields and ensures clean PostgreSQL null values.',
+    },
+    sections: [
+      {
+        title: 'Task Overview & File Target',
+        description:
+          'Open components/tasks/task-1.ts in your project. Complete the implementation of createCollection by mapping the optional form fields to the Supabase payload.',
+      },
+    ],
+  },
+]

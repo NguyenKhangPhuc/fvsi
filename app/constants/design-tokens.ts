@@ -53,6 +53,14 @@ export const colors = {
   /** Special */
   inverseSurface: '#1e293b',
   inverseOnSurface: '#f8fafc',
+
+  /** Terminal / Code Blocks */
+  terminalBg: '#090d16',
+  terminalSurface: '#0f172a',
+  terminalBorder: '#1e293b',
+  terminalText: '#f1f5f9',
+  terminalPrompt: '#4bbca9',
+  terminalComment: '#64748b',
 } as const
 
 export const spacing = {
@@ -90,6 +98,8 @@ export const tw = {
     surfaceContainerHighest: 'bg-[#e2e8f0]',
     primaryContainer: 'bg-[#4bbca9]',
     secondary: 'bg-[#00a89d]',
+    terminal: 'bg-[#090d16]',
+    terminalSurface: 'bg-[#0f172a]',
   },
   text: {
     primary: 'text-slate-900',
@@ -100,11 +110,14 @@ export const tw = {
     onSurfaceVariant: 'text-[#475569]',
     outline: 'text-[#94a3b8]',
     onPrimaryContainer: 'text-white',
+    terminalPrompt: 'text-[#4bbca9]',
+    terminalComment: 'text-slate-400',
   },
   border: {
     outlineVariant: 'border-[#e2e8f0]',
     outline: 'border-[#94a3b8]',
     primaryContainer: 'border-[#4bbca9]',
+    terminal: 'border-slate-800',
     /** Backward-compat alias used by auth pages */
     whiteSubtle: 'border-slate-200',
   },
