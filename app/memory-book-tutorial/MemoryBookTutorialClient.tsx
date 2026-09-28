@@ -225,30 +225,31 @@ export default function MemoryBookTutorialClient() {
 
         {/* ── Stepper Navigation Tabs ── */}
         <div className="mb-8" id="tutorial-content-anchor">
-          {/* Desktop & Tablet: Full Stepper Ribbon */}
-          <div className="hidden sm:flex items-center gap-2 p-1.5 bg-white border border-slate-200/90 rounded-2xl shadow-sm overflow-x-auto">
-            {TUTORIAL_STEPS.map((step, idx) => {
-              const isActive = idx === currentStepIndex
-              const isPast = idx < currentStepIndex
-              return (
-                <button
-                  key={step.id}
-                  type="button"
-                  onClick={() => handleSelectStep(idx)}
-                  className={`flex flex-col items-center justify-center py-2.5 px-3 rounded-xl text-center transition-all cursor-pointer shrink-0 min-w-[115px] flex-1 ${
-                    isActive
-                      ? 'bg-teal-50 border border-teal-300 text-teal-950 font-bold shadow-sm'
-                      : isPast
-                      ? 'bg-slate-50/80 text-slate-700 hover:bg-slate-100 hover:text-slate-900'
-                      : 'text-slate-500 hover:bg-slate-50 hover:text-slate-700'
-                  }`}
-                >
-                  <div className="flex items-center gap-1.5 mb-1">
+          {/* Desktop & Tablet: 2-Row Horizontal Stepper (8 on top, 7 on bottom, no scroll) */}
+          <div className="hidden sm:flex flex-col gap-1.5 p-2 bg-white border border-slate-200/90 rounded-2xl shadow-sm">
+            {/* Row 1: Steps 1 - 8 (8 items) */}
+            <div className="grid grid-cols-8 gap-1.5 w-full">
+              {TUTORIAL_STEPS.slice(0, 8).map((step, idx) => {
+                const isActive = idx === currentStepIndex
+                const isPast = idx < currentStepIndex
+                return (
+                  <button
+                    key={step.id}
+                    type="button"
+                    onClick={() => handleSelectStep(idx)}
+                    className={`flex items-center justify-center gap-1.5 py-2 px-1.5 rounded-xl text-center transition-all cursor-pointer w-full overflow-hidden ${
+                      isActive
+                        ? 'bg-teal-50 border border-teal-300 text-teal-950 font-bold shadow-xs'
+                        : isPast
+                        ? 'bg-slate-50/90 text-slate-700 hover:bg-slate-100 hover:text-slate-900 border border-slate-200/60'
+                        : 'text-slate-500 hover:bg-slate-50 hover:text-slate-700 border border-transparent'
+                    }`}
+                  >
                     {isPast ? (
-                      <CheckCircleIcon sx={{ fontSize: 16, color: '#00a89d' }} />
+                      <CheckCircleIcon sx={{ fontSize: 15, color: '#00a89d', flexShrink: 0 }} />
                     ) : (
                       <span
-                        className={`w-5 h-5 rounded-full flex items-center justify-center text-[11px] font-bold ${
+                        className={`w-4.5 h-4.5 shrink-0 rounded-full flex items-center justify-center text-[10px] font-bold ${
                           isActive
                             ? 'bg-[#4bbca9] text-white'
                             : 'bg-slate-200 text-slate-700'
@@ -257,13 +258,53 @@ export default function MemoryBookTutorialClient() {
                         {step.stepNumber}
                       </span>
                     )}
-                  </div>
-                  <span className="text-[11px] font-semibold line-clamp-1 truncate w-full">
-                    {step.shortTitle}
-                  </span>
-                </button>
-              )
-            })}
+                    <span className="text-[11px] font-semibold truncate leading-tight">
+                      {step.shortTitle}
+                    </span>
+                  </button>
+                )
+              })}
+            </div>
+
+            {/* Row 2: Steps 9 - 15 (7 items) */}
+            <div className="grid grid-cols-7 gap-1.5 w-full">
+              {TUTORIAL_STEPS.slice(8, 15).map((step, localIdx) => {
+                const idx = localIdx + 8
+                const isActive = idx === currentStepIndex
+                const isPast = idx < currentStepIndex
+                return (
+                  <button
+                    key={step.id}
+                    type="button"
+                    onClick={() => handleSelectStep(idx)}
+                    className={`flex items-center justify-center gap-1.5 py-2 px-1.5 rounded-xl text-center transition-all cursor-pointer w-full overflow-hidden ${
+                      isActive
+                        ? 'bg-teal-50 border border-teal-300 text-teal-950 font-bold shadow-xs'
+                        : isPast
+                        ? 'bg-slate-50/90 text-slate-700 hover:bg-slate-100 hover:text-slate-900 border border-slate-200/60'
+                        : 'text-slate-500 hover:bg-slate-50 hover:text-slate-700 border border-transparent'
+                    }`}
+                  >
+                    {isPast ? (
+                      <CheckCircleIcon sx={{ fontSize: 15, color: '#00a89d', flexShrink: 0 }} />
+                    ) : (
+                      <span
+                        className={`w-4.5 h-4.5 shrink-0 rounded-full flex items-center justify-center text-[10px] font-bold ${
+                          isActive
+                            ? 'bg-[#4bbca9] text-white'
+                            : 'bg-slate-200 text-slate-700'
+                        }`}
+                      >
+                        {step.stepNumber}
+                      </span>
+                    )}
+                    <span className="text-[11px] font-semibold truncate leading-tight">
+                      {step.shortTitle}
+                    </span>
+                  </button>
+                )
+              })}
+            </div>
           </div>
 
           {/* Mobile: Compact Step Selector Bar */}

@@ -85,7 +85,7 @@ export const TUTORIAL_STEPS: TutorialStep[] = [
     stepNumber: 1,
     badge: 'Account & Repository',
     title: 'GitHub Authentication, Git CLI & Repository Cloning',
-    shortTitle: 'GitHub & Git CLI',
+    shortTitle: 'GitHub & Git',
     summary:
       'Set up your GitHub account, install the Git command-line tools, authenticate via CLI, and clone the Memory Book repository.',
     estimatedTime: '3-5 mins',
@@ -323,7 +323,7 @@ Resolving deltas: 100% (156/156), done.`,
     stepNumber: 3,
     badge: 'Container Virtualization',
     title: 'Install Docker & Docker Compose',
-    shortTitle: 'Docker & Compose',
+    shortTitle: 'Docker Setup',
     summary:
       'Install Docker Engine and Docker Compose to power the local Supabase stack (PostgreSQL, GoTrue Auth, Storage, and Studio).',
     estimatedTime: '5-8 mins',
@@ -437,7 +437,7 @@ Docker Compose version v2.32.4`,
     stepNumber: 4,
     badge: 'Package Manager',
     title: 'Install the pnpm Package Manager',
-    shortTitle: 'Install pnpm',
+    shortTitle: 'pnpm',
     summary:
       'Install pnpm, the fast, disk space-efficient package manager required by the Memory Book workspace.',
     estimatedTime: '1-2 mins',
@@ -498,7 +498,7 @@ Docker Compose version v2.32.4`,
     stepNumber: 5,
     badge: 'Dependencies',
     title: 'Navigate to Repository & Install Dependencies',
-    shortTitle: 'Install Dependencies',
+    shortTitle: 'Dependencies',
     summary:
       'Change directory into the cloned project and install all required frontend and backend npm packages.',
     estimatedTime: '2-3 mins',
@@ -549,7 +549,7 @@ Done in 4.2s`,
     stepNumber: 6,
     badge: 'Database & Backend',
     title: 'Set Up Supabase CLI & Local Database',
-    shortTitle: 'Supabase Setup',
+    shortTitle: 'Supabase CLI',
     summary:
       'Install Supabase CLI, start local Docker containers, apply database migrations with db reset, and configure local environment variables.',
     estimatedTime: '4-6 mins',
@@ -741,7 +741,7 @@ EOF`,
     category: 'task',
     badge: 'Coding Task 1',
     title: 'Task 1: Create Collection (task-1.ts)',
-    shortTitle: 'Task 1: Collection',
+    shortTitle: 'Task 1: Create',
     summary:
       'Map form inputs to the database payload, execute the createNewCollection Server Action in Supabase, and handle UI notifications and state updates.',
     estimatedTime: '5-10 mins',
@@ -750,55 +750,55 @@ EOF`,
       file: 'components/tasks/task-1.ts',
       usedBy: 'CreateCollectionModal.tsx (app/components/CreateCollectionModal.tsx)',
       purpose:
-        'The primary objective of Task 1 is to bridge user form input from the collection creation modal with the persistent database layer in Supabase. When a user submits the "Create Collection" modal in the Memory Book UI, React Hook Form validates the mandatory fields (such as collection name) and hands the validated object to createCollection. This function constructs a clean Supabase database insert payload, calls the Next.js Server Action createNewCollection, handles network or permission errors gracefully, and returns a fully formed CollectionWithItems object to immediately update client state.',
+        'Bridges user input from the collection modal to the Supabase database. It constructs an insert payload, calls the createNewCollection Server Action, handles potential errors, and returns a new CollectionWithItems object to update UI state immediately.',
       keyConcepts: [
         {
           name: 'data: CreateCollectionFormInputs',
           role: 'Pre-Validated Form Input Object',
           explanation:
-            'Contains user inputs captured by React Hook Form. Upstream declarative validation guarantees that data.name is already non-empty. Optional fields like description, start_time, and end_time may be undefined or empty strings, so they must be sanitized before database insertion.',
+            'Contains user inputs from React Hook Form. Optional fields (description, dates) need sanitizing before database insertion.',
         },
         {
           name: 'payload: CollectionInsert',
           role: 'Database Schema Contract',
           explanation:
-            'Matches the Supabase PostgreSQL table definition. Optional fields that are empty or undefined must be converted to null so the database stores clean SQL NULL values instead of empty strings. The cover photo (poster_url) is initialized to null because image uploads are handled separately in Task 7.',
+            'Matches the Supabase table schema. Converts empty optional fields to SQL NULL and initializes poster_url to null.',
         },
         {
           name: 'poster_url: null',
           role: 'Initial Asset State',
           explanation:
-            'Initial collection creation only creates the textual and date metadata. The cover poster image is uploaded separately via Task 7 (editCollectionPoster) after the collection record exists in the database.',
+            'Initializes collection metadata without a cover image. Poster uploads are handled separately in Task 7.',
         },
         {
           name: 'createNewCollection(payload)',
           role: 'Next.js Server Action Execution',
           explanation:
-            'A secure server-side function that interacts directly with Supabase via the server client. Because it runs on the server, it enforces Row Level Security (RLS) policies and prevents database credentials or direct database access tokens from being exposed to the client browser.',
+            'Secure server action that inserts the record into Supabase with server-side Row Level Security (RLS) enforcement.',
         },
         {
           name: 'res?.error & Error Handling',
           role: 'Resilience and User Feedback',
           explanation:
-            'Database operations can fail due to network interruptions, validation constraints, or authorization issues. Checking res?.error logs the technical message to the browser console, displays a friendly toast notification to the user via showNotification, and throws an error to abort execution so the modal does not falsely close.',
+            'Catches database or network errors, alerts the user via showNotification, and prevents the modal from closing on failure.',
         },
         {
           name: 'createdCol: CollectionWithItems',
           role: 'Client-Side Model Representation',
           explanation:
-            'Because a freshly created collection has no items yet, attaching collection_items: [] fulfills the CollectionWithItems TypeScript interface. This allows client components to immediately render the collection card without triggering another round-trip query to the server.',
+            'Attaches collection_items: [] to the returned record to fulfill the CollectionWithItems interface without an extra query.',
         },
         {
           name: 'Optimistic Fallback (Mock/Offline)',
           role: 'Graceful Degradation',
           explanation:
-            'If the server returns no data (such as during offline development or mock demonstration environments), a fallback object with a timestamp ID (col-Date.now()) is constructed so the application remains interactive without crashing.',
+            'Constructs a fallback object with a temporary timestamp ID if the server returns no data in mock/offline mode.',
         },
         {
           name: 'onCreated?(createdCol)',
           role: 'Parent React State Synchronization',
           explanation:
-            'Invoking this callback notifies the parent component (CollectionListSection) to prepend the new collection to its active state list. This provides instantaneous reactivity without needing a full browser refresh.',
+            'Notifies parent components to prepend the new collection to client state for instant UI reactivity.',
         },
       ],
       starterCode: `/**
@@ -1165,55 +1165,55 @@ export async function createCollection(
       file: 'components/tasks/task-2.ts',
       usedBy: 'EditCollectionModal.tsx (app/components/EditCollectionModal.tsx)',
       purpose:
-        'The primary objective of Task 2 is to allow users to update an existing collection\'s textual metadata (name, description, start time, end time) while keeping existing relations intact (such as poster_url and collection_items). When a user submits changes in the "Edit Collection" dialog, React Hook Form validates the mandatory fields and passes the values to editCollection. This function constructs a partial update payload bound to the collection\'s primary key (`id`), invokes the Next.js Server Action updateCollection, sanitizes cleared optional fields with SQL NULL, handles errors, and returns a merged CollectionWithItems object to immediately update parent React state without re-querying the database.',
+        'Updates an existing collection\'s text metadata (name, description, dates) while preserving existing poster URLs and items. It constructs a partial update payload scoped to collection.id, calls updateCollection, handles errors, and returns a merged CollectionWithItems object to update UI state without re-fetching.',
       keyConcepts: [
         {
           name: 'collection: CollectionWithItems',
           role: 'Baseline Model State',
           explanation:
-            'The active in-memory collection object before edits. It provides collection.id required to target the specific PostgreSQL database row. It also holds existing nested relations—specifically collection_items and poster_url—which must be retained when producing the updated collection record.',
+            'The existing collection record. Supplies collection.id for row targeting and baseline nested relations to preserve.',
         },
         {
           name: 'data: EditCollectionFormInputs',
           role: 'Pre-Validated Form Input Object',
           explanation:
-            'Supplied by React Hook Form from the edit dialog. The required name field is guaranteed to be non-empty. Optional fields (description, start_time, end_time) may be undefined or empty strings if cleared by the user, so evaluating data.field || null ensures clean database storage with SQL NULL instead of stale text or empty strings.',
+            'Validated inputs from the edit dialog. Cleared optional fields (|| null) are mapped to SQL NULL.',
         },
         {
           name: 'updatePayload',
           role: 'Targeted Database Mutation Contract',
           explanation:
-            'Specifies the primary key (id: collection.id) alongside the updated textual fields. Unlike an insert operation which creates a new entity, this payload scopes the Supabase PostgreSQL UPDATE query strictly to this collection record.',
+            'Scopes the database update to collection.id alongside sanitized text and date fields.',
         },
         {
           name: 'updateCollection(updatePayload)',
           role: 'Next.js Server Action Execution',
           explanation:
-            'A secure asynchronous server action that executes the UPDATE query directly in Supabase. Because it runs securely on the server, it enforces Row Level Security (RLS) policies without exposing private database credentials to the client browser.',
+            'Next.js Server Action that safely executes the PostgreSQL UPDATE with Supabase Row Level Security.',
         },
         {
           name: 'res?.error & Exception Handling',
           role: 'Resilience and User Feedback',
           explanation:
-            'Catches server-side database rejections (such as network dropouts or permission failures), logs diagnostic info via console.error, triggers an instant user-facing toast alert via showNotification, and throws an Error to abort the flow so the edit modal remains open without losing form state.',
+            'Logs failures, alerts the user with showNotification, and throws an error to keep the dialog open on failure.',
         },
         {
           name: 'updatedCollection: CollectionWithItems',
           role: 'Merged Immutable Client State',
           explanation:
-            'Constructed by spreading ...collection, overriding with ...updatePayload, preserving poster_url: res.data?.poster_url ?? null, and retaining collection_items: collection.collection_items ?? []. This allows client components to immediately display the updated title and dates without making another network round-trip.',
+            'Merges the original collection with the updated payload and existing relations for immediate UI rendering.',
         },
         {
           name: 'onSuccess?(updatedCollection)',
           role: 'Parent State Synchronization Callback',
           explanation:
-            'A callback that sends the updated collection object to the parent React component (e.g., CollectionListSection or CollectionDetailView), enabling immediate local state replacement and optimistic UI updates without a full page reload.',
+            'Passes the merged collection back to parent components for instant optimistic state updates.',
         },
         {
           name: "showNotification?.('Collection updated successfully!')",
           role: 'Success Toast Feedback',
           explanation:
-            'Provides direct visual confirmation to the user that their changes were successfully persisted to the database.',
+            'Displays an immediate toast alert confirming changes were persisted.',
         },
       ],
       starterCode: `/**
@@ -1529,61 +1529,61 @@ export async function editCollection(
       file: 'components/tasks/task-3.ts',
       usedBy: 'CreateMemoryItemModal.tsx (app/components/CreateMemoryItemModal.tsx)',
       purpose:
-        'The primary objective of Task 3 is to manage the creation and media attachment workflow for an individual memory moment within a collection book. When a user submits the "New Memory" modal dialog, React Hook Form validates the inputs (ensuring the memory name is present and parsing the page order). The createMemory function performs a critical two-phase persistence sequence: First, it binds the memory to its parent collection via the foreign key collection_id: collectionId, constructs a typed CollectionItemInsert payload, and invokes the Next.js Server Action createNewCollectionItem to insert the row into Supabase. Second, if the user selected a photo (posterFile: File), it invokes updateCollectionItemPoster to upload the binary file to Supabase Storage under the item\'s directory prefix and updates the memory\'s image_url. Finally, it displays a success toast notification and passes the completed record to onSuccess(newItem) for immediate optimistic UI rendering.',
+        'Creates an individual memory item and handles its optional photo attachment. It inserts the memory row into Supabase via createNewCollectionItem, uploads any attached photo via updateCollectionItemPoster, notifies the user, and triggers onSuccess for immediate UI rendering.',
       keyConcepts: [
         {
           name: 'collectionId: string',
           role: 'Foreign Key Parent Identifier',
           explanation:
-            'The primary key ID of the parent collection. Assigning collection_id: collectionId binds this memory item to the correct memory book in PostgreSQL, enforcing relational data integrity and ensuring the memory renders on the correct book pages.',
+            'Parent collection ID linking this memory to its parent book via the collection_id foreign key.',
         },
         {
           name: 'data: CreateMemoryFormInputs',
           role: 'Pre-Validated Form Input Object',
           explanation:
-            'Captures values entered by the user in CreateMemoryItemModal. Upstream declarative validation guarantees that data.name is non-empty. Optional fields (description, memory_date) are mapped with || null to store clean SQL NULL values instead of empty strings, while order defaults to 1 if omitted.',
+            'Validated inputs from CreateMemoryItemModal. Cleared optional fields are mapped to SQL NULL, and order defaults to 1.',
         },
         {
           name: 'posterFile: File | null',
           role: 'Optional Media Binary Attachment',
           explanation:
-            'An optional browser File object representing the user\'s selected photo. Initial creation handles database insertion first to generate an immutable item ID; once the ID exists, the file is uploaded to storage using that ID as the storage path prefix.',
+            'Optional photo attachment uploaded to Supabase Storage using the newly generated memory ID.',
         },
         {
           name: 'payload: CollectionItemInsert',
           role: 'Database Schema Insertion Contract',
           explanation:
-            'Matches the Supabase PostgreSQL collection_items table definition. Maps collection_id, name, sanitized description, memory_date, order (defaulting to 1 via data.order ?? 1), and initializes image_url to null prior to the storage upload step.',
+            'Database insertion schema mapping collection_id, name, dates, order, and initializing image_url to null.',
         },
         {
           name: 'createNewCollectionItem(payload)',
           role: 'Next.js Server Action Execution',
           explanation:
-            'An asynchronous server action that inserts the memory row into Supabase directly from the Next.js server environment, guaranteeing database credentials are not exposed to the client browser and enforcing RLS security.',
+            'Next.js Server Action inserting the memory record into Supabase with server-side RLS enforcement.',
         },
         {
           name: 'res?.error || !res?.data Error Handling',
           role: 'Atomic Failure Guard',
           explanation:
-            'Validates that the database insertion succeeded and returned a full record with its generated primary key ID. If it failed, it logs the error, triggers an instant user-facing toast alert via showNotification, and throws an Error to abort without proceeding to the file upload phase.',
+            'Validates row creation, alerts the user on failure, and halts execution before attempting photo upload.',
         },
         {
           name: 'updateCollectionItemPoster(newItem, posterFile)',
           role: 'Supabase Storage Asset Dispatcher',
           explanation:
-            'A server action that uploads the raw image file to the memory-book Supabase Storage bucket. Upon completion, it returns the public/signed storage URL in resPoster.data, which is immediately merged into newItem.image_url.',
+            'Uploads the photo to the Supabase Storage bucket and sets the returned public URL on newItem.image_url.',
         },
         {
           name: 'onSuccess?(newItem)',
           role: 'Parent State Synchronization Callback',
           explanation:
-            'Invokes the parent component callback (e.g. MemoryListSection or FlipBookViewer) with the finalized CollectionItem. This allows the newly created memory page to appear instantly in the 3D book without requiring a page refresh.',
+            'Callback passing the new memory item to parent components for immediate state and 3D book rendering.',
         },
         {
           name: "showNotification?.('Memory item created successfully!')",
           role: 'Success Toast Feedback',
           explanation:
-            'Notifies the user with a confirmation toast that their memory has been recorded and saved.',
+            'Displays an immediate toast alert confirming successful memory creation.',
         },
       ],
       starterCode: `/**
@@ -1930,7 +1930,7 @@ export async function createMemory(
     category: 'task',
     badge: 'Coding Task 4',
     title: 'Task 4: Edit Memory (task-4.ts)',
-    shortTitle: 'Task 4: Edit Memory',
+    shortTitle: 'Task 4: Edit Mem',
     summary:
       'Assemble the partial update payload, invoke updateCollectionItem in Supabase, safeguard existing media attachments, and notify parent state with isEdit = true.',
     estimatedTime: '5-10 mins',
@@ -1939,55 +1939,55 @@ export async function createMemory(
       file: 'components/tasks/task-4.ts',
       usedBy: 'EditMemoryItemModal.tsx (app/components/EditMemoryItemModal.tsx)',
       purpose:
-        'The primary objective of Task 4 is to manage updating an existing memory moment\'s textual metadata and flipbook sequence order (name, description, memory_date, order). When a user submits changes in the "Edit Memory" modal dialog, React Hook Form validates the mandatory fields (ensuring the name is present and parsing order). The editMemory function targets the specific memory via its identifier itemToEdit.id, sanitizes cleared optional fields with SQL NULL (data.field || null), and calls the Next.js Server Action updateCollectionItem to persist changes into Supabase. Crucially, this function specifically manages text and ordering details without altering or resetting existing image attachments (image_url: res.data.image_url). Upon success, it triggers onSuccess(updatedItem, true) with isEdit = true, instructing the parent component to replace the item in place rather than creating a duplicate.',
+        'Updates an existing memory\'s text metadata and flipbook sequence order (name, description, memory_date, order). It sends a partial update payload via updateCollectionItem, preserves existing photo attachments, and triggers onSuccess(updatedItem, true) to replace the item in place.',
       keyConcepts: [
         {
           name: 'itemToEdit: CollectionItem',
           role: 'Existing Memory Baseline State',
           explanation:
-            'The original in-memory memory item record. It supplies itemToEdit.id to scope the database UPDATE query and provides baseline properties that are not modified by the textual form.',
+            'The original memory record. Supplies itemToEdit.id for row targeting and baseline values.',
         },
         {
           name: 'data: EditMemoryFormInputs',
           role: 'Pre-Validated Form Input Object',
           explanation:
-            'Values received from React Hook Form. The name field is guaranteed to be valid. Optional fields (description, memory_date) are mapped with || null so the database explicitly writes SQL NULL values instead of preserving stale text or empty strings.',
+            'Validated inputs from React Hook Form. Cleared optional fields (|| null) are mapped to SQL NULL.',
         },
         {
           name: 'payload (partial update object)',
           role: 'Targeted Mutation Payload Contract',
           explanation:
-            'Constructs an update object with id: itemToEdit.id, name, sanitized description, memory_date, and order: data.order. Scopes the Supabase UPDATE query strictly to this single row.',
+            'Constructs the update object with id: itemToEdit.id, text fields, and order, scoping changes to this row.',
         },
         {
           name: 'updateCollectionItem(payload)',
           role: 'Next.js Server Action Execution',
           explanation:
-            'An asynchronous server-side action that communicates directly with Supabase using server credentials, ensuring Row Level Security policies are respected without exposing database tokens to the client browser.',
+            'Next.js Server Action updating the row in Supabase with server-side RLS enforcement.',
         },
         {
           name: 'res?.error || !res?.data Error Handling',
           role: 'Failure Guard & User Notification',
           explanation:
-            'Checks if the database operation failed. In case of an error or missing returned data, logs the error, triggers an instant toast alert via showNotification, and throws an Error to abort so the edit modal remains open.',
+            'Alerts the user on failure and throws an error to prevent closing the modal.',
         },
         {
           name: 'updatedItem: CollectionItem',
           role: 'Safeguarded Merged Entity',
           explanation:
-            'Constructs the updated memory entity from ...res.data while explicitly ensuring image_url: res.data.image_url is retained. This allows immediate client UI rendering without another database query.',
+            'Constructs the updated memory while preserving image_url: res.data.image_url intact.',
         },
         {
           name: 'onSuccess?(updatedItem, true)',
           role: 'Parent State Replacement Callback',
           explanation:
-            'Notifies the parent component (e.g. MemoryListSection or FlipBookViewer) with the updated record and an isEdit = true flag. This signals the parent to replace the existing item at its index instead of appending it as a new duplicate.',
+            'Passes the updated memory with isEdit = true so parents replace the item in place rather than duplicating.',
         },
         {
           name: "showNotification?.('Memory item updated successfully!')",
           role: 'Success Toast Feedback',
           explanation:
-            'Displays an immediate toast alert confirming the memory was updated.',
+            'Displays an immediate toast alert confirming successful update.',
         },
       ],
       starterCode: `/**
@@ -2301,55 +2301,55 @@ export async function editMemory(
       file: 'components/tasks/task-5.ts',
       usedBy: 'CollectionListSection.tsx (app/components/CollectionListSection.tsx)',
       purpose:
-        'The primary objective of Task 5 is to implement a fast, responsive in-memory search utility that filters collection entities without initiating costly database network roundtrips. In the UI, as users type search keywords into the CollectionToolbar input field, CollectionListSection passes the active collections array and search query to searchByTitleOrDescription within a React useMemo optimization pipeline. The function first guards against empty or uninitialized arrays. Next, it sanitizes the query by trimming leading/trailing whitespace and converting it to lowercase, with a fast-path return when the query is blank. Finally, it uses Array.prototype.filter to return collections whose name or description includes the normalized search keyword in a case-insensitive manner.',
+        'Provides a pure, case-insensitive in-memory search function for collections without triggering database queries. Used inside useMemo in CollectionListSection, it sanitizes user input and filters collections matching by title (name) or description.',
       keyConcepts: [
         {
           name: 'collections: CollectionWithItems[]',
           role: 'Source Data Array',
           explanation:
-            'The active array of collection models stored in client memory. Passing this in enables instant client-side filtering without placing load on the Supabase database.',
+            'Active array of collections in client memory, enabling fast client-side filtering without DB overhead.',
         },
         {
           name: 'query: string',
           role: 'Raw Search String',
           explanation:
-            'The search term entered by the user in the search toolbar, which may include whitespace or mixed letter casing.',
+            'Raw search string entered by the user in CollectionToolbar.',
         },
         {
           name: 'Defensive Input Guard (!collections || collections.length === 0)',
           role: 'Null Safety & Runtime Protection',
           explanation:
-            'Guards against uninitialized, null, or empty array references by immediately returning an empty array [], avoiding TypeError exceptions.',
+            'Immediately returns [] if the array is missing or empty, avoiding runtime errors.',
         },
         {
           name: 'normalizedQuery: string',
           role: 'Sanitized Query Token',
           explanation:
-            "Constructed via (query || '').trim().toLowerCase(). Trimming prevents accidental trailing spaces from failing matches, while lowercasing allows case-insensitive search ('lapland' matches 'Lapland').",
+            "Constructed via (query || '').trim().toLowerCase() to enable clean, case-insensitive substring matching.",
         },
         {
           name: "Fast-Path Exit (normalizedQuery === '')",
           role: 'Optimization & Reference Preservation',
           explanation:
-            'If the query is empty, returning collections directly preserves the original array reference, bypassing filter loops and preventing superfluous React re-renders in useMemo.',
+            'Returns the original array reference when the query is blank, bypassing unnecessary iterations and re-renders.',
         },
         {
           name: 'Array.prototype.filter',
           role: 'Immutable Array Derivation',
           explanation:
-            'Iterates over every collection item and constructs a fresh array containing only items that evaluate the predicate to true.',
+            'Iterates through collections and returns a new filtered array without mutating the source list.',
         },
         {
           name: 'nameMatch & descriptionMatch',
           role: 'Dual Substring Matching Predicates',
           explanation:
-            'Safely verifies if collection.name or collection.description exist before calling .toLowerCase().includes(normalizedQuery), gracefully handling optional null descriptions without crashing.',
+            'Safely checks .toLowerCase().includes(normalizedQuery) on title and optional description without crashing on null.',
         },
         {
           name: 'nameMatch || descriptionMatch',
           role: 'Disjunctive Search Condition',
           explanation:
-            'Ensures a collection is retained in the search results if the search term matches either its primary title OR its romantic notes/description.',
+            'Retains the collection if the search query matches either its title or its description.',
         },
       ],
       starterCode: `/**
@@ -2567,61 +2567,61 @@ export function searchByTitleOrDescription(
       file: 'components/tasks/task-6.ts',
       usedBy: 'CollectionToolbar.tsx & CollectionListSection.tsx',
       purpose:
-        'Task 6 manages sorting and pagination resets across the memory book collection gallery. When a user changes the sorting dropdown in CollectionToolbar, onSortChange updates the active sort state and resets current pagination to page 1 to prevent stranded empty pages. Next, inside the useMemo pipeline of CollectionListSection, sortCollections takes the filtered collection array and a selected SortOption, creates an immutable shallow copy, and executes an in-place sort using targeted comparators for 8 distinct modes: created_at_desc, created_at_asc, name_asc, name_desc, items_desc, items_asc, start_date_asc, and start_date_desc (with graceful null sinks for missing event dates).',
+        'Handles sorting and pagination resets for collections. When a user selects a sort option, onSortChange updates state and resets pagination to page 1. Inside CollectionListSection, sortCollections returns an immutably sorted copy supporting 8 criteria: creation dates, titles (localeCompare), item counts, and event start dates.',
       keyConcepts: [
         {
           name: 'onSortChange(newSort, setSortBy, setCurrentPage)',
           role: 'Sort Event & Pagination Reset Handler',
           explanation:
-            'Receives the newly selected SortOption and invokes setSortBy(newSort) to update React state. Crucially, it executes setCurrentPage(1) to return the user to the first page. If a user is viewing page 4 of a collection list and changes the sort order, failing to reset to page 1 could display an empty page or cause visual disorientation.',
+            'Updates active sort state and resets currentPage to 1 to avoid stranded or empty pagination views.',
         },
         {
           name: 'setSortBy: (sort: SortOption) => void',
           role: 'React State Dispatcher for Sort Option',
           explanation:
-            'A React useState setter function that records the currently active sort criterion, triggering a reactive re-render and re-computation of the collection list in useMemo.',
+            'React state setter for sort criteria, triggering list re-computation in useMemo.',
         },
         {
           name: 'setCurrentPage: (page: number) => void',
           role: 'Pagination State Dispatcher',
           explanation:
-            'A React useState setter function for the current page index. Resetting to 1 guarantees that the pagination window aligns with the newly sorted dataset from the beginning.',
+            'React state setter resetting pagination to page 1 when sort order changes.',
         },
         {
           name: 'sortCollections(collections, sortBy)',
           role: 'Pure Immutable Sorting Engine',
           explanation:
-            'Takes the source collection array and chosen SortOption criterion. It guards against empty or single-element inputs with an early return, creates a shallow copy via [...collections] to protect props and state from in-place mutation, and sorts according to the chosen comparator.',
+            'Pure sorting function that shallow-copies the array and applies targeted comparators across 8 sort modes.',
         },
         {
           name: 'const sorted = [...collections]',
           role: 'Immutable Array Copy',
           explanation:
-            'JavaScript\'s Array.prototype.sort mutates the underlying array in place. In React, mutating props or state directly violates immutability principles, which can break memoization (such as useMemo or React.memo) and introduce subtle bugs. Creating a shallow clone guarantees pure function behavior.',
+            'Creates a shallow clone so Array.prototype.sort() does not mutate React props or state.',
         },
         {
           name: 'timeB - timeA & timeA - timeB (Epoch Milliseconds)',
           role: 'Timestamp Epoch Differencing',
           explanation:
-            'Converts ISO timestamp strings (created_at) into numeric Unix epoch milliseconds via new Date(ts).getTime(). Descending (timeB - timeA) places newer timestamps first, while ascending (timeA - timeB) puts older items first.',
+            'Converts ISO timestamps to Unix epoch milliseconds (getTime()) for chronological ordering.',
         },
         {
           name: 'nameA.localeCompare(nameB)',
           role: 'Alphabetical String Locale Comparison',
           explanation:
-            'Provides internationalized, locale-sensitive alphabetical sorting for titles. It correctly handles accent marks, diacritics, and case variations across languages instead of naive ASCII comparison (< or >).',
+            'Performs locale-sensitive alphabetical sorting supporting accents, casing, and international characters.',
         },
         {
           name: 'countB - countA & countA - countB (Memory Item Count)',
           role: 'Nested Relation Cardinality Sorting',
           explanation:
-            'Compares collection_items?.length || 0 across collections, sorting by how many memories/moments have been cataloged in each book.',
+            'Sorts collections by memory count using collection_items?.length || 0.',
         },
         {
           name: 'Missing Date Sink Logic (start_date_asc / start_date_desc)',
           role: 'Null-Safe Date Comparison',
           explanation:
-            'Because event start_time is optional, comparing undefined or null dates directly produces NaN, corrupting sort stability. If both are missing, it returns 0. If only one collection lacks a date, it returns 1 (or -1) so undated collections sink gracefully to the end of the list.',
+            'Gracefully sinks collections with null or missing start_time to the end of the list without breaking sort stability.',
         },
       ],
       starterCode: `/**
@@ -3089,55 +3089,55 @@ export function sortCollections(
       file: 'components/tasks/task-7.ts',
       usedBy: 'EditCollectionModal.tsx (app/components/EditCollectionModal.tsx)',
       purpose:
-        'Task 7 manages uploading, replacing, or removing the cover poster image for a memory collection. When a user selects or drags and drops a new image in EditCollectionModal, editCollectionPoster validates client-side MIME types (PNG, JPG, WEBP), triggers the updateCollectionPoster Next.js Server Action to upload the binary file to the Supabase Storage "attachments" bucket, persists the public URL in PostgreSQL, and generates an optimistic URL.createObjectURL preview for zero-latency feedback. When the user clicks "Delete/Remove Poster", file is null, directing the server action to permanently delete the remote cloud file to conserve storage quota, set poster_url to SQL NULL in the database, and synchronize client state.',
+        'Handles uploading, replacing, or deleting a collection\'s cover poster. It validates MIME types, triggers updateCollectionPoster to upload or delete assets in Supabase Storage (\'attachments\'), creates an optimistic preview, and updates database records and parent state.',
       keyConcepts: [
         {
           name: 'collection: CollectionWithItems',
           role: 'Baseline Collection Entity',
           explanation:
-            'Supplies collection.id to target the specific PostgreSQL database row and provide unique subfolder pathing within the Supabase Storage bucket.',
+            'Supplies collection.id to target the PostgreSQL row and set storage folder pathing.',
         },
         {
           name: 'file: File | null',
           role: 'Input Media Payload',
           explanation:
-            'Browser File object passed from the input file picker or drag-and-drop zone. If present, it executes the upload workflow (Case A); if null, it executes the removal workflow (Case B).',
+            'Image file from file picker or drag-and-drop. Triggers upload if present, or deletion if null.',
         },
         {
           name: 'validTypes: [PNG, JPEG, JPG, WEBP]',
           role: 'Client-Side MIME Validation Whitelist',
           explanation:
-            'Pre-validates that uploaded files conform to accepted web image formats before initiating network requests, preventing bandwidth wastage and rejected server uploads.',
+            'Validates image formats on the client before upload to prevent rejected network requests.',
         },
         {
           name: 'updateCollectionPoster(collection, file)',
           role: 'Next.js Server Action with Supabase Storage',
           explanation:
-            'Executes on the server to upload the image buffer to Supabase Storage, removes any previous poster files belonging to this collection to prevent orphaned clutter, and updates the poster_url column.',
+            'Server Action uploading the file to Supabase Storage, removing old assets, and updating poster_url.',
         },
         {
           name: 'URL.createObjectURL(file)',
           role: 'Optimistic Browser Preview URL',
           explanation:
-            'Creates an instantaneous blob URL referencing the local in-memory file, allowing the user interface to preview the new cover poster immediately without waiting for server round-trips.',
+            'Generates a zero-latency local blob preview URL for instant UI display while uploading.',
         },
         {
           name: 'Case A: File Upload / Replacement',
           role: 'Image Attachment Workflow',
           explanation:
-            'Invokes updateCollectionPoster with the file, checks for server-side errors, constructs updatedCollection with poster_url: previewUrl, displays a success toast, and dispatches onSuccess.',
+            'Uploads the file, sets optimistic poster_url, displays a toast notification, and invokes onSuccess.',
         },
         {
           name: 'Case B: File Removal / Deletion',
           role: 'Media Purge Workflow',
           explanation:
-            'Invokes updateCollectionPoster(collection, null) to delete the storage file from Supabase Storage and set the column to null, producing clearedCollection with poster_url: null.',
+            'Calls the server action with null to purge the file from storage and reset poster_url to null.',
         },
         {
           name: 'onSuccess?(updatedCollection)',
           role: 'Parent React State Synchronizer',
           explanation:
-            'Notifies parent components (e.g., CollectionListSection or CollectionDetailView) of the new or cleared poster URL so that cards and 3D books update immediately.',
+            'Updates parent components with the new or cleared collection state.',
         },
       ],
       starterCode: `/**
@@ -3492,7 +3492,7 @@ export async function editCollectionPoster(
     category: 'task',
     badge: 'Coding Task 8',
     title: 'Task 8: Edit Memory Poster (task-8.ts)',
-    shortTitle: 'Task 8: Memory Photo',
+    shortTitle: 'Task 8: Photo',
     summary:
       'Upload, replace, or remove photo attachments for individual memory items by integrating with Supabase Storage, dispatching the updateCollectionItemPoster Server Action, creating optimistic preview URLs, and triggering UI updates with isEdit status flags.',
     estimatedTime: '10-15 mins',
@@ -3501,55 +3501,55 @@ export async function editCollectionPoster(
       file: 'components/tasks/task-8.ts',
       usedBy: 'EditMemoryItemModal.tsx & MemoryBookModal.tsx',
       purpose:
-        'Task 8 manages photographic media attached to individual memory cards and flipbook pages. When a user uploads or replaces a photo in EditMemoryItemModal or directly drags and drops an image onto a page in MemoryBookModal, editMemoryPoster validates image formats (PNG, JPG, WEBP), triggers the updateCollectionItemPoster Next.js Server Action to upload the asset into Supabase Storage under the item folder, deletes any existing photo, updates the image_url column in PostgreSQL, and creates an optimistic URL.createObjectURL preview. Crucially, it triggers onSuccess(updatedItem, true) with isEdit = true so the parent state updates the existing memory in place. When the user removes a photo (file === null), it purges the cloud asset, sets image_url to null, and fires onSuccess(clearedItem, false) with isEdit = false to notify the UI that the photo has been detached.',
+        'Manages uploading, replacing, or deleting photos attached to individual memories. It validates image formats, calls updateCollectionItemPoster to sync with Supabase Storage, creates optimistic preview URLs, and triggers onSuccess(item, isEdit) to update parent state.',
       keyConcepts: [
         {
           name: 'item: CollectionItem',
           role: 'Baseline Memory Record',
           explanation:
-            'The target memory item providing item.id for row-level targeting in PostgreSQL and bucket path isolation in Supabase Storage. Guarded by if (!item || !item.id).',
+            'Target memory providing item.id for row targeting and storage bucket folder pathing.',
         },
         {
           name: 'file: File | null',
           role: 'Input Photo Payload',
           explanation:
-            'The photographic binary file. When a File is provided, it executes Case A (upload/replace); when null, it executes Case B (storage purge and column reset).',
+            'Image file to upload, or null when deleting the current photo.',
         },
         {
           name: 'validTypes: [PNG, JPEG, JPG, WEBP]',
           role: 'Client-Side MIME Whitelist',
           explanation:
-            'MIME whitelist verifying image types before network transmission, saving bandwidth and preventing server-side processing errors.',
+            'Client-side MIME whitelist validating image formats before starting upload.',
         },
         {
           name: 'updateCollectionItemPoster(item, file)',
           role: 'Next.js Server Action with Supabase Storage',
           explanation:
-            'Server action that uploads the image buffer into the Supabase Storage attachments bucket, deletes older conflicting photos for this item, and updates the image_url column in collection_items.',
+            'Server Action uploading the file to Supabase Storage, removing old photos, and updating image_url.',
         },
         {
           name: 'URL.createObjectURL(file)',
           role: 'Optimistic Browser Preview URL',
           explanation:
-            'Creates an ephemeral local blob URL to provide zero-latency optimistic photo previews in the flipbook without waiting for cloud storage upload completion.',
+            'Creates a local blob URL for instant photo preview before cloud upload finishes.',
         },
         {
           name: 'isEdit: boolean parameter in onSuccess',
           role: 'UI Transformation Flag',
           explanation:
-            'A boolean flag passed to onSuccess: true indicates an existing photo was replaced or updated (retaining media card layout), while false indicates the photo was deleted (reverting to text-only mode).',
+            'Flag indicating whether a photo was updated (true) or deleted (false) so parent components adjust layout.',
         },
         {
           name: 'Case A (file != null)',
           role: 'Photo Upload / Replacement Pipeline',
           explanation:
-            'Validates file format, calls updateCollectionItemPoster(item, file), generates previewUrl, notifies parent state via onSuccess(updatedItem, true), and shows success toast.',
+            'Validates file, executes upload, creates preview URL, triggers onSuccess(updatedItem, true), and displays toast.',
         },
         {
           name: 'Case B (file == null)',
           role: 'Photo Removal / Deletion Pipeline',
           explanation:
-            'Calls updateCollectionItemPoster(item, null) to delete the storage file, clears image_url to null, notifies parent state via onSuccess(clearedItem, false), and shows removal toast.',
+            'Purges remote file, sets image_url to null, triggers onSuccess(clearedItem, false), and displays removal toast.',
         },
       ],
       starterCode: `/**
