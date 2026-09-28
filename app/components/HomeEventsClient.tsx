@@ -316,7 +316,7 @@ export default function HomeEventsClient({ initialEvents }: HomeEventsClientProp
           <div className="flex items-center gap-3">
             <h2 className="text-3xl lg:text-4xl font-bold text-slate-950 tracking-tight">
               Upcoming Events{' '}
-              <span className="text-teal-700 text-xl font-semibold">(October 2025)</span>
+              <span className="text-teal-700 text-xl font-semibold">(October 2026)</span>
             </h2>
           </div>
 

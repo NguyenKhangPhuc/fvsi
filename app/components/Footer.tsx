@@ -102,7 +102,7 @@ export default function Footer() {
         {/* ── Bottom Bar ── */}
         <div className="pt-6 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-slate-500">
           <span>
-            © 2025 Faculty of ITEE, University of Oulu &amp; Vietnam Academic Consortia. All rights reserved.
+            © 2026 Faculty of ITEE, University of Oulu &amp; Vietnam Academic Consortia. All rights reserved.
           </span>
           <div className="flex items-center gap-1.5 font-medium">
             <span className="text-teal-700 font-mono text-[11px] tracking-wider uppercase font-semibold">

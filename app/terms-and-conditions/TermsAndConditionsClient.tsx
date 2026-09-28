@@ -52,7 +52,7 @@ export default function TermsAndConditionsClient() {
         <div className="mb-6 flex items-center justify-between">
           <BackButton />
           <span className="text-xs font-semibold text-teal-700 bg-teal-50 border border-teal-200 px-3 py-1 rounded-full uppercase tracking-wider">
-            Effective Date: March 2025
+            Effective Date: March 2026
           </span>
         </div>
 

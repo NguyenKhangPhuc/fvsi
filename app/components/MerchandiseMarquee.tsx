@@ -23,7 +23,7 @@ interface MerchandiseItem {
 
 const MERCHANDISE_ITEMS: MerchandiseItem[] = [
   {
-    id: 'merch-1',
+    id: 'merch-bag',
     title: 'University of Oulu Tote Bag',
     src: '/merchandise/university_bag.jpg',
     alt: 'University of Oulu Tote Bags',
@@ -41,16 +41,34 @@ const MERCHANDISE_ITEMS: MerchandiseItem[] = [
     alt: 'University of Oulu Pen',
   },
   {
-    id: 'merch-3',
-    title: 'Future Innovator Sticker',
-    src: '/merchandise/sticker_1.png',
-    alt: 'University of Oulu Future Innovator Sticker',
+    id: 'merch-sticker-immune',
+    title: 'Immune to Interference Sticker',
+    src: '/merchandise/unioulu_sticker_01_immune_to_interference 1.png',
+    alt: 'University of Oulu Immune to Interference Sticker',
   },
   {
-    id: 'merch-4',
-    title: 'Curious Mind Sticker',
-    src: '/merchandise/sticker_2.png',
-    alt: 'University of Oulu Curious Mind Sticker',
+    id: 'merch-sticker-vibes',
+    title: 'Send Good Vibes Sticker',
+    src: '/merchandise/unioulu_sticker_02_send_good_vibes 1.png',
+    alt: 'University of Oulu Send Good Vibes Sticker',
+  },
+  {
+    id: 'merch-sticker-bandwidth',
+    title: 'Know My Bandwidth Sticker',
+    src: '/merchandise/unioulu_sticker_03_know-my-bandwidth.png',
+    alt: 'University of Oulu Know My Bandwidth Sticker',
+  },
+  {
+    id: 'merch-sticker-math',
+    title: 'I Love Math Sticker',
+    src: '/merchandise/UniOulu-sticker-i-love-math.png',
+    alt: 'University of Oulu I Love Math Sticker',
+  },
+  {
+    id: 'merch-sticker-ai',
+    title: 'Smarter Than AI Sticker',
+    src: '/merchandise/UniOulu-sticker-i-smarter-than-ai.png',
+    alt: 'University of Oulu Smarter Than AI Sticker',
   },
 ]
 
