@@ -3486,4 +3486,402 @@ export async function editCollectionPoster(
       },
     ],
   },
+  {
+    id: 15,
+    stepNumber: 15,
+    category: 'task',
+    badge: 'Coding Task 8',
+    title: 'Task 8: Edit Memory Poster (task-8.ts)',
+    shortTitle: 'Task 8: Memory Photo',
+    summary:
+      'Upload, replace, or remove photo attachments for individual memory items by integrating with Supabase Storage, dispatching the updateCollectionItemPoster Server Action, creating optimistic preview URLs, and triggering UI updates with isEdit status flags.',
+    estimatedTime: '10-15 mins',
+    codingTask: {
+      taskNumber: 8,
+      file: 'components/tasks/task-8.ts',
+      usedBy: 'EditMemoryItemModal.tsx & MemoryBookModal.tsx',
+      purpose:
+        'Task 8 manages photographic media attached to individual memory cards and flipbook pages. When a user uploads or replaces a photo in EditMemoryItemModal or directly drags and drops an image onto a page in MemoryBookModal, editMemoryPoster validates image formats (PNG, JPG, WEBP), triggers the updateCollectionItemPoster Next.js Server Action to upload the asset into Supabase Storage under the item folder, deletes any existing photo, updates the image_url column in PostgreSQL, and creates an optimistic URL.createObjectURL preview. Crucially, it triggers onSuccess(updatedItem, true) with isEdit = true so the parent state updates the existing memory in place. When the user removes a photo (file === null), it purges the cloud asset, sets image_url to null, and fires onSuccess(clearedItem, false) with isEdit = false to notify the UI that the photo has been detached.',
+      keyConcepts: [
+        {
+          name: 'item: CollectionItem',
+          role: 'Baseline Memory Record',
+          explanation:
+            'The target memory item providing item.id for row-level targeting in PostgreSQL and bucket path isolation in Supabase Storage. Guarded by if (!item || !item.id).',
+        },
+        {
+          name: 'file: File | null',
+          role: 'Input Photo Payload',
+          explanation:
+            'The photographic binary file. When a File is provided, it executes Case A (upload/replace); when null, it executes Case B (storage purge and column reset).',
+        },
+        {
+          name: 'validTypes: [PNG, JPEG, JPG, WEBP]',
+          role: 'Client-Side MIME Whitelist',
+          explanation:
+            'MIME whitelist verifying image types before network transmission, saving bandwidth and preventing server-side processing errors.',
+        },
+        {
+          name: 'updateCollectionItemPoster(item, file)',
+          role: 'Next.js Server Action with Supabase Storage',
+          explanation:
+            'Server action that uploads the image buffer into the Supabase Storage attachments bucket, deletes older conflicting photos for this item, and updates the image_url column in collection_items.',
+        },
+        {
+          name: 'URL.createObjectURL(file)',
+          role: 'Optimistic Browser Preview URL',
+          explanation:
+            'Creates an ephemeral local blob URL to provide zero-latency optimistic photo previews in the flipbook without waiting for cloud storage upload completion.',
+        },
+        {
+          name: 'isEdit: boolean parameter in onSuccess',
+          role: 'UI Transformation Flag',
+          explanation:
+            'A boolean flag passed to onSuccess: true indicates an existing photo was replaced or updated (retaining media card layout), while false indicates the photo was deleted (reverting to text-only mode).',
+        },
+        {
+          name: 'Case A (file != null)',
+          role: 'Photo Upload / Replacement Pipeline',
+          explanation:
+            'Validates file format, calls updateCollectionItemPoster(item, file), generates previewUrl, notifies parent state via onSuccess(updatedItem, true), and shows success toast.',
+        },
+        {
+          name: 'Case B (file == null)',
+          role: 'Photo Removal / Deletion Pipeline',
+          explanation:
+            'Calls updateCollectionItemPoster(item, null) to delete the storage file, clears image_url to null, notifies parent state via onSuccess(clearedItem, false), and shows removal toast.',
+        },
+      ],
+      starterCode: `/**
+ * ============================================================================
+ * Task 8: Edit Memory Poster (Photo Attachment)
+ * ============================================================================
+ *
+ * @file task-8.ts
+ * @module components/tasks/task-8
+ *
+ * @description
+ * This task manages uploading, replacing, or deleting the photo/image attachment
+ * belonging to a specific memory item.
+ * It interacts with the Next.js Server Action (\`updateCollectionItemPoster\`) to:
+ * 1. Store the uploaded file in Supabase Storage (\`attachments\` bucket).
+ * 2. Delete the previously associated file from storage (if any).
+ * 3. Update the memory's \`image_url\` column in the \`collection_items\` table.
+ * 4. Support clearing/deleting the image when \`file\` is \`null\`.
+ *
+ * @usedBy
+ * - \`EditMemoryItemModal.tsx\` (\`app/components/EditMemoryItemModal.tsx\`)
+ *   Invoked when replacing or removing a photo within the memory edit dialog.
+ * - \`MemoryBookModal.tsx\` (\`app/components/MemoryBookModal.tsx\`)
+ *   Invoked directly from the book flip page when dragging & dropping a new photo
+ *   or clicking "Remove" / "Change Image" on the active page.
+ */
+
+import { CollectionItem } from '../../types/collection_item'
+import { updateCollectionItemPoster } from '../../actions/collection_items'
+
+/**
+ * Updates or removes the photo attachment of a memory item.
+ *
+ * @param {CollectionItem} item - The memory item whose photo is being modified.
+ * @param {File | null} file - The new photo file to upload, or \`null\` to delete the existing photo.
+ * @param {(updatedItem: CollectionItem, isEdit: boolean) => void} [onSuccess] - Optional callback to update UI state.
+ * @param {(message: string) => void} [showNotification] - Optional notification trigger for success and error alerts.
+ * @returns {Promise<CollectionItem>} The updated memory item record with the new or cleared image URL.
+ *
+ * @example
+ * \`\`\`ts
+ * // Upload / Replace photo
+ * const updated = await editMemoryPoster(currentMemory, newImageFile, (item) => syncMemory(item), showNotification);
+ *
+ * // Delete photo
+ * const cleared = await editMemoryPoster(currentMemory, null, (item) => syncMemory(item), showNotification);
+ * \`\`\`
+ */
+export async function editMemoryPoster(
+  item: CollectionItem,
+  file: File | null,
+  onSuccess?: (updatedItem: CollectionItem, isEdit: boolean) => void,
+  showNotification?: (message: string) => void
+): Promise<CollectionItem> {
+  try {
+    /**
+     * --------------------------------------------------------------------------
+     * Step 1: Validate target memory item existence
+     * --------------------------------------------------------------------------
+     * Specification:
+     * - Verify that \`item\` reference and \`item.id\` are defined.
+     * - If missing, display a toast notification and throw Error to abort.
+     */
+    // Check if target memory item is valid and has an ID.
+    if (!item || !item.id) {
+      // Define error message for missing item reference.
+      const errorMsg = 'Invalid memory item: A memory item with a valid ID is required to update its image.'
+      // Show error toast notification to user.
+      showNotification?.(errorMsg)
+      // Throw error to abort photo update.
+      throw new Error(errorMsg)
+    }
+
+    /**
+     * --------------------------------------------------------------------------
+     * Step 2: Handle Case A - Photo Upload / Replacement (when file is provided)
+     * --------------------------------------------------------------------------
+     * Specification:
+     * - Validate client-side image MIME types (PNG, JPG, WEBP).
+     * - Call Server Action \`updateCollectionItemPoster(item, file)\` to upload file.
+     * - Generate optimistic browser object URL (\`URL.createObjectURL(file)\`).
+     * - Trigger success toast and invoke \`onSuccess(updatedItem, true)\`.
+     * - Return the updated \`CollectionItem\` record.
+     */
+    // Check if user provided an image file to upload or replace photo.
+    if (file != null) {
+      // Define supported image MIME types for client-side validation.
+      // Verify uploaded file type against permitted list.
+      // Define format rejection error message.
+      // Display toast error notification to the user.
+      // Throw error to abort file upload.
+      // Call server action updateCollectionItemPoster to upload to storage and update DB.
+      // Check if server upload returned an error.
+      // Log image upload error to console.
+      // Show failure toast notification to the user.
+      // Throw error to break out of execution.
+      // Create client-side object URL for immediate optimistic UI preview.
+      // Assemble updated memory item state with new preview URL.
+      // Show success toast notification upon successful photo update.
+      // Check if onSuccess callback was provided.
+      // Invoke callback to pass updated item to parent state (isEdit = true).
+      // Return the updated memory item record.
+      // TODO: Implement Case A (upload / replace photo attachment) here
+
+      const updatedItem: CollectionItem = undefined as any
+      return updatedItem
+    }
+
+    /**
+     * --------------------------------------------------------------------------
+     * Step 3: Handle Case B - Photo Removal / Deletion (when file is null)
+     * --------------------------------------------------------------------------
+     * Specification:
+     * - Invoke \`updateCollectionItemPoster(item, null)\` to purge cloud file and set DB column to null.
+     * - Assemble cleared memory item with \`image_url: null\`.
+     * - Trigger photo removal success toast notification via \`showNotification\`.
+     * - Notify parent state via \`onSuccess(clearedItem, false)\` callback if provided.
+     * - Return cleared \`CollectionItem\` record.
+     */
+    // Handle case when file is null: call server action to delete photo from storage.
+    // Check if removal server action returned an error.
+    // Log storage removal error to console.
+    // Show failure toast notification to user.
+    // Throw error to enter catch block.
+    // Assemble updated memory item state with image_url cleared to null.
+    // Show success toast notification indicating photo removal.
+    // Check if onSuccess callback was provided.
+    // Invoke callback to notify parent state that image was removed (isEdit = false).
+    // Return the cleared memory item object.
+    // TODO: Implement Case B (delete / remove photo attachment) here
+
+    const clearedItem: CollectionItem = undefined as any
+    return clearedItem
+  } catch (error) {
+    // Extract error message string from caught error object.
+    const errorMsg = error instanceof Error ? error.message : 'Failed to update memory photo.'
+    // Display error toast notification to alert the user.
+    showNotification?.(errorMsg)
+    // Re-throw error to let calling modal handle failure.
+    throw error
+  }
+}
+`,
+      solutionCode: `/**
+ * ============================================================================
+ * Task 8: Edit Memory Poster (Photo Attachment)
+ * ============================================================================
+ *
+ * @file task-8.ts
+ * @module components/tasks/task-8
+ *
+ * @description
+ * This task manages uploading, replacing, or deleting the photo/image attachment
+ * belonging to a specific memory item.
+ * It interacts with the Next.js Server Action (\`updateCollectionItemPoster\`) to:
+ * 1. Store the uploaded file in Supabase Storage (\`attachments\` bucket).
+ * 2. Delete the previously associated file from storage (if any).
+ * 3. Update the memory's \`image_url\` column in the \`collection_items\` table.
+ * 4. Support clearing/deleting the image when \`file\` is \`null\`.
+ *
+ * @usedBy
+ * - \`EditMemoryItemModal.tsx\` (\`app/components/EditMemoryItemModal.tsx\`)
+ *   Invoked when replacing or removing a photo within the memory edit dialog.
+ * - \`MemoryBookModal.tsx\` (\`app/components/MemoryBookModal.tsx\`)
+ *   Invoked directly from the book flip page when dragging & dropping a new photo
+ *   or clicking "Remove" / "Change Image" on the active page.
+ */
+
+import { CollectionItem } from '../../types/collection_item'
+import { updateCollectionItemPoster } from '../../actions/collection_items'
+
+/**
+ * Updates or removes the photo attachment of a memory item.
+ *
+ * @param {CollectionItem} item - The memory item whose photo is being modified.
+ * @param {File | null} file - The new photo file to upload, or \`null\` to delete the existing photo.
+ * @param {(updatedItem: CollectionItem, isEdit: boolean) => void} [onSuccess] - Optional callback to update UI state.
+ * @param {(message: string) => void} [showNotification] - Optional notification trigger for success and error alerts.
+ * @returns {Promise<CollectionItem>} The updated memory item record with the new or cleared image URL.
+ *
+ * @example
+ * \`\`\`ts
+ * // Upload / Replace photo
+ * const updated = await editMemoryPoster(currentMemory, newImageFile, (item) => syncMemory(item), showNotification);
+ *
+ * // Delete photo
+ * const cleared = await editMemoryPoster(currentMemory, null, (item) => syncMemory(item), showNotification);
+ * \`\`\`
+ */
+export async function editMemoryPoster(
+  item: CollectionItem,
+  file: File | null,
+  onSuccess?: (updatedItem: CollectionItem, isEdit: boolean) => void,
+  showNotification?: (message: string) => void
+): Promise<CollectionItem> {
+  try {
+    /**
+     * --------------------------------------------------------------------------
+     * Step 1: Validate target memory item existence
+     * --------------------------------------------------------------------------
+     * Specification:
+     * - Verify that \`item\` reference and \`item.id\` are defined.
+     * - If missing, display a toast notification and throw Error to abort.
+     */
+    // Check if target memory item is valid and has an ID.
+    if (!item || !item.id) {
+      // Define error message for missing item reference.
+      const errorMsg = 'Invalid memory item: A memory item with a valid ID is required to update its image.'
+      // Show error toast notification to user.
+      showNotification?.(errorMsg)
+      // Throw error to abort photo update.
+      throw new Error(errorMsg)
+    }
+
+    /**
+     * --------------------------------------------------------------------------
+     * Step 2: Handle Case A - Photo Upload / Replacement (when file is provided)
+     * --------------------------------------------------------------------------
+     * Specification:
+     * - Validate client-side image MIME types (PNG, JPG, WEBP).
+     * - Call Server Action \`updateCollectionItemPoster(item, file)\` to upload file.
+     * - Generate optimistic browser object URL (\`URL.createObjectURL(file)\`).
+     * - Trigger success toast and invoke \`onSuccess(updatedItem, true)\`.
+     * - Return the updated \`CollectionItem\` record.
+     */
+    // Check if user provided an image file to upload or replace photo.
+    if (file != null) {
+      // Define supported image MIME types for client-side validation.
+      const validTypes = ['image/png', 'image/jpeg', 'image/jpg', 'image/webp']
+      // Verify uploaded file type against permitted list.
+      if (!validTypes.includes(file.type.toLowerCase())) {
+        // Define format rejection error message.
+        const errorMsg = 'Unsupported image format. Please upload PNG, JPG, or WEBP images.'
+        // Display toast error notification to the user.
+        showNotification?.(errorMsg)
+        // Throw error to abort file upload.
+        throw new Error(errorMsg)
+      }
+
+      // Call server action updateCollectionItemPoster to upload to storage and update DB.
+      const res = await updateCollectionItemPoster(item, file)
+      // Check if server upload returned an error.
+      if (res?.error) {
+        // Log image upload error to console.
+        console.error('Failed to update memory image in storage:', res.error)
+        // Show failure toast notification to the user.
+        showNotification?.('Failed to update image: ' + res.error)
+        // Throw error to break out of execution.
+        throw new Error(res.error)
+      }
+
+      // Create client-side object URL for immediate optimistic UI preview.
+      const previewUrl = URL.createObjectURL(file)
+
+      // Assemble updated memory item state with new preview URL.
+      const updatedItem: CollectionItem = {
+        ...item,
+        image_url: previewUrl,
+      }
+
+      // Show success toast notification upon successful photo update.
+      showNotification?.('Memory photo updated successfully!')
+
+      // Check if onSuccess callback was provided.
+      if (onSuccess) {
+        // Invoke callback to pass updated item to parent state (isEdit = true).
+        onSuccess(updatedItem, true)
+      }
+
+      // Return the updated memory item record.
+      return updatedItem
+    }
+
+    /**
+     * --------------------------------------------------------------------------
+     * Step 3: Handle Case B - Photo Removal / Deletion (when file is null)
+     * --------------------------------------------------------------------------
+     * Specification:
+     * - Invoke \`updateCollectionItemPoster(item, null)\` to purge cloud file and set DB column to null.
+     * - Assemble cleared memory item with \`image_url: null\`.
+     * - Trigger photo removal success toast notification via \`showNotification\`.
+     * - Notify parent state via \`onSuccess(clearedItem, false)\` callback if provided.
+     * - Return cleared \`CollectionItem\` record.
+     */
+    // Handle case when file is null: call server action to delete photo from storage.
+    const res = await updateCollectionItemPoster(item, null)
+    // Check if removal server action returned an error.
+    if (res?.error) {
+      // Log storage removal error to console.
+      console.error('Failed to remove memory image from storage:', res.error)
+      // Show failure toast notification to user.
+      showNotification?.('Failed to remove image: ' + res.error)
+      // Throw error to enter catch block.
+      throw new Error(res.error)
+    }
+
+    // Assemble updated memory item state with image_url cleared to null.
+    const clearedItem: CollectionItem = {
+      ...item,
+      image_url: null,
+    }
+
+    // Show success toast notification indicating photo removal.
+    showNotification?.('Memory photo removed successfully!')
+
+    // Check if onSuccess callback was provided.
+    if (onSuccess) {
+      // Invoke callback to notify parent state that image was removed (isEdit = false).
+      onSuccess(clearedItem, false)
+    }
+
+    // Return the cleared memory item object.
+    return clearedItem
+  } catch (error) {
+    // Extract error message string from caught error object.
+    const errorMsg = error instanceof Error ? error.message : 'Failed to update memory photo.'
+    // Display error toast notification to alert the user.
+    showNotification?.(errorMsg)
+    // Re-throw error to let calling modal handle failure.
+    throw error
+  }
+}
+`,
+      solutionExplanation:
+        'In Task 8, editMemoryPoster handles photo attachments for individual memories: when file is provided (Case A), it validates image MIME types, invokes updateCollectionItemPoster(item, file), generates an optimistic preview URL via URL.createObjectURL(file), and fires onSuccess(updatedItem, true) with isEdit = true so the parent updates the existing item in place. When file is null (Case B), it invokes updateCollectionItemPoster(item, null) to purge the cloud storage file, clears image_url to null, and fires onSuccess(clearedItem, false) with isEdit = false.',
+    },
+    sections: [
+      {
+        title: 'Task Overview & File Target',
+        description:
+          'Open components/tasks/task-8.ts in your project. Implement editMemoryPoster to handle photo attachments (Case A with isEdit = true) and photo removal (Case B with isEdit = false) using updateCollectionItemPoster.',
+      },
+    ],
+  },
 ]

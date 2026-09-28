@@ -224,7 +224,15 @@ function astToProcessedLines(ast: LowlightRoot, isSolution: boolean): ProcessedL
         fullText.includes('poster_url: null') ||
         fullText.includes('Collection poster removed successfully!') ||
         fullText.includes('onSuccess(clearedCollection)') ||
-        fullText.includes('return clearedCollection'))
+        fullText.includes('return clearedCollection') ||
+        fullText.includes('updateCollectionItemPoster(item, file)') ||
+        fullText.includes('image_url: previewUrl') ||
+        fullText.includes('Memory photo updated successfully!') ||
+        fullText.includes('updateCollectionItemPoster(item, null)') ||
+        fullText.includes('image_url: null') ||
+        fullText.includes('Memory photo removed successfully!') ||
+        fullText.includes('onSuccess(clearedItem, false)') ||
+        fullText.includes('return clearedItem'))
 
     return {
       indentCount,
@@ -297,7 +305,15 @@ function fallbackToProcessedLines(code: string, isSolution: boolean): ProcessedL
             line.includes('poster_url: null') ||
             line.includes('Collection poster removed successfully!') ||
             line.includes('onSuccess(clearedCollection)') ||
-            line.includes('return clearedCollection')),
+            line.includes('return clearedCollection') ||
+            line.includes('updateCollectionItemPoster(item, file)') ||
+            line.includes('image_url: previewUrl') ||
+            line.includes('Memory photo updated successfully!') ||
+            line.includes('updateCollectionItemPoster(item, null)') ||
+            line.includes('image_url: null') ||
+            line.includes('Memory photo removed successfully!') ||
+            line.includes('onSuccess(clearedItem, false)') ||
+            line.includes('return clearedItem')),
       }
     })
 }
