@@ -201,7 +201,11 @@ function astToProcessedLines(ast: LowlightRoot, isSolution: boolean): ProcessedL
         fullText.includes('order: data.order') ||
         fullText.includes('updateCollectionItem(payload)') ||
         fullText.includes('const updatedItem: CollectionItem = {') ||
-        fullText.includes('onSuccess(updatedItem, true)'))
+        fullText.includes('onSuccess(updatedItem, true)') ||
+        fullText.includes('collections.filter') ||
+        fullText.includes('nameMatch') ||
+        fullText.includes('descriptionMatch') ||
+        fullText.includes('nameMatch || descriptionMatch'))
 
     return {
       indentCount,
@@ -251,7 +255,11 @@ function fallbackToProcessedLines(code: string, isSolution: boolean): ProcessedL
             line.includes('order: data.order') ||
             line.includes('updateCollectionItem(payload)') ||
             line.includes('const updatedItem: CollectionItem = {') ||
-            line.includes('onSuccess(updatedItem, true)')),
+            line.includes('onSuccess(updatedItem, true)') ||
+            line.includes('collections.filter') ||
+            line.includes('nameMatch') ||
+            line.includes('descriptionMatch') ||
+            line.includes('nameMatch || descriptionMatch')),
       }
     })
 }

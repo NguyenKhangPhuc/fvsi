@@ -2286,4 +2286,270 @@ export async function editMemory(
       },
     ],
   },
+  {
+    id: 12,
+    stepNumber: 12,
+    category: 'task',
+    badge: 'Coding Task 5',
+    title: 'Task 5: Search Collections (task-5.ts)',
+    shortTitle: 'Task 5: Search',
+    summary:
+      'Implement a pure, case-insensitive client search utility that filters memory collections by matching user queries against title and description fields.',
+    estimatedTime: '5-10 mins',
+    codingTask: {
+      taskNumber: 5,
+      file: 'components/tasks/task-5.ts',
+      usedBy: 'CollectionListSection.tsx (app/components/CollectionListSection.tsx)',
+      purpose:
+        'The primary objective of Task 5 is to implement a fast, responsive in-memory search utility that filters collection entities without initiating costly database network roundtrips. In the UI, as users type search keywords into the CollectionToolbar input field, CollectionListSection passes the active collections array and search query to searchByTitleOrDescription within a React useMemo optimization pipeline. The function first guards against empty or uninitialized arrays. Next, it sanitizes the query by trimming leading/trailing whitespace and converting it to lowercase, with a fast-path return when the query is blank. Finally, it uses Array.prototype.filter to return collections whose name or description includes the normalized search keyword in a case-insensitive manner.',
+      keyConcepts: [
+        {
+          name: 'collections: CollectionWithItems[]',
+          role: 'Source Data Array',
+          explanation:
+            'The active array of collection models stored in client memory. Passing this in enables instant client-side filtering without placing load on the Supabase database.',
+        },
+        {
+          name: 'query: string',
+          role: 'Raw Search String',
+          explanation:
+            'The search term entered by the user in the search toolbar, which may include whitespace or mixed letter casing.',
+        },
+        {
+          name: 'Defensive Input Guard (!collections || collections.length === 0)',
+          role: 'Null Safety & Runtime Protection',
+          explanation:
+            'Guards against uninitialized, null, or empty array references by immediately returning an empty array [], avoiding TypeError exceptions.',
+        },
+        {
+          name: 'normalizedQuery: string',
+          role: 'Sanitized Query Token',
+          explanation:
+            "Constructed via (query || '').trim().toLowerCase(). Trimming prevents accidental trailing spaces from failing matches, while lowercasing allows case-insensitive search ('lapland' matches 'Lapland').",
+        },
+        {
+          name: "Fast-Path Exit (normalizedQuery === '')",
+          role: 'Optimization & Reference Preservation',
+          explanation:
+            'If the query is empty, returning collections directly preserves the original array reference, bypassing filter loops and preventing superfluous React re-renders in useMemo.',
+        },
+        {
+          name: 'Array.prototype.filter',
+          role: 'Immutable Array Derivation',
+          explanation:
+            'Iterates over every collection item and constructs a fresh array containing only items that evaluate the predicate to true.',
+        },
+        {
+          name: 'nameMatch & descriptionMatch',
+          role: 'Dual Substring Matching Predicates',
+          explanation:
+            'Safely verifies if collection.name or collection.description exist before calling .toLowerCase().includes(normalizedQuery), gracefully handling optional null descriptions without crashing.',
+        },
+        {
+          name: 'nameMatch || descriptionMatch',
+          role: 'Disjunctive Search Condition',
+          explanation:
+            'Ensures a collection is retained in the search results if the search term matches either its primary title OR its romantic notes/description.',
+        },
+      ],
+      starterCode: `/**
+ * ============================================================================
+ * Task 5: Search Collections by Title or Description
+ * ============================================================================
+ *
+ * @file task-5.ts
+ * @module components/tasks/task-5
+ *
+ * @description
+ * This task provides a pure filtering utility that searches an array of collections
+ * by matching a user's search query against collection titles (\`name\`) and \`description\`
+ * text in a case-insensitive manner.
+ *
+ * @usedBy
+ * - \`CollectionListSection.tsx\` (\`app/components/CollectionListSection.tsx\`)
+ *   Used inside the \`useMemo\` filter pipeline whenever the user types into the
+ *   search bar in \`CollectionToolbar\`.
+ */
+
+import { CollectionWithItems } from '../../types/collection'
+
+/**
+ * Filters a list of collections matching a query string in either their title (\`name\`)
+ * or their \`description\`.
+ *
+ * @param {CollectionWithItems[]} collections - The source array of collections to search through.
+ * @param {string} query - The search string entered by the user.
+ * @returns {CollectionWithItems[]} A new array containing only the matching collections.
+ *
+ * @example
+ * \`\`\`ts
+ * const allCollections = [...];
+ * const results = searchByTitleOrDescription(allCollections, "Lapland");
+ * console.log(\`Found \${results.length} matches\`);
+ * \`\`\`
+ */
+export function searchByTitleOrDescription(
+  collections: CollectionWithItems[],
+  query: string
+): CollectionWithItems[] {
+  /**
+   * --------------------------------------------------------------------------
+   * Step 1: Validate input and handle empty collections
+   * --------------------------------------------------------------------------
+   * Specification:
+   * - Guard against empty, null, or undefined collection arrays.
+   * - Immediately return an empty array \`[]\` to avoid runtime evaluation errors.
+   */
+  // Check if collection array is empty or undefined.
+  // Return an empty array immediately when no collections exist.
+  if (!collections || collections.length === 0) {
+    // Return an empty array immediately when no collections exist.
+    return []
+  }
+  /**
+   * --------------------------------------------------------------------------
+   * Step 2: Sanitize and normalize search query
+   * --------------------------------------------------------------------------
+   * Specification:
+   * - Strip leading and trailing whitespace using \`.trim()\`.
+   * - Convert query string to lowercase for case-insensitive matching.
+   * - Fast-path exit: return the unfiltered \`collections\` array if query is empty.
+   */
+  // Trim whitespace and convert query to lowercase for case-insensitive matching.
+  // Check if the normalized query is empty.
+  // Return the original collection array directly if no search keyword is given.
+  const normalizedQuery = (query || '').trim().toLowerCase()
+
+  // Check if the normalized query is empty.
+  if (normalizedQuery === '') {
+    // Return the original collection array directly if no search keyword is given.
+    return collections
+  }
+  /**
+   * --------------------------------------------------------------------------
+   * Step 3: Filter collections using case-insensitive substring matching
+   * --------------------------------------------------------------------------
+   * Specification:
+   * - Iterate across collection entries using \`Array.prototype.filter\`.
+   * - Check if \`collection.name\` contains \`normalizedQuery\`.
+   * - Check if \`collection.description\` contains \`normalizedQuery\`.
+   * - Return only collections satisfying at least one match condition.
+   */
+  // Filter collections array based on matching title or description.
+  // Check if collection name exists and contains search term.
+  // Check if collection description exists and contains search term.
+  // Keep collection in filtered results if name or description matches.
+  // TODO: Filter collections array based on matching title or description and return results
+
+  return []
+}`,
+      solutionCode: `/**
+ * ============================================================================
+ * Task 5: Search Collections by Title or Description
+ * ============================================================================
+ *
+ * @file task-5.ts
+ * @module components/tasks/task-5
+ *
+ * @description
+ * This task provides a pure filtering utility that searches an array of collections
+ * by matching a user's search query against collection titles (\`name\`) and \`description\`
+ * text in a case-insensitive manner.
+ *
+ * @usedBy
+ * - \`CollectionListSection.tsx\` (\`app/components/CollectionListSection.tsx\`)
+ *   Used inside the \`useMemo\` filter pipeline whenever the user types into the
+ *   search bar in \`CollectionToolbar\`.
+ */
+
+import { CollectionWithItems } from '../../types/collection'
+
+/**
+ * Filters a list of collections matching a query string in either their title (\`name\`)
+ * or their \`description\`.
+ *
+ * @param {CollectionWithItems[]} collections - The source array of collections to search through.
+ * @param {string} query - The search string entered by the user.
+ * @returns {CollectionWithItems[]} A new array containing only the matching collections.
+ *
+ * @example
+ * \`\`\`ts
+ * const allCollections = [...];
+ * const results = searchByTitleOrDescription(allCollections, "Lapland");
+ * console.log(\`Found \${results.length} matches\`);
+ * \`\`\`
+ */
+export function searchByTitleOrDescription(
+  collections: CollectionWithItems[],
+  query: string
+): CollectionWithItems[] {
+  /**
+   * --------------------------------------------------------------------------
+   * Step 1: Validate input and handle empty collections
+   * --------------------------------------------------------------------------
+   * Specification:
+   * - Guard against empty, null, or undefined collection arrays.
+   * - Immediately return an empty array \`[]\` to avoid runtime evaluation errors.
+   */
+  // Check if collection array is empty or undefined.
+  if (!collections || collections.length === 0) {
+    // Return an empty array immediately when no collections exist.
+    return []
+  }
+
+  /**
+   * --------------------------------------------------------------------------
+   * Step 2: Sanitize and normalize search query
+   * --------------------------------------------------------------------------
+   * Specification:
+   * - Strip leading and trailing whitespace using \`.trim()\`.
+   * - Convert query string to lowercase for case-insensitive matching.
+   * - Fast-path exit: return the unfiltered \`collections\` array if query is empty.
+   */
+  // Trim whitespace and convert query to lowercase for case-insensitive matching.
+  const normalizedQuery = (query || '').trim().toLowerCase()
+
+  // Check if the normalized query is empty.
+  if (normalizedQuery === '') {
+    // Return the original collection array directly if no search keyword is given.
+    return collections
+  }
+
+  /**
+   * --------------------------------------------------------------------------
+   * Step 3: Filter collections using case-insensitive substring matching
+   * --------------------------------------------------------------------------
+   * Specification:
+   * - Iterate across collection entries using \`Array.prototype.filter\`.
+   * - Check if \`collection.name\` contains \`normalizedQuery\`.
+   * - Check if \`collection.description\` contains \`normalizedQuery\`.
+   * - Return only collections satisfying at least one match condition.
+   */
+  // Filter collections array based on matching title or description.
+  return collections.filter((collection) => {
+    // Check if collection name exists and contains search term.
+    const nameMatch = collection.name
+      ? collection.name.toLowerCase().includes(normalizedQuery)
+      : false
+
+    // Check if collection description exists and contains search term.
+    const descriptionMatch = collection.description
+      ? collection.description.toLowerCase().includes(normalizedQuery)
+      : false
+
+    // Keep collection in filtered results if name or description matches.
+    return nameMatch || descriptionMatch
+  })
+}`,
+      solutionExplanation:
+        'In Task 5, searchByTitleOrDescription filters collections in memory using Array.prototype.filter. It checks if collection.name contains normalizedQuery, and if collection.description (if present) contains normalizedQuery. Using nameMatch || descriptionMatch ensures any collection matching either field is returned.',
+    },
+    sections: [
+      {
+        title: 'Task Overview & File Target',
+        description:
+          'Open components/tasks/task-5.ts in your project. Implement searchByTitleOrDescription using collections.filter to evaluate nameMatch and descriptionMatch against normalizedQuery.',
+      },
+    ],
+  },
 ]
