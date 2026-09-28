@@ -189,7 +189,14 @@ function astToProcessedLines(ast: LowlightRoot, isSolution: boolean): ProcessedL
         fullText.includes('updateCollection(updatePayload)') ||
         fullText.includes('poster_url: res.data?.poster_url') ||
         fullText.includes('collection_items: collection.collection_items') ||
-        fullText.includes('onSuccess(updatedCollection)'))
+        fullText.includes('onSuccess(updatedCollection)') ||
+        fullText.includes('collection_id: collectionId') ||
+        fullText.includes('order: data.order ?? 1') ||
+        fullText.includes('createNewCollectionItem(payload)') ||
+        fullText.includes('let newItem: CollectionItem = res.data') ||
+        fullText.includes('updateCollectionItemPoster(newItem, posterFile)') ||
+        fullText.includes('image_url: resPoster.data') ||
+        fullText.includes('onSuccess(newItem)'))
 
     return {
       indentCount,
@@ -227,7 +234,14 @@ function fallbackToProcessedLines(code: string, isSolution: boolean): ProcessedL
             line.includes('updateCollection(updatePayload)') ||
             line.includes('poster_url: res.data?.poster_url') ||
             line.includes('collection_items: collection.collection_items') ||
-            line.includes('onSuccess(updatedCollection)')),
+            line.includes('onSuccess(updatedCollection)') ||
+            line.includes('collection_id: collectionId') ||
+            line.includes('order: data.order ?? 1') ||
+            line.includes('createNewCollectionItem(payload)') ||
+            line.includes('let newItem: CollectionItem = res.data') ||
+            line.includes('updateCollectionItemPoster(newItem, posterFile)') ||
+            line.includes('image_url: resPoster.data') ||
+            line.includes('onSuccess(newItem)')),
       }
     })
 }
