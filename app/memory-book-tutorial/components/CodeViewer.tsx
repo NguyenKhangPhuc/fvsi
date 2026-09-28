@@ -205,7 +205,19 @@ function astToProcessedLines(ast: LowlightRoot, isSolution: boolean): ProcessedL
         fullText.includes('collections.filter') ||
         fullText.includes('nameMatch') ||
         fullText.includes('descriptionMatch') ||
-        fullText.includes('nameMatch || descriptionMatch'))
+        fullText.includes('nameMatch || descriptionMatch') ||
+        fullText.includes('setSortBy(newSort)') ||
+        fullText.includes('setCurrentPage(1)') ||
+        fullText.includes('return timeA - timeB') ||
+        fullText.includes('localeCompare(nameB)') ||
+        fullText.includes('localeCompare(nameA)') ||
+        fullText.includes('return countB - countA') ||
+        fullText.includes('return countA - countB') ||
+        fullText.includes('!a.start_time && !b.start_time') ||
+        fullText.includes('if (!a.start_time) return 1') ||
+        fullText.includes('if (!b.start_time) return -1') ||
+        fullText.includes('new Date(a.start_time).getTime() - new Date(b.start_time).getTime()') ||
+        fullText.includes('new Date(b.start_time).getTime() - new Date(a.start_time).getTime()'))
 
     return {
       indentCount,
@@ -259,7 +271,19 @@ function fallbackToProcessedLines(code: string, isSolution: boolean): ProcessedL
             line.includes('collections.filter') ||
             line.includes('nameMatch') ||
             line.includes('descriptionMatch') ||
-            line.includes('nameMatch || descriptionMatch')),
+            line.includes('nameMatch || descriptionMatch') ||
+            line.includes('setSortBy(newSort)') ||
+            line.includes('setCurrentPage(1)') ||
+            line.includes('return timeA - timeB') ||
+            line.includes('localeCompare(nameB)') ||
+            line.includes('localeCompare(nameA)') ||
+            line.includes('return countB - countA') ||
+            line.includes('return countA - countB') ||
+            line.includes('!a.start_time && !b.start_time') ||
+            line.includes('if (!a.start_time) return 1') ||
+            line.includes('if (!b.start_time) return -1') ||
+            line.includes('new Date(a.start_time).getTime() - new Date(b.start_time).getTime()') ||
+            line.includes('new Date(b.start_time).getTime() - new Date(a.start_time).getTime()')),
       }
     })
 }
