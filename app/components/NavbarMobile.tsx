@@ -108,7 +108,7 @@ export default function NavbarMobile({ initialUser }: NavbarMobileProps) {
 
           {/* Quick auth + Hamburger toggle */}
           <div className="flex items-center gap-2">
-            {initialUser ? (
+            {initialUser && (
               <button
                 onClick={handleLogout}
                 className="flex items-center gap-1 px-2.5 py-1 text-xs font-bold text-slate-700 hover:text-red-600 bg-slate-100 border border-slate-200 rounded-lg transition-all cursor-pointer"
@@ -117,14 +117,6 @@ export default function NavbarMobile({ initialUser }: NavbarMobileProps) {
                 <LogoutIcon sx={{ fontSize: 14 }} />
                 <span>Log Out</span>
               </button>
-            ) : (
-              <Link
-                href="/login"
-                className="flex items-center gap-1 px-2.5 py-1 text-xs font-bold text-white bg-[#4bbca9] rounded-lg shadow-2xs hover:bg-[#3ea694] transition-all"
-              >
-                <LoginIcon sx={{ fontSize: 14 }} />
-                <span>Sign In</span>
-              </Link>
             )}
 
             {/* Hamburger toggle */}
@@ -229,8 +221,8 @@ export default function NavbarMobile({ initialUser }: NavbarMobileProps) {
               </ul>
 
               {/* Auth section */}
-              <div className="border-t border-slate-100 py-2 px-2 bg-slate-50/50">
-                {initialUser ? (
+              {initialUser && (
+                <div className="border-t border-slate-100 py-2 px-2 bg-slate-50/50">
                   <button
                     onClick={handleLogout}
                     className="w-full flex items-center justify-center gap-2 px-4 py-2.5 text-sm font-bold text-red-600 bg-red-50 hover:bg-red-100 border border-red-200 rounded-lg transition-colors cursor-pointer"
@@ -238,19 +230,8 @@ export default function NavbarMobile({ initialUser }: NavbarMobileProps) {
                     <LogoutIcon sx={{ fontSize: 18 }} />
                     <span>Log Out</span>
                   </button>
-                ) : (
-                  <div className="flex flex-col gap-2 p-2">
-                    <Link
-                      href="/login"
-                      onClick={closeMenu}
-                      className="flex items-center justify-center gap-2 w-full px-4 py-2.5 text-sm font-bold text-white bg-[#4bbca9] rounded-lg shadow-[0_0_12px_rgba(75,188,169,0.35)] hover:shadow-[0_0_20px_rgba(75,188,169,0.5)] hover:bg-[#3ea694] transition-all"
-                    >
-                      <LoginIcon sx={{ fontSize: 16 }} />
-                      <span>Sign In</span>
-                    </Link>
-                  </div>
-                )}
-              </div>
+                </div>
+              )}
             </motion.nav>
           </>
         )}

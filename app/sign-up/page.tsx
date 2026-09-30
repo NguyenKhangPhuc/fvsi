@@ -168,15 +168,18 @@ const Home = () => {
             <p className="text-sm text-slate-500">Fill in your details to create a new account.</p>
           </div>
 
-          {/* Microsoft Verification Note */}
+          {/* Microsoft Verification Note - Commented out */}
+          {/*
           <div className="flex items-start gap-2.5 p-3 bg-amber-50 border border-amber-200 rounded-lg text-amber-700">
             <InfoOutlinedIcon sx={{ fontSize: 16 }} className="mt-0.5 shrink-0" />
             <p className="text-xs leading-relaxed">
               If you are using a Microsoft account to sign up manually, the verification email code can arrive very late and may land in your junk folder.
             </p>
           </div>
+          */}
 
-          {/* Full Name Input */}
+          {/* Full Name Input - Commented out */}
+          {/*
           <div className="flex flex-col">
             <label className="text-xs font-semibold text-slate-700 mb-1.5 flex items-center justify-between">
               <span>Full Name</span>
@@ -199,8 +202,10 @@ const Home = () => {
               <p className="text-red-500 text-xs mt-1">{errors.fullName.message}</p>
             )}
           </div>
+          */}
 
-          {/* Email Address Input */}
+          {/* Email Address Input - Commented out */}
+          {/*
           <div className="flex flex-col">
             <label className="text-xs font-semibold text-slate-700 mb-1.5 flex items-center justify-between">
               <span>Email Address</span>
@@ -227,8 +232,10 @@ const Home = () => {
               <p className="text-red-500 text-xs mt-1">{errors.email.message}</p>
             )}
           </div>
+          */}
 
-          {/* Password Input */}
+          {/* Password Input - Commented out */}
+          {/*
           <div className="flex flex-col">
             <label className="text-xs font-semibold text-slate-700 mb-1.5 flex items-center justify-between">
               <span>Password</span>
@@ -267,8 +274,10 @@ const Home = () => {
               <p className="text-red-500 text-xs mt-1">{errors.password.message}</p>
             )}
           </div>
+          */}
 
-          {/* Remember me & Forgot Password */}
+          {/* Remember me & Forgot Password - Commented out */}
+          {/*
           <div className="flex items-center justify-between mt-1">
             <label className="flex items-center gap-2 text-sm text-slate-600 cursor-pointer">
               <input
@@ -284,6 +293,7 @@ const Home = () => {
               Forgot password?
             </Link>
           </div>
+          */}
 
           {/* Terms & Conditions Checkbox */}
           <div className="flex flex-col mt-1">
@@ -327,15 +337,18 @@ const Home = () => {
             )}
           </div>
 
-          {/* Submit Button */}
+          {/* Submit Button - Commented out */}
+          {/*
           <button
             type="submit"
             className="mt-2 w-full bg-[#4bbca9] text-white font-bold text-sm py-3.5 rounded-lg hover:bg-[#3ea694] transition-all cursor-pointer shadow-sm"
           >
             Sign Up
           </button>
+          */}
 
-          {/* Switch to Sign In */}
+          {/* Switch to Sign In - Commented out */}
+          {/*
           <p className="text-center text-sm text-slate-500 mt-1">
             Already have an account?{" "}
             <Link
@@ -345,8 +358,10 @@ const Home = () => {
               Sign In
             </Link>
           </p>
+          */}
 
-          {/* Divider */}
+          {/* Divider - Commented out */}
+          {/*
           <div className="flex items-center gap-4 my-1">
             <div className="flex-1 h-px bg-slate-200" />
             <span className="text-[11px] text-slate-400 uppercase tracking-widest">
@@ -354,6 +369,7 @@ const Home = () => {
             </span>
             <div className="flex-1 h-px bg-slate-200" />
           </div>
+          */}
 
           {/* OAuth Buttons */}
           <div className="flex flex-col gap-2.5">

@@ -37,7 +37,6 @@ interface NavBarProps {
 
 export default function NavBar({ initialUser }: NavBarProps) {
   const pathname = usePathname()
-  const router = useRouter()
 
 
   const handleLogout = async () => {
@@ -147,13 +146,8 @@ export default function NavBar({ initialUser }: NavBarProps) {
               </button>
             </div>
           ) : (
-            <Link
-              href="/login"
-              className="flex items-center gap-1.5 px-4 py-2 text-sm font-bold text-white bg-[#4bbca9] rounded-lg shadow-[0_0_16px_rgba(75,188,169,0.35)] hover:shadow-[0_0_24px_rgba(75,188,169,0.5)] hover:bg-[#3ea694] transition-all"
-            >
-              <LoginIcon sx={{ fontSize: 16 }} />
-              <span>Sign In</span>
-            </Link>
+            /* Login hidden from navigation bar */
+            null
           )}
         </div>
       </div>
