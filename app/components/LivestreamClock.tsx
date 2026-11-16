@@ -13,6 +13,7 @@
  *
  * BEHAVIORAL MECHANISM:
  * - The countdown is computed from absolute instants, so it is correct in any viewer timezone.
+ * - Countdown ticks are scheduled for the middle of each displayed second so timer jitter cannot skip or repeat one.
  * - The phase is evaluated once on mount. If the event has already ended (or has no start), no timer
  *   is created at all. While counting down it ticks once per second; once live it sleeps with a single
  *   timeout until end_date, then clears itself. Nothing is rendered on the server (no hydration mismatch).
@@ -58,7 +59,11 @@ export default function LivestreamClock({ startDate, endDate, size = 'md' }: Liv
       setNowMs(now)
       const phase = getLivestreamPhase(startDate, endDate, now)
       if (phase === 'countdown') {
-        timer = setTimeout(tick, 1000 - (now % 1000))
+        // Tick in the middle of each displayed second (remaining % 1000 === 500), not on its boundary,
+        // so timer jitter can never repeat or skip a second. Never sleep past the start instant.
+        const remaining = startMs - now
+        const untilMiddle = (((remaining - 500) % 1000) + 1000) % 1000 || 1000
+        timer = setTimeout(tick, Math.min(untilMiddle, remaining))
       } else if (phase === 'live') {
         timer = setTimeout(tick, Math.min(endMs - now, MAX_TIMEOUT_MS))
       }
