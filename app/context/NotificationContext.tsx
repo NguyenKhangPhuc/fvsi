@@ -1,6 +1,7 @@
 'use client';
 
 import { useContext, useState, createContext, Dispatch, SetStateAction } from "react";
+import NotificationToast from "../components/NotificationToast";
 // The type of the Notification controlle
 interface NotificationContextType {
     content: string | null
@@ -36,6 +37,7 @@ export const NotificationProvider = ({ children }: { children: React.ReactNode }
     return (
         <NotificationContext.Provider value={{ notification, setNotification, showNotification }}>
             {children}
+            <NotificationToast content={notification.content} isOpen={notification.isOpen} />
         </NotificationContext.Provider>
     );
 };

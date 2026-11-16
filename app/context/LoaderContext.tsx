@@ -1,6 +1,7 @@
 'use client';
 
 import { useContext, useState, createContext, Dispatch, SetStateAction } from "react";
+import GlobalLoader from "../components/GlobalLoader";
 // The type of the Notification controlle
 
 // The type to be passed in the notification (in value)
@@ -20,6 +21,7 @@ export const LoaderProvider = ({ children }: { children: React.ReactNode }) => {
     return (
         <LoaderContext.Provider value={{ isOpenLoader, setIsOpenLoader, }}>
             {children}
+            <GlobalLoader isOpen={isOpenLoader} />
         </LoaderContext.Provider>
     );
 };

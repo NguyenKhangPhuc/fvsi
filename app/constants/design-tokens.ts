@@ -132,4 +132,12 @@ export const tw = {
     live: 'bg-slate-950 border-slate-800 text-[#4bbca9]',
     liveDot: 'bg-[#4bbca9]',
   },
+  /** Global feedback UI (loader overlay and notification toast) */
+  feedback: {
+    overlay: 'bg-slate-950/40',
+    spinnerTrack: 'border-white/30',
+    spinnerHead: 'border-t-[#4bbca9]',
+    toast: 'bg-slate-950 border-slate-800 text-white',
+    toastAccent: 'bg-[#4bbca9]',
+  },
 } as const

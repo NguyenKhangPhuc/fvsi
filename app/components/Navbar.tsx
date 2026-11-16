@@ -28,6 +28,8 @@ import { Database } from '@/app/types/database.types'
 import { createClient } from '@/app/utils/supabase/client'
 import { useState, useMemo, useEffect } from 'react'
 import { signout } from '../actions/authentication/post/signout'
+import { useLoader } from '../context/LoaderContext'
+import { useNotification } from '../context/NotificationContext'
 
 type Profile = Database['public']['Tables']['profiles']['Row']
 
@@ -37,15 +39,25 @@ interface NavBarProps {
 
 export default function NavBar({ initialUser }: NavBarProps) {
   const pathname = usePathname()
+  const { setIsOpenLoader } = useLoader()
+  const { showNotification } = useNotification()
 
 
   const handleLogout = async () => {
+    setIsOpenLoader(true)
     try {
-      await signout()
-    } catch (error) {
-      if (error instanceof Error && error.message !== 'NEXT_REDIRECT') {
-        // showNotification(error.message)
+      const result = await signout()
+      if (result?.error) {
+        showNotification('Failed to sign out')
       }
+    } catch (error) {
+      if (error instanceof Error && error.message === 'NEXT_REDIRECT') {
+        showNotification('Signed out successfully')
+      } else {
+        showNotification('Failed to sign out')
+      }
+    } finally {
+      setIsOpenLoader(false)
     }
   }
 

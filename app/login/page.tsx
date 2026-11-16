@@ -53,12 +53,22 @@ const Home = () => {
   const handleLoginWithGithub = async (): Promise<void> => {
     const isAcceptedTerm = getValues("isTermAccepted")
     if (isAcceptedTerm) {
-      await supabase.auth.signInWithOAuth({
-        provider: "github",
-        options: {
-          redirectTo: `${window.location.origin}/auth/callback`,
-        },
-      })
+      setIsOpenLoader(true)
+      try {
+        const { error } = await supabase.auth.signInWithOAuth({
+          provider: "github",
+          options: {
+            redirectTo: `${window.location.origin}/auth/callback`,
+          },
+        })
+        if (error) {
+          throw error
+        }
+        // On success the browser redirects to the provider, so the loader stays open.
+      } catch {
+        setIsOpenLoader(false)
+        showNotification("Failed to start GitHub sign-in")
+      }
     } else {
       showNotification("Please accept the terms conditions and privacy policy")
     }
@@ -94,12 +104,22 @@ const Home = () => {
   const handleGoogleOauthLogin = async (): Promise<void> => {
     const isAcceptedTerm = getValues("isTermAccepted")
     if (isAcceptedTerm) {
-      await supabase.auth.signInWithOAuth({
-        provider: "google",
-        options: {
-          redirectTo: `${window.location.origin}/auth/callback`,
-        },
-      })
+      setIsOpenLoader(true)
+      try {
+        const { error } = await supabase.auth.signInWithOAuth({
+          provider: "google",
+          options: {
+            redirectTo: `${window.location.origin}/auth/callback`,
+          },
+        })
+        if (error) {
+          throw error
+        }
+        // On success the browser redirects to the provider, so the loader stays open.
+      } catch {
+        setIsOpenLoader(false)
+        showNotification("Failed to start Google sign-in")
+      }
     } else {
       showNotification("Please accept the terms conditions and privacy policy")
     }
