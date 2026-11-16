@@ -105,6 +105,19 @@ export default function BasicInfoSection({ register, errors }: BasicInfoSectionP
             {...register('register_link')}
           />
         </div>
+
+        {/* Watch Online Link */}
+        <div className="flex flex-col gap-1.5">
+          <label className="text-xs font-semibold text-slate-700 uppercase tracking-wider select-none">
+            Watch Online Link
+          </label>
+          <input
+            type="url"
+            placeholder="e.g. https://youtube.com/live/... or https://zoom.us/j/..."
+            className="bg-slate-50 text-slate-900 border border-slate-200 text-sm p-3 rounded-lg outline-none focus:border-[#4bbca9] focus:ring-2 focus:ring-[#4bbca9]/20 focus:bg-white transition-all w-full shadow-inner"
+            {...register('watch_link')}
+          />
+        </div>
       </div>
     </div>
   );

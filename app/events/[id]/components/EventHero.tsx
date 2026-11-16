@@ -21,6 +21,7 @@ import PlaceIcon from '@mui/icons-material/Place'
 import PeopleIcon from '@mui/icons-material/People'
 import ConfirmationNumberIcon from '@mui/icons-material/ConfirmationNumber'
 import OpenInNewIcon from '@mui/icons-material/OpenInNew'
+import PlayCircleIcon from '@mui/icons-material/PlayCircle'
 import { Event } from '@/app/types/event'
 import { EVENT_STATUS } from '@/app/types/enum'
 
@@ -108,8 +109,8 @@ export default function EventHero({ event, posterUrl }: EventHeroProps) {
           </p>
         )}
 
-        {/* Registration CTA Button */}
-        <div className="pt-2">
+        {/* Registration & Watch Online CTA Buttons */}
+        <div className="pt-2 flex flex-wrap items-center gap-3">
           {event.register_link ? (
             <a
               href={event.register_link}
@@ -132,6 +133,27 @@ export default function EventHero({ event, posterUrl }: EventHeroProps) {
             >
               <span>Register Now</span>
               <OpenInNewIcon sx={{ fontSize: 16 }} className="text-slate-300" />
+            </button>
+          )}
+          {event.watch_link?.trim() ? (
+            <a
+              href={event.watch_link.trim()}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 px-6 py-3 bg-white hover:bg-teal-50 text-[#00a89d] border border-[#4bbca9] text-xs uppercase font-bold tracking-wider rounded-xl shadow-sm hover:shadow-md transition-all duration-200 cursor-pointer w-fit"
+            >
+              <PlayCircleIcon sx={{ fontSize: 16 }} />
+              <span>Watch Online</span>
+            </a>
+          ) : (
+            <button
+              type="button"
+              disabled
+              title="Online watch link not available yet"
+              className="inline-flex items-center gap-2 px-6 py-3 bg-slate-100 text-slate-400 border border-slate-200 text-xs uppercase font-bold tracking-wider rounded-xl cursor-not-allowed w-fit select-none"
+            >
+              <PlayCircleIcon sx={{ fontSize: 16 }} className="text-slate-300" />
+              <span>Watch Online</span>
             </button>
           )}
         </div>

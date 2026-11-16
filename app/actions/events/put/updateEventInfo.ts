@@ -38,6 +38,7 @@ export async function updateEventInfo({ event }: { event: EventInsert }) {
         content: event.content,
         location: event.location,
         register_link: event.register_link ?? null,
+        watch_link: event.watch_link ?? null,
         max_people: event.max_people ?? null,
     }).eq('id', event.id!)
 

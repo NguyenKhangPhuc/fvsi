@@ -141,6 +141,7 @@ export default function EditEventClient({ event }: EditEventClientProps) {
       start_date_2: convertUTCToLocalInput(event.start_date_2),
       end_date_2: convertUTCToLocalInput(event.end_date_2),
       register_link: event.register_link || '',
+      watch_link: event.watch_link || '',
       max_people: event.max_people ?? null,
     },
   });
@@ -159,6 +160,7 @@ export default function EditEventClient({ event }: EditEventClientProps) {
         start_date_2: convertLocalToUTC(formData.start_date_2),
         end_date_2: convertLocalToUTC(formData.end_date_2),
         register_link: formData.register_link?.trim() || null,
+        watch_link: formData.watch_link?.trim() || null,
         max_people: formData.max_people ? Number(formData.max_people) : null,
       };
 
