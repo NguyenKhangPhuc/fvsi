@@ -11,6 +11,9 @@ importers:
       '@ariakit/react':
         specifier: ^0.4.37
         version: 0.4.39(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
+      '@date-fns/tz':
+        specifier: ^1.5.0
+        version: 1.5.0
       '@emoji-mart/data':
         specifier: 1.2.1
         version: 1.2.1

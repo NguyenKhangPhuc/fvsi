@@ -26,7 +26,12 @@ import { useLoader } from '@/app/context/LoaderContext';
 import { createClient } from '@/app/utils/supabase/client';
 import { handleGetUrl } from '@/app/helpers/FileUrl';
 import { Event, EventInsert } from '@/app/types/event';
-import { convertLocalToUTC, convertUTCToLocalInput } from '@/app/helpers/dateTime';
+import {
+  convertLocalToUTC,
+  convertUTCToLocalInput,
+  convertFinlandToUTC,
+  convertUTCToFinlandInput,
+} from '@/app/helpers/dateTime';
 import BackButton from '@/app/components/BackButton';
 import BasicInfoSection from '@/app/events/create/components/BasicInfoSection';
 import ScheduleSection from '@/app/events/create/components/ScheduleSection';
@@ -142,6 +147,7 @@ export default function EditEventClient({ event }: EditEventClientProps) {
       end_date_2: convertUTCToLocalInput(event.end_date_2),
       register_link: event.register_link || '',
       watch_link: event.watch_link || '',
+      watch_start_date: convertUTCToFinlandInput(event.watch_start_date),
       max_people: event.max_people ?? null,
     },
   });
@@ -161,6 +167,7 @@ export default function EditEventClient({ event }: EditEventClientProps) {
         end_date_2: convertLocalToUTC(formData.end_date_2),
         register_link: formData.register_link?.trim() || null,
         watch_link: formData.watch_link?.trim() || null,
+        watch_start_date: convertFinlandToUTC(formData.watch_start_date),
         max_people: formData.max_people ? Number(formData.max_people) : null,
       };
 
