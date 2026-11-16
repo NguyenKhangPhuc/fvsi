@@ -14,7 +14,6 @@
 'use client'
 
 import GitHubIconMui from "@mui/icons-material/GitHub"
-import GoogleIcon from "@mui/icons-material/Google"
 // import MicrosoftIcon from "@mui/icons-material/Microsoft"
 import AlternateEmailIcon from "@mui/icons-material/AlternateEmail"
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew"
@@ -78,35 +77,6 @@ const Home = () => {
     })
   }
   */
-
-  /**
-   * BEHAVIORAL MECHANISM:
-   * Initiates Google OAuth flow.
-   *
-   * PARAMETERS:
-   * None.
-   *
-   * RETURNS:
-   * - Promise<void>
-   */
-  const handleGoogleOauthLogin = async (): Promise<void> => {
-    setIsOpenLoader(true)
-    try {
-      const { error } = await supabase.auth.signInWithOAuth({
-        provider: "google",
-        options: {
-          redirectTo: `${window.location.origin}/auth/callback`,
-        },
-      })
-      if (error) {
-        throw error
-      }
-      // On success the browser redirects to the provider, so the loader stays open.
-    } catch {
-      setIsOpenLoader(false)
-      showNotification("Failed to start Google sign-in")
-    }
-  }
 
   /**
    * BEHAVIORAL MECHANISM:
@@ -228,19 +198,6 @@ const Home = () => {
 
           {/* OAuth Buttons */}
           <div className="flex flex-col gap-2.5">
-            <div
-              onClick={handleGoogleOauthLogin}
-              className="w-full flex items-center justify-between px-4 bg-white border border-slate-200 text-slate-800 hover:border-teal-400 hover:bg-slate-50 font-semibold text-sm py-3 rounded-lg transition-all cursor-pointer shadow-sm"
-            >
-              <div className="flex items-center gap-3">
-                <GoogleIcon fontSize="small" className="text-teal-600" />
-                <span>Sign In with Google</span>
-              </div>
-              <span className="text-[10px] text-teal-700 bg-teal-50 border border-teal-200 px-2 py-0.5 rounded-full uppercase tracking-widest font-bold">
-                Recommended
-              </span>
-            </div>
-
             <div
               onClick={handleLoginWithGithub}
               className="w-full flex items-center justify-center gap-3 bg-white border border-slate-200 text-slate-800 hover:border-slate-400 hover:bg-slate-50 font-semibold text-sm py-3 rounded-lg transition-all cursor-pointer"
