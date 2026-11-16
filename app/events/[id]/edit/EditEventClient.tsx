@@ -27,8 +27,6 @@ import { createClient } from '@/app/utils/supabase/client';
 import { handleGetUrl } from '@/app/helpers/FileUrl';
 import { Event, EventInsert } from '@/app/types/event';
 import {
-  convertLocalToUTC,
-  convertUTCToLocalInput,
   convertFinlandToUTC,
   convertUTCToFinlandInput,
 } from '@/app/helpers/dateTime';
@@ -141,13 +139,12 @@ export default function EditEventClient({ event }: EditEventClientProps) {
             ? JSON.stringify(event.content)
             : '',
       location: event.location || '',
-      start_date: convertUTCToLocalInput(event.start_date),
-      end_date: convertUTCToLocalInput(event.end_date),
-      start_date_2: convertUTCToLocalInput(event.start_date_2),
-      end_date_2: convertUTCToLocalInput(event.end_date_2),
+      start_date: convertUTCToFinlandInput(event.start_date),
+      end_date: convertUTCToFinlandInput(event.end_date),
+      start_date_2: convertUTCToFinlandInput(event.start_date_2),
+      end_date_2: convertUTCToFinlandInput(event.end_date_2),
       register_link: event.register_link || '',
       watch_link: event.watch_link || '',
-      watch_start_date: convertUTCToFinlandInput(event.watch_start_date),
       max_people: event.max_people ?? null,
     },
   });
@@ -161,13 +158,12 @@ export default function EditEventClient({ event }: EditEventClientProps) {
         short_description: formData.short_description,
         content: formData.content,
         location: formData.location,
-        start_date: convertLocalToUTC(formData.start_date),
-        end_date: convertLocalToUTC(formData.end_date),
-        start_date_2: convertLocalToUTC(formData.start_date_2),
-        end_date_2: convertLocalToUTC(formData.end_date_2),
+        start_date: convertFinlandToUTC(formData.start_date),
+        end_date: convertFinlandToUTC(formData.end_date),
+        start_date_2: convertFinlandToUTC(formData.start_date_2),
+        end_date_2: convertFinlandToUTC(formData.end_date_2),
         register_link: formData.register_link?.trim() || null,
         watch_link: formData.watch_link?.trim() || null,
-        watch_start_date: convertFinlandToUTC(formData.watch_start_date),
         max_people: formData.max_people ? Number(formData.max_people) : null,
       };
 

@@ -24,6 +24,7 @@ import OpenInNewIcon from '@mui/icons-material/OpenInNew'
 import PlayCircleIcon from '@mui/icons-material/PlayCircle'
 import { Event } from '@/app/types/event'
 import { EVENT_STATUS } from '@/app/types/enum'
+import LivestreamClock from '@/app/components/LivestreamClock'
 
 interface EventHeroProps {
   event: Event
@@ -108,6 +109,9 @@ export default function EventHero({ event, posterUrl }: EventHeroProps) {
             {event.short_description}
           </p>
         )}
+
+        {/* Livestream countdown / ongoing indicator */}
+        <LivestreamClock startDate={event.start_date} endDate={event.end_date} size="md" />
 
         {/* Registration & Watch Online CTA Buttons */}
         <div className="pt-2 flex flex-wrap items-center gap-3">

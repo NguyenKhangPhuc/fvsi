@@ -126,4 +126,10 @@ export const tw = {
     primaryContainerHover: 'hover:shadow-[0_0_24px_rgba(75,188,169,0.55)]',
     card: 'shadow-md',
   },
+  /** Livestream clock (countdown / live indicator) */
+  clock: {
+    countdown: 'bg-teal-50 border-teal-200 text-[#00a89d]',
+    live: 'bg-slate-950 border-slate-800 text-[#4bbca9]',
+    liveDot: 'bg-[#4bbca9]',
+  },
 } as const

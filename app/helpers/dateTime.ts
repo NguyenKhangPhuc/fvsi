@@ -1,67 +1,12 @@
 /**
  * PURPOSE:
  * Date and time helper utilities for timezone transformations across the VN-FI Collaboration app.
- * Provides functions to convert local browser date-time strings into standard UTC-0:0 (ISO 8601) format
- * suitable for PostgreSQL timestamptz storage.
+ * Organisers enter event times as Finland time (Europe/Helsinki). These helpers convert them into
+ * standard UTC (ISO 8601) for PostgreSQL timestamptz storage, convert stored values back to Finland
+ * time for editing, and compute the livestream clock phase from absolute (UTC) instants.
  */
 
 import { TZDate } from '@date-fns/tz';
-
-/**
- * Converts a local date-time string (such as the value from an HTML5 `<input type="datetime-local" />`,
- * e.g. "2026-09-11T14:30") into a UTC-0:0 ISO 8601 string (e.g. "2026-09-11T11:30:00.000Z").
- *
- * BEHAVIOR:
- * - When given a string without explicit timezone offset like "YYYY-MM-DDTHH:mm", the JavaScript
- *   Date parser interprets it according to the user's current local timezone.
- * - Calling `.toISOString()` converts that exact instant into UTC-0:0 with trailing 'Z'.
- *
- * @param localDateTimeStr - The local date-time string from the form input.
- * @returns The ISO 8601 UTC string (ending in 'Z') or null if invalid or empty.
- */
-export function convertLocalToUTC(localDateTimeStr: string | null | undefined): string | null {
-  if (!localDateTimeStr || typeof localDateTimeStr !== 'string') {
-    return null;
-  }
-
-  const trimmed = localDateTimeStr.trim();
-  if (!trimmed) {
-    return null;
-  }
-
-  const date = new Date(trimmed);
-  if (isNaN(date.getTime())) {
-    return null;
-  }
-
-  return date.toISOString();
-}
-
-/**
- * Formats an ISO UTC date-time string back into a local "YYYY-MM-DDTHH:mm" format,
- * useful when pre-populating an HTML5 datetime-local input.
- *
- * @param isoString - The ISO 8601 date string.
- * @returns Local datetime string formatted as "YYYY-MM-DDTHH:mm" or empty string if invalid.
- */
-export function convertUTCToLocalInput(isoString: string | null | undefined): string {
-  if (!isoString || typeof isoString !== 'string') {
-    return '';
-  }
-
-  const date = new Date(isoString);
-  if (isNaN(date.getTime())) {
-    return '';
-  }
-
-  const year = date.getFullYear();
-  const month = String(date.getMonth() + 1).padStart(2, '0');
-  const day = String(date.getDate()).padStart(2, '0');
-  const hours = String(date.getHours()).padStart(2, '0');
-  const minutes = String(date.getMinutes()).padStart(2, '0');
-
-  return `${year}-${month}-${day}T${hours}:${minutes}`;
-}
 
 /** IANA timezone used for organiser-entered times (handles EET/EEST daylight saving). */
 export const FINLAND_TIME_ZONE = 'Europe/Helsinki';
@@ -98,7 +43,7 @@ export function convertFinlandToUTC(finlandDateTimeStr: string | null | undefine
 
 /**
  * Converts a UTC ISO string into Finland wall-clock time formatted as "YYYY-MM-DDTHH:mm",
- * used to pre-populate the Finland-time datetime-local input when editing.
+ * used to pre-populate the Finland-time datetime-local inputs when editing.
  *
  * @param isoString - The ISO 8601 date string.
  * @returns Finland datetime string or empty string if invalid.
@@ -117,4 +62,41 @@ export function convertUTCToFinlandInput(isoString: string | null | undefined): 
   const pad = (n: number) => String(n).padStart(2, '0');
 
   return `${tzDate.getFullYear()}-${pad(tzDate.getMonth() + 1)}-${pad(tzDate.getDate())}T${pad(tzDate.getHours())}:${pad(tzDate.getMinutes())}`;
+}
+
+export type LivestreamPhase = 'countdown' | 'live' | 'none';
+
+/**
+ * Determines which livestream clock state applies at a given instant.
+ *
+ * Both inputs are absolute UTC instants, so the result is the same in every viewer timezone;
+ * a start entered as Finland time is already the correct instant once stored.
+ *
+ * - 'countdown': now is before start_date.
+ * - 'live': now is at or after start_date and before end_date.
+ * - 'none': start_date is missing/invalid, end_date is missing/invalid (nothing to count to after the
+ *   start), or end_date has passed.
+ *
+ * @param startIso - Stored start_date (UTC ISO string).
+ * @param endIso - Stored end_date (UTC ISO string).
+ * @param nowMs - Current time in epoch milliseconds.
+ */
+export function getLivestreamPhase(
+  startIso: string | null | undefined,
+  endIso: string | null | undefined,
+  nowMs: number
+): LivestreamPhase {
+  const start = startIso ? new Date(startIso).getTime() : NaN;
+  if (isNaN(start)) {
+    return 'none';
+  }
+  if (nowMs < start) {
+    return 'countdown';
+  }
+
+  const end = endIso ? new Date(endIso).getTime() : NaN;
+  if (!isNaN(end) && nowMs < end) {
+    return 'live';
+  }
+  return 'none';
 }

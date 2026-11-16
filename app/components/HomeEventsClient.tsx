@@ -38,6 +38,7 @@ import { Event as EventRecord } from '@/app/types/event'
 import { EVENT_STATUS } from '@/app/types/enum'
 import { createClient } from '@/app/utils/supabase/client'
 import { handleGetUrl } from '@/app/helpers/FileUrl'
+import LivestreamClock from '@/app/components/LivestreamClock'
 
 interface HomeEventsClientProps {
   initialEvents: EventRecord[]
@@ -239,6 +240,9 @@ function EventCard({ event, idPrefix }: EventCardProps) {
             <span>TP Hồ Chí Minh</span>
           </div>
         </div>
+
+        {/* Livestream countdown / ongoing indicator */}
+        <LivestreamClock startDate={event.start_date} endDate={event.end_date} size="sm" />
 
         {/* Title */}
         <h3 className="text-[18px] font-semibold text-slate-950 leading-snug group-hover:text-teal-700 transition-colors line-clamp-2">

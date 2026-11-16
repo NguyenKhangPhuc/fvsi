@@ -118,21 +118,6 @@ export default function BasicInfoSection({ register, errors }: BasicInfoSectionP
             {...register('watch_link')}
           />
         </div>
-
-        {/* Watch Online Start Time (Finland time) */}
-        <div className="flex flex-col gap-1.5">
-          <label className="text-xs font-semibold text-slate-700 uppercase tracking-wider select-none">
-            Watch Online Start (Finland Time)
-          </label>
-          <input
-            type="datetime-local"
-            className="bg-slate-50 text-slate-900 border border-slate-200 text-sm p-3 rounded-lg outline-none focus:border-[#4bbca9] focus:ring-2 focus:ring-[#4bbca9]/20 focus:bg-white transition-all w-full shadow-inner"
-            {...register('watch_start_date')}
-          />
-          <span className="text-[11px] text-slate-500 font-medium">
-            Enter Finland time (EET/EEST). Attendees see it in their own timezone.
-          </span>
-        </div>
       </div>
     </div>
   );

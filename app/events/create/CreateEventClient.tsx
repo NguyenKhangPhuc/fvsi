@@ -21,7 +21,7 @@ import { createEvent } from '@/app/actions/events/post/createEvent';
 import { useNotification } from '@/app/context/NotificationContext';
 import { useLoader } from '@/app/context/LoaderContext';
 import { EventInsert } from '@/app/types/event';
-import { convertLocalToUTC, convertFinlandToUTC } from '@/app/helpers/dateTime';
+import { convertFinlandToUTC } from '@/app/helpers/dateTime';
 import BackButton from '@/app/components/BackButton';
 import BasicInfoSection from './components/BasicInfoSection';
 import ScheduleSection from './components/ScheduleSection';
@@ -40,7 +40,6 @@ export interface EventForm {
   id?: string;
   register_link?: string | null;
   watch_link?: string | null;
-  watch_start_date?: string | null;
   max_people?: number | null;
   start_date_2?: string | null;
   end_date_2?: string | null;
@@ -64,7 +63,6 @@ export default function CreateEventClient() {
       location: '',
       register_link: '',
       watch_link: '',
-      watch_start_date: '',
       max_people: null,
       start_date_2: '',
       end_date_2: '',
@@ -82,13 +80,12 @@ export default function CreateEventClient() {
     try {
       const updatedEventPayload: EventInsert = {
         ...event,
-        start_date: convertLocalToUTC(event.start_date),
-        end_date: convertLocalToUTC(event.end_date),
-        start_date_2: convertLocalToUTC(event.start_date_2),
-        end_date_2: convertLocalToUTC(event.end_date_2),
+        start_date: convertFinlandToUTC(event.start_date),
+        end_date: convertFinlandToUTC(event.end_date),
+        start_date_2: convertFinlandToUTC(event.start_date_2),
+        end_date_2: convertFinlandToUTC(event.end_date_2),
         register_link: event.register_link?.trim() || null,
         watch_link: event.watch_link?.trim() || null,
-        watch_start_date: convertFinlandToUTC(event.watch_start_date),
         max_people: event.max_people ? Number(event.max_people) : null,
       };
 

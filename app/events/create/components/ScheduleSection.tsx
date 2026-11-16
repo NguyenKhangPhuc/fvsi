@@ -33,7 +33,7 @@ export default function ScheduleSection({ register, errors }: ScheduleSectionPro
             Schedule & Logistics
           </h2>
           <p className="text-xs text-slate-500 leading-relaxed">
-            Configure the event start and end date & time in your local timezone.
+            Enter all times as Finland time (EET/EEST). Attendees see them in their own timezone.
           </p>
         </div>
       </div>
@@ -43,7 +43,7 @@ export default function ScheduleSection({ register, errors }: ScheduleSectionPro
         {/* Start Date & Time */}
         <div className="flex flex-col gap-1.5">
           <label className="text-xs font-semibold text-slate-700 uppercase tracking-wider select-none">
-            Start Date & Time <span className="text-red-500">*</span>
+            Start Date & Time (Finland) <span className="text-red-500">*</span>
           </label>
           <input
             type="datetime-local"
@@ -60,7 +60,7 @@ export default function ScheduleSection({ register, errors }: ScheduleSectionPro
         {/* End Date & Time */}
         <div className="flex flex-col gap-1.5">
           <label className="text-xs font-semibold text-slate-700 uppercase tracking-wider select-none">
-            End Date & Time <span className="text-red-500">*</span>
+            End Date & Time (Finland) <span className="text-red-500">*</span>
           </label>
           <input
             type="datetime-local"
@@ -77,7 +77,7 @@ export default function ScheduleSection({ register, errors }: ScheduleSectionPro
         {/* Start Date & Time 2 */}
         <div className="flex flex-col gap-1.5">
           <label className="text-xs font-semibold text-slate-700 uppercase tracking-wider select-none">
-            Start Date & Time 2
+            Start Date & Time 2 (Finland)
           </label>
           <input
             type="datetime-local"
@@ -94,7 +94,7 @@ export default function ScheduleSection({ register, errors }: ScheduleSectionPro
         {/* End Date & Time 2 */}
         <div className="flex flex-col gap-1.5">
           <label className="text-xs font-semibold text-slate-700 uppercase tracking-wider select-none">
-            End Date & Time 2
+            End Date & Time 2 (Finland)
           </label>
           <input
             type="datetime-local"

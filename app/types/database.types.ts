@@ -50,7 +50,6 @@ export type Database = {
           start_date: string | null
           start_date_2: string | null
           watch_link: string | null
-          watch_start_date: string | null
           status: Database["public"]["Enums"]["EVENT_STATUS"] | null
           title: string | null
         }
@@ -69,7 +68,6 @@ export type Database = {
           start_date?: string | null
           start_date_2?: string | null
           watch_link?: string | null
-          watch_start_date?: string | null
           status?: Database["public"]["Enums"]["EVENT_STATUS"] | null
           title?: string | null
         }
@@ -88,7 +86,6 @@ export type Database = {
           start_date?: string | null
           start_date_2?: string | null
           watch_link?: string | null
-          watch_start_date?: string | null
           status?: Database["public"]["Enums"]["EVENT_STATUS"] | null
           title?: string | null
         }

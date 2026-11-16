@@ -22,8 +22,6 @@ import PeopleOutlinedIcon from '@mui/icons-material/PeopleOutlined'
 import CheckCircleOutlinedIcon from '@mui/icons-material/CheckCircleOutlined'
 import HourglassEmptyIcon from '@mui/icons-material/HourglassEmpty'
 import Person2OutlinedIcon from '@mui/icons-material/Person2Outlined'
-import LiveTvIcon from '@mui/icons-material/LiveTv'
-import LocalDateTime from '@/app/components/LocalDateTime'
 import { Event } from '@/app/types/event'
 import { EVENT_STATUS } from '@/app/types/enum'
 
@@ -245,31 +243,6 @@ export default function EventSidebar({ event }: EventSidebarProps) {
                   )}
                 </div>
               )}
-            </div>
-          )}
-
-          {/* Online Watch Session (shown in the viewer's timezone) */}
-          {event.watch_start_date && (
-            <div className="flex flex-col gap-2.5">
-              <div className="flex items-center gap-1.5">
-                <LiveTvIcon sx={{ fontSize: 16, color: '#4bbca9' }} />
-                <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">
-                  Online Watch Session
-                </span>
-              </div>
-              <div className="flex items-center justify-between p-2.5 rounded-lg bg-slate-50 border border-slate-100">
-                <div className="flex items-center gap-2 text-xs font-semibold text-slate-600">
-                  <CalendarTodayIcon sx={{ fontSize: 14, color: '#94a3b8' }} />
-                  <span>Start:</span>
-                </div>
-                <div className="text-right">
-                  <LocalDateTime
-                    value={event.watch_start_date}
-                    dateClassName="text-xs font-bold text-slate-900 block"
-                    timeClassName="text-[11px] text-slate-500 font-mono"
-                  />
-                </div>
-              </div>
             </div>
           )}
         </div>
