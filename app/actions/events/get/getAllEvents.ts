@@ -27,7 +27,12 @@ import { createClient } from '@/app/utils/supabase/server'
 export async function getAllEvents() {
     const supabase = await createClient();
 
-    const { data, error } = await supabase.from("events").select("*");
+    const { data, error } = await supabase
+        .from("events")
+        .select("*")
+        // Earliest start date first; events without a start date go last.
+        .order("start_date", { ascending: true, nullsFirst: false })
+        .order("created_at", { ascending: true });
 
     return { data, error }
 }

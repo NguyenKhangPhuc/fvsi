@@ -42,7 +42,7 @@ export default function EventManagementClient({ events: initialEvents }: EventMa
   const [events, setEvents] = useState<Array<Event>>(initialEvents)
   const [searchQuery, setSearchQuery] = useState<string>('')
   const [statusFilter, setStatusFilter] = useState<string>('')
-  const [sortBy, setSortBy] = useState<SortKey>('date_desc')
+  const [sortBy, setSortBy] = useState<SortKey>('date_asc')
   const [currentPage, setCurrentPage] = useState<number>(1)
   const [updatingEventId, setUpdatingEventId] = useState<string | null>(null)
 
@@ -128,17 +128,17 @@ export default function EventManagementClient({ events: initialEvents }: EventMa
     })
   }, [events, searchQuery, statusFilter])
 
-  // 2. Sort events by created_at date
+  // 2. Sort events by start date (events without a start date always go last)
   const sortedEvents = useMemo(() => {
     return [...filteredEvents].sort((a, b) => {
-      const timeA = a.created_at ? new Date(a.created_at).getTime() : 0
-      const timeB = b.created_at ? new Date(b.created_at).getTime() : 0
+      const timeA = a.start_date ? new Date(a.start_date).getTime() : null
+      const timeB = b.start_date ? new Date(b.start_date).getTime() : null
 
-      if (sortBy === 'date_desc') {
-        return timeB - timeA
-      } else {
-        return timeA - timeB
-      }
+      if (timeA === null && timeB === null) return 0
+      if (timeA === null) return 1
+      if (timeB === null) return -1
+
+      return sortBy === 'date_desc' ? timeB - timeA : timeA - timeB
     })
   }, [filteredEvents, sortBy])
 

@@ -16,6 +16,11 @@
 import { UseFormRegister, FieldErrors } from 'react-hook-form';
 import { EventInsert } from '@/app/types/event';
 import { EventForm } from '../CreateEventClient';
+import { convertFinlandToUTC, FINLAND_INPUT_FORMAT } from '@/app/helpers/dateTime';
+
+/** Empty is allowed here; required fields add their own 'required' rule. */
+const validateFinlandDateTime = (value: string | null | undefined): true | string =>
+  !value || convertFinlandToUTC(value) !== null || `Use ${FINLAND_INPUT_FORMAT}`;
 
 interface ScheduleSectionProps {
   register: UseFormRegister<EventForm>;
@@ -46,9 +51,14 @@ export default function ScheduleSection({ register, errors }: ScheduleSectionPro
             Start Date & Time (Finland) <span className="text-red-500">*</span>
           </label>
           <input
-            type="datetime-local"
+            type="text"
+            placeholder={FINLAND_INPUT_FORMAT}
+            autoComplete="off"
             className="bg-slate-50 text-slate-900 border border-slate-200 text-sm p-3 rounded-lg outline-none focus:border-[#4bbca9] focus:ring-2 focus:ring-[#4bbca9]/20 focus:bg-white transition-all w-full shadow-inner"
-            {...register('start_date', { required: 'Start date and time is required' })}
+            {...register('start_date', {
+              required: 'Start date and time is required',
+              validate: validateFinlandDateTime,
+            })}
           />
           {errors.start_date && (
             <span className="text-xs text-red-500 font-medium">
@@ -63,9 +73,14 @@ export default function ScheduleSection({ register, errors }: ScheduleSectionPro
             End Date & Time (Finland) <span className="text-red-500">*</span>
           </label>
           <input
-            type="datetime-local"
+            type="text"
+            placeholder={FINLAND_INPUT_FORMAT}
+            autoComplete="off"
             className="bg-slate-50 text-slate-900 border border-slate-200 text-sm p-3 rounded-lg outline-none focus:border-[#4bbca9] focus:ring-2 focus:ring-[#4bbca9]/20 focus:bg-white transition-all w-full shadow-inner"
-            {...register('end_date', { required: 'End date and time is required' })}
+            {...register('end_date', {
+              required: 'End date and time is required',
+              validate: validateFinlandDateTime,
+            })}
           />
           {errors.end_date && (
             <span className="text-xs text-red-500 font-medium">
@@ -80,9 +95,11 @@ export default function ScheduleSection({ register, errors }: ScheduleSectionPro
             Start Date & Time 2 (Finland)
           </label>
           <input
-            type="datetime-local"
+            type="text"
+            placeholder={FINLAND_INPUT_FORMAT}
+            autoComplete="off"
             className="bg-slate-50 text-slate-900 border border-slate-200 text-sm p-3 rounded-lg outline-none focus:border-[#4bbca9] focus:ring-2 focus:ring-[#4bbca9]/20 focus:bg-white transition-all w-full shadow-inner"
-            {...register('start_date_2')}
+            {...register('start_date_2', { validate: validateFinlandDateTime })}
           />
           {errors.start_date_2 && (
             <span className="text-xs text-red-500 font-medium">
@@ -97,9 +114,11 @@ export default function ScheduleSection({ register, errors }: ScheduleSectionPro
             End Date & Time 2 (Finland)
           </label>
           <input
-            type="datetime-local"
+            type="text"
+            placeholder={FINLAND_INPUT_FORMAT}
+            autoComplete="off"
             className="bg-slate-50 text-slate-900 border border-slate-200 text-sm p-3 rounded-lg outline-none focus:border-[#4bbca9] focus:ring-2 focus:ring-[#4bbca9]/20 focus:bg-white transition-all w-full shadow-inner"
-            {...register('end_date_2')}
+            {...register('end_date_2', { validate: validateFinlandDateTime })}
           />
           {errors.end_date_2 && (
             <span className="text-xs text-red-500 font-medium">

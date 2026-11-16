@@ -3,7 +3,7 @@
 /**
  * PURPOSE:
  * Renders search bar and filter controls for the Events Management portal.
- * Provides keyword search, event status filtering, and created date sorting.
+ * Provides keyword search, event status filtering, and start date sorting.
  *
  * CONTEXT/PARENT FILE:
  * Mounted inside 'app/events-management/EventManagementClient.tsx'.
@@ -83,7 +83,7 @@ export default function EventFilters({
           </select>
         </div>
 
-        {/* Sort By Created Date */}
+        {/* Sort By Start Date */}
         <div className="flex items-center gap-2">
           <span className="text-slate-500 text-xs font-semibold flex items-center gap-1">
             <SortIcon sx={{ fontSize: 16, color: '#00a89d' }} />
@@ -97,8 +97,8 @@ export default function EventFilters({
             }}
             className="bg-slate-50 border border-slate-200 text-slate-700 text-xs font-semibold py-2 px-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-400 cursor-pointer transition-colors"
           >
-            <option value="date_desc">Newest Created</option>
-            <option value="date_asc">Oldest Created</option>
+            <option value="date_desc">Newest Start First</option>
+            <option value="date_asc">Oldest Start First</option>
           </select>
         </div>
       </div>
