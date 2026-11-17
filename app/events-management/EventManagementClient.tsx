@@ -42,7 +42,7 @@ export default function EventManagementClient({ events: initialEvents }: EventMa
   const [events, setEvents] = useState<Array<Event>>(initialEvents)
   const [searchQuery, setSearchQuery] = useState<string>('')
   const [statusFilter, setStatusFilter] = useState<string>('')
-  const [sortBy, setSortBy] = useState<SortKey>('date_asc')
+  const [sortBy, setSortBy] = useState<SortKey>('date_desc')
   const [currentPage, setCurrentPage] = useState<number>(1)
   const [updatingEventId, setUpdatingEventId] = useState<string | null>(null)
 

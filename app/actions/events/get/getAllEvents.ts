@@ -30,9 +30,9 @@ export async function getAllEvents() {
     const { data, error } = await supabase
         .from("events")
         .select("*")
-        // Earliest start date first; events without a start date go last.
-        .order("start_date", { ascending: true, nullsFirst: false })
-        .order("created_at", { ascending: true });
+        // Latest start date first; events without a start date go last.
+        .order("start_date", { ascending: false, nullsFirst: false })
+        .order("created_at", { ascending: false });
 
     return { data, error }
 }
